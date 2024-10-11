@@ -1,6 +1,6 @@
 // HomePage.tsx
 import React from 'react';
-import NavBar from '@/app/components/NavBar';
+import NavBar from './_components/NavBar';
 import InfoCard from './_components/InfoCard';
 import { Container } from '@mui/material';
 import FooterContent from './_components/FooterContent';

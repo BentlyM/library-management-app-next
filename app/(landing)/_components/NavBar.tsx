@@ -5,7 +5,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Link from 'next/link';
-import ThemeToggle from './ThemeToggle';
+import ThemeToggle from '@/app/components/ThemeToggle';
 export default function NavBar() {
   return (
     <div className="navigation">
@@ -54,7 +54,7 @@ export default function NavBar() {
           <li>
             <Link
               style={{ textDecoration: 'none', color: 'black'}} 
-              href={'login'}
+              href={'auth/login'}
             >
               Login
             </Link>
@@ -62,7 +62,7 @@ export default function NavBar() {
           <li>
             <Link
               style={{ textDecoration: 'none', color: 'black'}} 
-              href={'register'}
+              href={'auth/register'}
             >
               Register
             </Link>
