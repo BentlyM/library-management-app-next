@@ -1,18 +1,19 @@
 import React from 'react';
 import { Box, Button, Typography } from '@mui/material';
+import Image from 'next/image';
 
 interface InfoCardType {
-  title: string,
-  titleHook: string,
-  sentence: string,
-  width?: string | number,
-  height?: string | number,
-  align?: string,
-  images?: string[] | undefined,
-  color?: string,
+  title: string;
+  titleHook: string;
+  sentence: string;
+  width?: string | number;
+  height?: string | number;
+  align?: string;
+  images?: string[] | undefined;
+  color?: string;
 }
 
-const InfoCard= ({
+const InfoCard = ({
   title,
   titleHook,
   sentence,
@@ -21,7 +22,7 @@ const InfoCard= ({
   align,
   images,
   color,
-}: InfoCardType ) => {
+}: InfoCardType) => {
   return (
     <>
       <Box
@@ -49,10 +50,25 @@ const InfoCard= ({
           {titleHook}
         </Typography>
         <Typography>{sentence}</Typography>
-        <div className="marquee" style={{width: '100%', justifyContent: 'space-evenly', alignItems:'center', textAlign:'center', gap: '10px'}}>
+        <div
+          className="marquee"
+          style={{
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'space-evenly',
+            alignItems: 'center',
+            textAlign: 'center',
+          }}
+        >
           {images &&
             images.map((image, index) => (
-              <img key={index} src={image} alt="image" />
+              <Image
+                key={index}
+                src={image}
+                alt="image"
+                height={60}
+                width={70}
+              />
             ))}
         </div>
         <Button variant="contained" sx={{ width: 'fit-content' }}>
