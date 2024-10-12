@@ -1,26 +1,30 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
+import { loginSchema } from '@/schema/auth'
 
 import { createClient } from '@/utils/supabase/server'
 
 export async function login(formData: FormData) {
   const supabase = createClient();
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
-  const data = {
-    email: formData.get('email') as string,
-    password: formData.get('password') as string,
+  const parsedData = loginSchema.safeParse({
+    email: formData.get('email'),
+    password: formData.get('password')
+  })
+  
+  if (!parsedData.success) {
+    throw new Error(parsedData.error.errors.map((e) => e.message).join(', '));
   }
 
-  const { error } = await supabase.auth.signInWithPassword(data)
+  const {email, password } = parsedData.data;
+
+
+  const { error } = await supabase.auth.signInWithPassword({email, password})
 
   if (error) {
-    redirect('/error')
+    throw new Error(error.message);
   }
 
   revalidatePath('/login', 'layout')
-  redirect('/dashboard')
 }

@@ -1,29 +1,45 @@
 'use server';
-
+import { createClient } from '@/utils/supabase/server';
+import prisma from '@/app/lib/prisma';
+import { registrationSchema } from '@/schema/auth';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { createClient } from '@/utils/supabase/server';
 
 export async function register(formData: FormData) {
   const supabase = createClient();
-  
-  const email = formData.get('email') as string;
-  const password = formData.get('password') as string;
-  const confirmPassword = formData.get('confirmPassword') as string;
 
-  if (password !== confirmPassword) {
-    redirect('/register?error="passwords do not match"');
+  const parsedData = registrationSchema.safeParse({
+    username: formData.get('username'),
+    email: formData.get('email'),
+    password: formData.get('password'),
+    confirmPassword: formData.get('confirmPassword'),
+  });
+
+  if (!parsedData.success) {
+    throw new Error(parsedData.error.errors.map((e) => e.message).join(', '));
   }
+
+  const { username, email, password } = parsedData.data;
 
   const { error } = await supabase.auth.signUp({ email, password });
 
   if (error) {
-    // Redirect with a specific error message
-    redirect(`/register?error="${encodeURIComponent(error.message)}"`);
+    throw new Error(error.message);
+  }
+
+  try {
+    await prisma.user.create({
+      data: {
+        name: username,
+        email,
+      },
+    });
+  } catch (e) {
+    if (e instanceof Error) {
+      throw new Error(e.message);  // wait wouldnt this be recursive?
+    }
   }
 
   revalidatePath('/register', 'layout');
   redirect('/auth/login');
 }
-
-

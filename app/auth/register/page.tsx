@@ -13,18 +13,28 @@ import {
 } from '@mui/material';
 import bibliophile from '../../public/bibliophile.svg';
 import { register } from './_actions/register';
-import { useSearchParams } from 'next/navigation';
+import { redirect } from 'next/navigation';
+import { useMutation } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 
 const SignUp = () => {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const urlParams = useSearchParams()
+  const mutation = useMutation({
+    mutationFn: register,
+    onSuccess: () => {
+      redirect('/auth/login');
+    },
+    onError: (error: any) => {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    },
+  });
 
-  useEffect(() => {
-    if (urlParams.has('error')) {
-      const error = urlParams.get('error');
-      setErrorMessage(decodeURIComponent(error as string)); // Decode the error message
-    }
-  }, []);
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    mutation.mutate(formData);
+  };
 
   return (
     <Container
@@ -61,18 +71,23 @@ const SignUp = () => {
             Sign Up
           </Typography>
 
-          {errorMessage && (
-            <Typography color="error" sx={{ mb: 2, color: 'red'}}>
-              {errorMessage}
-            </Typography>
-          )}
-
-          <form id="register-form" action={register}>
+          <form id="register-form" onSubmit={handleSubmit}>
             <Box sx={{ mb: 2 }}>
               <TextField
                 fullWidth
                 sx={{ width: '250px' }}
-                label="Your email"
+                label="Username"
+                variant="outlined"
+                type="text"
+                name="username"
+                required
+              />
+            </Box>
+            <Box sx={{ mb: 2 }}>
+              <TextField
+                fullWidth
+                sx={{ width: '250px' }}
+                label="Email"
                 variant="outlined"
                 type="email"
                 name="email"
@@ -118,7 +133,7 @@ const SignUp = () => {
                 type="submit"
                 variant="contained"
                 color="primary"
-                disabled={undefined}
+                disabled={mutation.isPending}
               >
                 Register
               </Button>

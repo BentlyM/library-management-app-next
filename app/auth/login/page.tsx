@@ -12,8 +12,28 @@ import {
 } from '@mui/material';
 import bookLoverPng from '../../public/book-lover.svg';
 import { login } from './_actions/login';
+import { redirect } from 'next/navigation';
+import toast from 'react-hot-toast';
+import { useMutation } from '@tanstack/react-query';
 
 const Login = () => {
+  const mutation = useMutation({
+    mutationFn: login,
+    onSuccess: () => {
+      redirect('/dashboard');
+    },
+    onError: (error: any) => {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    },
+  });
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    mutation.mutate(formData);
+  };
   return (
     <Container
       maxWidth="sm"
@@ -73,7 +93,7 @@ const Login = () => {
               alignItems: 'center',
               flexDirection: 'column',
             }}
-            action={login}
+            onSubmit={handleSubmit}
           >
             <Box sx={{ mb: 2 }}>
               <TextField
