@@ -11,7 +11,6 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import AddBoxIcon from '@mui/icons-material/AddBox';
@@ -36,8 +35,8 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
     setOpen(false);
   };
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setTitle(e.currentTarget.textContent || 'Home Content');
+  const handleTitle = (title: string) => {
+        setTitle(title ? title : 'Home Content');
   };
 
   return (
@@ -86,23 +85,39 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
           </IconButton>
         </Box>
         <Divider />
-        <List>
+        <List style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
           {[
-            { text: 'Add Book', icon: <AddBoxIcon />, to: '/add-book' },
-            { text: 'Current Books', icon: <BookIcon />, to: '/current-books' },
-            { text: 'Send Books', icon: <SendIcon />, to: '/send-books' },
-            { text: 'Borrow Books', icon: <ImportContactsIcon />, to: '/borrow-books' },
-            { text: 'Profile', icon: <AccountCircleIcon />, to: '/settings' },
+            { text: 'Add Book', icon: <AddBoxIcon />, to: '/dashboard/add' },
+            { text: 'Current Books', icon: <BookIcon />, to: '/dashboard/current-books' }, // might change to something more unique
+            { text: 'Send Books', icon: <SendIcon />, to: '/dashboard/send' },
+            {
+              text: 'Borrow Books',
+              icon: <ImportContactsIcon />,
+              to: 'borrow',
+            },
+            { text: 'Profile', icon: <AccountCircleIcon />, to: '/dashboard/settings' },
           ].map((item) => (
             <ListItem key={item.text} disablePadding>
-              <ListItemButton
-                component={Link}
-                href={item.to}
-                onClick={() => handleClick}
+              <Link
+                style={{
+                  display: 'flex',
+                  textDecoration: 'none',
+                  color: 'black',
+                }}
+                href={`${item.to}`}
+                onClick={() => handleTitle(item.text)}
               >
-                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemIcon
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  {item.icon}
+                </ListItemIcon>
                 <ListItemText primary={item.text} />
-              </ListItemButton>
+              </Link>
             </ListItem>
           ))}
         </List>
