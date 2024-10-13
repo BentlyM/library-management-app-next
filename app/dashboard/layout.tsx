@@ -20,16 +20,27 @@ import ImportContactsIcon from '@mui/icons-material/ImportContacts';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
 
 const drawerWidth = 240;
 
 const Dashboard = ({ children }: { children: React.ReactNode }) => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const [title, setTitle] = React.useState('');
   const pathname = usePathname()
     .split('/')
     .filter((index) => index !== '');
+  const [title, setTitle] = React.useState('');
+
+  const user = useQuery<{
+    id: string;
+    name: string | null;
+    email: string;
+  }>({
+    queryKey: ['user'],
+    queryFn: () => fetch('/api/user').then((res) => res.json()),
+  });
+
   const navigation = [
     {
       text: 'Home',
@@ -103,7 +114,7 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
             justifyContent: 'space-between',
           }}
         >
-          <h2>Welcome, [Username]!</h2>
+          <h2>Welcome, {user.data?.name || 'anonymous'}!</h2>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'ltr' ? (
               <ChevronLeftIcon />
