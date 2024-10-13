@@ -31,8 +31,21 @@ const SignUp = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     const formData = new FormData(event.currentTarget);
     mutation.mutate(formData);
+
+    const target = event.currentTarget as HTMLFormElement & {
+      username: { value: string };
+      email: { value: string };
+      password: { value: string };
+      confirmPassword: { value: string };
+    };
+
+    target.username.value = '';
+    target.email.value = '';
+    target.password.value = '';
+    target.confirmPassword.value = '';
   };
 
   return (

@@ -30,8 +30,17 @@ const Login = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     const formData = new FormData(event.currentTarget);
     mutation.mutate(formData);
+
+    const target = event.currentTarget as HTMLFormElement & {
+      email: { value: string };
+      password: { value: string };
+    };
+
+    target.email.value = '';
+    target.password.value = '';
   };
   return (
     <Container
