@@ -19,13 +19,28 @@ import SendIcon from '@mui/icons-material/Send';
 import ImportContactsIcon from '@mui/icons-material/ImportContacts';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const drawerWidth = 240;
 
 const Dashboard = ({ children }: { children: React.ReactNode }) => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const [title, setTitle] = React.useState('Home Content');
+  const [title, setTitle] = React.useState('');
+  const pathname = usePathname()
+    .split('/')
+    .filter((index) => index !== '');
+  const navigation = [
+    {
+      text: 'Home',
+      icon: <ImportContactsIcon />,
+      to: '/dashboard',
+    },
+    { text: 'Add Book', icon: <AddBoxIcon />, to: '/dashboard/add' },
+    { text: 'Discover Books', icon: <BookIcon />, to: '/dashboard/discover' },
+    { text: 'Send Books', icon: <SendIcon />, to: '/dashboard/send' },
+    { text: 'Profile', icon: <AccountCircleIcon />, to: '/dashboard/settings' },
+  ];
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -35,9 +50,22 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
     setOpen(false);
   };
 
-  const handleTitle = (title: string) => {
-        setTitle(title ? title : 'Home Content');
-  };
+  React.useEffect(() => {
+    switch (pathname[1]) {
+      case 'add':
+        setTitle(navigation[1].text);
+        break;
+      case 'discover':
+        setTitle(navigation[2].text);
+        break;
+      case 'send':
+        setTitle(navigation[3].text);
+      case 'profile':
+        setTitle(navigation[4].text);
+      default:
+        setTitle('Home Content');
+    }
+  }, [pathname, title]);
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -86,17 +114,7 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
         </Box>
         <Divider />
         <List style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-          {[
-            { text: 'Add Book', icon: <AddBoxIcon />, to: '/dashboard/add' },
-            { text: 'Current Books', icon: <BookIcon />, to: '/dashboard/current-books' }, // might change to something more unique
-            { text: 'Send Books', icon: <SendIcon />, to: '/dashboard/send' },
-            {
-              text: 'Borrow Books',
-              icon: <ImportContactsIcon />,
-              to: 'borrow',
-            },
-            { text: 'Profile', icon: <AccountCircleIcon />, to: '/dashboard/settings' },
-          ].map((item) => (
+          {navigation.map((item) => (
             <ListItem key={item.text} disablePadding>
               <Link
                 style={{
@@ -105,7 +123,6 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
                   color: 'black',
                 }}
                 href={`${item.to}`}
-                onClick={() => handleTitle(item.text)}
               >
                 <ListItemIcon
                   style={{
