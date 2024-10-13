@@ -1,6 +1,6 @@
 'use client'
 import { Container } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import defaultImage from '../public/DefaultDisplayImage.svg';
 import Image from 'next/image';
 
@@ -20,7 +20,7 @@ const DefaultDashPage = () => {
           <li>Add new books to the library collection.</li>
           <li>View and manage the current list of books.</li>
           <li>Send books to other locations or libraries.</li>
-          <li>Borrow books from the library.</li>
+          <li>Discover books from our library's.</li>
         </ul>
       </Container>
     </>

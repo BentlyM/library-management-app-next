@@ -11,8 +11,13 @@ import barnesAndNoblesPng from '../public/Barnes-Noble-Logo.png';
 import yalePng from '../public/yale-university-logo.png';
 import harvardPng from '../public/Harvard-Logo.png';
 import readingTimeSvg from '../public/reading-time.svg'
+import { createClient } from '@/utils/supabase/server';
+import { redirect } from 'next/navigation';
 
-const HomePage = () => {
+const HomePage = async () => {
+  const supabase = createClient();
+  const {data, error} = await supabase.auth.getUser();
+  if(data.user && !error){redirect('/dashboard')}
   return (
     <div
       className="home-layout"
@@ -34,7 +39,7 @@ const HomePage = () => {
         <InfoCard
           title="Welcome"
           titleHook="Welcome to Our Library Management System!"
-          sentence="We're glad you're here! Our library management system is designed to make it easy for you to manage your book collections, borrow and return books, and access your account information. Take a look around and explore our features to get started!"
+          sentence="We're glad you're here! Our library management system is designed to make it easy for you to manage your book collections, discover books, and access your account information. Take a look around and explore our features to get started!"
           width={'450px'}
         />
         <Image

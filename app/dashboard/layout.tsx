@@ -21,6 +21,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
+import LogoutButton from '../components/logout/LogoutButton';
 
 const drawerWidth = 240;
 
@@ -149,6 +150,7 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
             </ListItem>
           ))}
         </List>
+        <LogoutButton />
       </Drawer>
       <Box
         component="main"
@@ -165,6 +167,7 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
         <h1>{title}</h1>
         {children}
       </Box>
+
     </Box>
   );
 };

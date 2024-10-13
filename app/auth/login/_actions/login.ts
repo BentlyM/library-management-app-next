@@ -27,6 +27,6 @@ export async function login(formData: FormData) {
     throw new Error(error.message);
   }
 
-  revalidatePath('/login', 'layout');
+  revalidatePath('/dashboard', 'layout');
   redirect('/dashboard');
 }

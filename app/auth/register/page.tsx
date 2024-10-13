@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   Container,
   Box,
@@ -13,7 +13,6 @@ import {
 } from '@mui/material';
 import bibliophile from '../../public/bibliophile.svg';
 import { register } from './_actions/register';
-import { redirect } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 

@@ -7,6 +7,10 @@ export const GET = async () => {
 
   const { data, error } = await supabase.auth.getUser();
 
+  if(error){
+    Response.json({message: error.message}); 
+  }
+
   let user = await prisma.user.findUnique({
     where: {
       email: data.user?.email,

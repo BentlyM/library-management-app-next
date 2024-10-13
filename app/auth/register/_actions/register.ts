@@ -40,6 +40,6 @@ export async function register(formData: FormData) {
     }
   }
 
-  revalidatePath('/register', 'layout');
+  revalidatePath('/dashboard', 'layout');
   redirect('/auth/login');
 }
