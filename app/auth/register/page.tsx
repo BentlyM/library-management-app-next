@@ -20,6 +20,7 @@ import toast from 'react-hot-toast';
 const SignUp = () => {
   const mutation = useMutation({
     mutationFn: register,
+    onSuccess: () => {toast.success('register successful')},
     onError: (error: any) => {
       if (error instanceof Error) {
         toast.error(error.message);
@@ -132,7 +133,7 @@ const SignUp = () => {
                 color="primary"
                 disabled={mutation.isPending}
               >
-                Register
+                {mutation.isPending ? 'loading...' :'Register'}
               </Button>
             </Box>
           </form>

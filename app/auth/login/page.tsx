@@ -12,13 +12,15 @@ import {
 } from '@mui/material';
 import bookLoverPng from '../../public/book-lover.svg';
 import { login } from './_actions/login';
-import { redirect } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { useMutation } from '@tanstack/react-query';
 
 const Login = () => {
   const mutation = useMutation({
     mutationFn: login,
+    onSuccess: () => {
+      toast.success('login successful');
+    },
     onError: (error: any) => {
       if (error instanceof Error) {
         toast.error(error.message);
@@ -70,7 +72,9 @@ const Login = () => {
           <Link href="/auth/register" sx={{ mt: 2 }}>
             Create an account
           </Link>
-          <Link href="/" sx={{textDecoration: 'none', color: 'black'}}>Back to Landing</Link>
+          <Link href="/" sx={{ textDecoration: 'none', color: 'black' }}>
+            Back to Landing
+          </Link>
         </Box>
         <Box
           sx={{
@@ -124,9 +128,9 @@ const Login = () => {
                 type="submit"
                 variant="contained"
                 color="primary"
-                disabled={undefined}
+                disabled={mutation.isPending}
               >
-                Login
+                {mutation.isPending ? 'loading...' : 'Login'}
               </Button>
             </Box>
           </form>
