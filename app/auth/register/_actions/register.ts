@@ -7,6 +7,10 @@ import { redirect } from 'next/navigation';
 
 export async function register(formData: FormData) {
   const supabase = createClient();
+  const { data } = await supabase.auth.getUser();
+  if (data.user) {
+    redirect('/dashboard');
+  }
 
   const parsedData = registrationSchema.safeParse({
     username: formData.get('username'),
@@ -36,10 +40,10 @@ export async function register(formData: FormData) {
     });
   } catch (e) {
     if (e instanceof Error) {
-      throw new Error(e.message);  // wait wouldnt this be recursive?
+      throw new Error(e.message); // wait wouldnt this be recursive?
     }
   }
 
   revalidatePath('/dashboard', 'layout');
-  redirect('/auth/login');
+  redirect('/dashboard');
 }
