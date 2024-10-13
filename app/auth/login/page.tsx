@@ -78,6 +78,8 @@ const Login = () => {
             src={bookLoverPng.src}
             alt="Sign In"
             style={{ maxWidth: '300px', height: 'auto' }}
+            width={250}
+            height={250}
           />
           <Link href="/auth/register" sx={{ mt: 2 }}>
             Create an account

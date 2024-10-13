@@ -165,6 +165,8 @@ const SignUp = () => {
             src={bibliophile.src}
             alt="Sign Up"
             style={{ width: '300px', height: 'auto' }}
+            width={250}
+            height={250}
           />
           <Link href="/auth/login" sx={{ mt: 2 }}>
             I am already a member
