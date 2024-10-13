@@ -19,9 +19,6 @@ import { useMutation } from '@tanstack/react-query';
 const Login = () => {
   const mutation = useMutation({
     mutationFn: login,
-    onSuccess: () => {
-      redirect('/dashboard');
-    },
     onError: (error: any) => {
       if (error instanceof Error) {
         toast.error(error.message);

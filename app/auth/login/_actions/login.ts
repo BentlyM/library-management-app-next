@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { loginSchema } from '@/schema/auth'
 
 import { createClient } from '@/utils/supabase/server'
+import { redirect } from 'next/navigation';
 
 export async function login(formData: FormData) {
   const supabase = createClient();
@@ -26,5 +27,6 @@ export async function login(formData: FormData) {
     throw new Error(error.message);
   }
 
-  revalidatePath('/login', 'layout')
+  revalidatePath('/login', 'layout');
+  redirect('/dashboard');
 }

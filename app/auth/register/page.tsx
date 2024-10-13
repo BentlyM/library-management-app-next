@@ -20,9 +20,6 @@ import toast from 'react-hot-toast';
 const SignUp = () => {
   const mutation = useMutation({
     mutationFn: register,
-    onSuccess: () => {
-      redirect('/auth/login');
-    },
     onError: (error: any) => {
       if (error instanceof Error) {
         toast.error(error.message);
