@@ -20,7 +20,7 @@ export const GET = async () => {
   if (!user) {
     user = await prisma.user.create({
       data: {
-        email: data.user?.email!,
+        email: data.user?.email as string,
         name: data.user?.email?.substring(0, data.user?.email.indexOf('@')),
       },
     });

@@ -20,7 +20,7 @@ const DefaultDashPage = () => {
           <li>Add new books to the library collection.</li>
           <li>View and manage the current list of books.</li>
           <li>Send books to other locations or libraries.</li>
-          <li>Discover books from our library's.</li>
+          <li>Discover books from our library&apos;s.</li>
         </ul>
       </Container>
     </>

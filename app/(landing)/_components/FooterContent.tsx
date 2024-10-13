@@ -26,7 +26,7 @@ const FooterContent = () => {
         <Typography variant="body2" sx={{ color: 'white' }}>
           &copy; {new Date().getFullYear()} Library Management System. All
           rights reserved. Not sure what rights i am reserving, but i will
-          pretend we're reserving some.
+          pretend we&apos;re reserving some.
         </Typography>
       </Box>
     </Container>

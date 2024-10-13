@@ -14,6 +14,7 @@ import bookLoverPng from '../../public/book-lover.svg';
 import { login } from './_actions/login';
 import toast from 'react-hot-toast';
 import { useMutation } from '@tanstack/react-query';
+import Image from 'next/image';
 
 const Login = () => {
   const mutation = useMutation({
@@ -21,7 +22,7 @@ const Login = () => {
     onSuccess: () => {
       toast.success('login successful');
     },
-    onError: (error: any) => {
+    onError: (error: Error) => {
       if (error instanceof Error) {
         toast.error(error.message);
       }
@@ -73,7 +74,7 @@ const Login = () => {
             flex: 1,
           }}
         >
-          <img
+          <Image
             src={bookLoverPng.src}
             alt="Sign In"
             style={{ maxWidth: '300px', height: 'auto' }}
