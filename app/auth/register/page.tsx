@@ -156,6 +156,9 @@ const SignUp = () => {
           <Link href="/auth/login" sx={{ mt: 2 }}>
             I am already a member
           </Link>
+          <Link href="/" sx={{ textDecoration: 'none', color: 'black' }}>
+            Back to Landing
+          </Link>
         </Box>
       </div>
     </Container>

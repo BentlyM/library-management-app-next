@@ -73,6 +73,7 @@ const Login = () => {
           <Link href="/auth/register" sx={{ mt: 2 }}>
             Create an account
           </Link>
+          <Link href="/" sx={{textDecoration: 'none', color: 'black'}}>Back to Landing</Link>
         </Box>
         <Box
           sx={{
