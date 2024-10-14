@@ -42,12 +42,12 @@ export async function CreateBook(formData: FormData) {
   return book; // Return the created book object
 }
 
-async function uploadCover(cover: any): Promise<string> {
+async function uploadCover(cover: File): Promise<string> {
   const supabase = createClient();
 
   const { data, error } = await supabase.storage
     .from('covers')
-    .upload(`covers/${Date.now()}_${cover.name}`, cover, {
+    .upload(`${Date.now()}_${cover.name}`, cover, {
       contentType: cover.type || 'image/png', // Default to png if not specified
     });
 
