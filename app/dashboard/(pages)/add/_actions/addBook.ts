@@ -6,6 +6,8 @@ import { createClient } from '@/utils/supabase/server';
 
 export async function CreateBook(formData: FormData) {
   const parsedData = Object.fromEntries(formData);
+  const supabase = createClient();
+  const { data } = await supabase.auth.getUser();
 
   let coverUrl: string | undefined;
 
@@ -36,6 +38,11 @@ export async function CreateBook(formData: FormData) {
       summary: validatedData.data?.summary || '',
       genre: validatedData.data?.genre,
       cover: coverUrl || 'https://placehold.co/100x250', // idk just found some random placeholder image api lol
+      user: {
+        connect: {
+          email: data.user?.email,
+        },
+      },
     },
   });
 

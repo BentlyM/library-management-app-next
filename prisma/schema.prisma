@@ -27,5 +27,5 @@ model Book {
   summary     String
   genre       String
   cover       String
-  users       User[]    @relation("UserBooks")
+  user        User[]    @relation("UserBooks")
 }
