@@ -7,14 +7,6 @@ import { createClient } from '@/utils/supabase/server';
 export async function CreateBook(formData: FormData) {
   const parsedData = Object.fromEntries(formData);
 
-  const validatedData = CreateBookSchema.safeParse(parsedData);
-
-  if (!validatedData.success) {
-    throw new Error(
-      validatedData.error.errors.map((e) => e.message).join(', ')
-    );
-  }
-
   let coverUrl: string | undefined;
 
   const cover = formData.get('cover');
@@ -22,9 +14,18 @@ export async function CreateBook(formData: FormData) {
   if (cover) {
     if (cover instanceof Blob) {
       coverUrl = await uploadCover(cover);
+      parsedData.cover = coverUrl;
     } else if (typeof cover === 'string') {
       coverUrl = cover; // its already a url
     }
+  }
+
+  const validatedData = CreateBookSchema.safeParse(parsedData);
+
+  if (!validatedData.success) {
+    throw new Error(
+      validatedData.error.errors.map((e) => e.message).join(', ')
+    );
   }
 
   // Create the book record in the database
