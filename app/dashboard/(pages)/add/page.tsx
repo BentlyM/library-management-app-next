@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   TextField,
   Select,
@@ -11,23 +11,33 @@ import {
   Box,
   Typography,
 } from '@mui/material';
+import { useQuery } from '@tanstack/react-query';
+import SkeletonWrapper from '@/app/components/SkeletonWrapper';
 
 const BookForm = () => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [summary, setSummary] = useState('');
-  const [genres, setGenres] = useState<string[]>([]); // State for multiple genres
-  const [cover, setCover] = useState<string>();
+  const [genres, setGenres] = useState<string[]>([]);
+  const [manualCover, setManualCover] = useState<string>();
 
   const handleGenreChange = (event: any) => {
     setGenres(event.target.value);
   };
 
-  const handleFileChange = (event: React.ChangeEvent<{ files: any }>) => { 
+  const handleFileChange = (event: React.ChangeEvent<{ files: any }>) => {
     if (event.target.files[0]) {
-      setCover(URL.createObjectURL(event.target.files[0]));
+      setManualCover(URL.createObjectURL(event.target.files[0]));
     }
   };
+
+  const fetchCoverQuery = useQuery({
+    queryKey: ['cover', title, author],
+    queryFn: () =>
+      fetch(`/api/cover?title=${title}&author=${author}
+`).then((res) => res.json()),
+    enabled: !!title && !!author, // Only run the query if both title and author are present
+  });
 
   return (
     <form
@@ -40,11 +50,25 @@ const BookForm = () => {
       }}
     >
       <Box style={{ flex: 1, padding: '16px', textAlign: 'center' }}>
-        {cover ? (
+        {manualCover ? (
           <img
-            src={cover}
+            src={manualCover}
             alt="Book Cover"
             style={{ width: '100%', maxHeight: '400px', objectFit: 'contain' }}
+          />
+        ) : fetchCoverQuery.isLoading ? (
+          <SkeletonWrapper isLoading={fetchCoverQuery.isLoading}>
+            <div style={{ width: '100%', maxHeight: '400px'}}>Loading....</div>
+          </SkeletonWrapper>
+        ) : fetchCoverQuery.data && fetchCoverQuery.data.url ? (
+          <img
+            src={fetchCoverQuery.data.url}
+            alt="Book Cover"
+            style={{
+              width: '100%',
+              maxHeight: '400px',
+              objectFit: 'contain',
+            }}
           />
         ) : (
           <Typography>No cover available</Typography>
@@ -86,24 +110,11 @@ const BookForm = () => {
           <TextField
             fullWidth
             id="author"
-            label="New Author"
+            label="Author"
             variant="outlined"
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
           />
-          <FormControl fullWidth variant="outlined" margin="normal">
-            <InputLabel id="author-select-label">Author</InputLabel>
-            <Select
-              id="author-select"
-              labelId="author-select-label"
-              label="Author"
-              value={author}
-              onChange={(e) => setAuthor(e.target.value)}
-            >
-              <MenuItem value="1">Author 1</MenuItem>
-              <MenuItem value="2">Author 2</MenuItem>
-            </Select>
-          </FormControl>
         </Box>
         <Box style={{ width: '100%', marginBottom: '16px' }}>
           <TextField
@@ -141,7 +152,11 @@ const BookForm = () => {
             width: '100%',
           }}
         >
-          <Button variant="outlined" color="primary">
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={() => fetchCoverQuery.refetch()}
+          >
             Fetch Cover
           </Button>
           <Button
