@@ -50,8 +50,8 @@ const BookForm = () => {
     }
   };
 
-  const handleGenreChange = (event: any) => {
-    setGenre(event.target.value as string);
+  const handleGenreChange = (event: { target: { value: string } }) => {
+    setGenre(event.target.value);
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -102,7 +102,12 @@ const BookForm = () => {
           <img
             src={manualCover}
             alt="Book Cover"
-            style={{ width: '100%', maxHeight: '400px', objectFit: 'contain' }}
+            style={{
+              width: '100%',
+              maxHeight: '400px',
+              objectFit: 'contain',
+              height: 'fit-content',
+            }}
           />
         ) : (
           <SkeletonWrapper isLoading={fetchCoverQuery.isLoading}>
@@ -111,9 +116,10 @@ const BookForm = () => {
                 src={fetchCoverQuery.data.url}
                 alt="Book Cover"
                 style={{
-                  width: '100%',
                   maxHeight: '400px',
                   objectFit: 'contain',
+                  height: 'fit-content',
+                  width: '100%',
                 }}
               />
             ) : (
