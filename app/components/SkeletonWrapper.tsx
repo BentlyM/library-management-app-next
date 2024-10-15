@@ -12,7 +12,7 @@ const SkeletonWrapper = ({
   if (!isLoading) return children;
 
   return (
-    <Skeleton style={{width: '100%'}} animation="wave">
+    <Skeleton style={{width: '100%', height: 'fit-content'}} animation="wave">
       <div className="opacity-0">{children}</div>
     </Skeleton>
   );

@@ -22,3 +22,12 @@ html[data-theme='dark'] {
 .main-content {
   background-color: inherit; /* Inherit background from the body */
 }
+
+div {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: transparent transparent; /* Firefox */
+}
+
+div::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
