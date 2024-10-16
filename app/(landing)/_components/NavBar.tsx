@@ -13,11 +13,11 @@ export default function NavBar() {
         padding={'5px'}
         sx={{
           display: 'flex',
-          justifyContent: 'space-between', // Change to space-between for better centering
+          justifyContent: 'space-between', 
           alignItems: 'center',
           padding: '15px',
-          maxWidth: '1200px', // Limit width for better centering
-          margin: '0 auto', // Center horizontally
+          maxWidth: '1200px', 
+          margin: '0 auto',
         }}
       >
         <Typography

@@ -1,5 +1,5 @@
 import { IconButton } from '@mui/material';
-import { LogOut } from 'lucide-mui'; // Ensure you have this import
+import { LogOut } from 'lucide-mui'; 
 import { logout } from './_actions/logout';
 
 const LogoutButton = () => {

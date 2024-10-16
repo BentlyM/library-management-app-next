@@ -111,7 +111,7 @@ const Login = () => {
             <Box sx={{ mb: 2 }}>
               <TextField
                 fullWidth
-                sx={{ width: '250px' }} // Adjust the width here
+                sx={{ width: '250px' }}
                 label="Email"
                 type="email"
                 variant="outlined"
@@ -122,7 +122,7 @@ const Login = () => {
             <Box sx={{ mb: 2 }}>
               <TextField
                 fullWidth
-                sx={{ width: '250px' }} // Adjust the width here
+                sx={{ width: '250px' }}
                 label="Password"
                 variant="outlined"
                 type="password"

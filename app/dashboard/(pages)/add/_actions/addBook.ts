@@ -30,7 +30,6 @@ export async function CreateBook(formData: FormData) {
     );
   }
 
-  // Create the book record in the database
   const book = await prisma.book.create({
     data: {
       title: validatedData.data?.title,
@@ -46,7 +45,7 @@ export async function CreateBook(formData: FormData) {
     },
   });
 
-  return book; // Return the created book object
+  return book;
 }
 
 async function uploadCover(cover: File): Promise<string> {
@@ -55,7 +54,7 @@ async function uploadCover(cover: File): Promise<string> {
   const { data, error } = await supabase.storage
     .from('covers')
     .upload(`${Date.now()}_${cover.name}`, cover, {
-      contentType: cover.type || 'image/png', // Default to png if not specified
+      contentType: cover.type || 'image/png',
     });
 
   if (error) {

@@ -26,7 +26,7 @@ const BookForm = () => {
   const [fetchedCoverUrl, setFetchedCoverUrl] = useState<string | undefined>();
   const [fileInputKey, setFileInputKey] = useState(0);
 
-  // Debounce the title and author inputs
+  // Debounce 
   const [debounceTitle] = useDebounce(title, 500);
   const [debounceAuthor] = useDebounce(author, 500);
 
