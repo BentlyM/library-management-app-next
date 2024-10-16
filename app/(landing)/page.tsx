@@ -111,7 +111,7 @@ const HomePage = async () => {
             title={''}
           />
           <Image
-            src={'image/reading-time.svg'}
+            src={'/image/reading-time.svg'}
             height={300}
             width={350}
             style={{ border: 'transparent' }}

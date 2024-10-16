@@ -23,6 +23,8 @@ const BookForm = () => {
   const [summary, setSummary] = useState('');
   const [genre, setGenre] = useState<string>('');
   const [manualCover, setManualCover] = useState<string | undefined>();
+  const [fetchedCoverUrl, setFetchedCoverUrl] = useState<string | undefined>();
+  const [fileInputKey, setFileInputKey] = useState(0);
 
   // Debounce the title and author inputs
   const [debounceTitle] = useDebounce(title, 500);
@@ -32,7 +34,7 @@ const BookForm = () => {
     queryKey: ['cover', debounceTitle, debounceAuthor],
     queryFn: () =>
       fetch(`/api/cover?title=${debounceTitle}&author=${debounceAuthor}`).then(
-        (res) => res.json()
+        (res) => res.json().then((data) => setFetchedCoverUrl(data.url))
       ),
     enabled: !!debounceTitle && !!debounceAuthor,
   });
@@ -70,12 +72,18 @@ const BookForm = () => {
       } catch (error) {
         console.error('Error fetching the manual cover:', error);
       }
-    } else if (fetchCoverQuery.data?.url) {
-      formData.append('cover', fetchCoverQuery.data.url);
+    } else if (fetchedCoverUrl) {
+      formData.append('cover', fetchedCoverUrl);
     }
 
     mutation.mutate(formData);
     resetForm();
+  };
+
+  const handleCoverDeletion = () => {
+    setManualCover(undefined);
+    setFetchedCoverUrl(undefined);
+    setFileInputKey((prev) => prev + 1);
   };
 
   const resetForm = () => {
@@ -84,6 +92,8 @@ const BookForm = () => {
     setSummary('');
     setGenre('');
     setManualCover(undefined);
+    setFetchedCoverUrl(undefined);
+    setFileInputKey((prev) => prev + 1);
   };
 
   return (
@@ -111,9 +121,9 @@ const BookForm = () => {
           />
         ) : (
           <SkeletonWrapper isLoading={fetchCoverQuery.isLoading}>
-            {fetchCoverQuery.data?.url ? (
+            {fetchedCoverUrl ? (
               <img
-                src={fetchCoverQuery.data.url}
+                src={fetchedCoverUrl}
                 alt="Book Cover"
                 style={{
                   maxHeight: '400px',
@@ -128,6 +138,7 @@ const BookForm = () => {
           </SkeletonWrapper>
         )}
         <input
+          key={fileInputKey}
           type="file"
           accept="image/*"
           style={{ marginTop: '1rem' }}
@@ -158,6 +169,7 @@ const BookForm = () => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           style={{ marginBottom: '16px' }}
+          required
         />
         <TextField
           fullWidth
@@ -167,6 +179,7 @@ const BookForm = () => {
           value={author}
           onChange={(e) => setAuthor(e.target.value)}
           style={{ marginBottom: '16px' }}
+          required
         />
         <TextField
           fullWidth
@@ -178,6 +191,7 @@ const BookForm = () => {
           value={summary}
           onChange={(e) => setSummary(e.target.value)}
           style={{ marginBottom: '16px' }}
+          required
         />
         <FormControl
           fullWidth
@@ -191,6 +205,7 @@ const BookForm = () => {
             label="Genre"
             value={genre}
             onChange={handleGenreChange}
+            required
           >
             {[
               'Fiction',
@@ -215,13 +230,23 @@ const BookForm = () => {
             width: '100%',
           }}
         >
-          <Button
-            variant="outlined"
-            color="primary"
-            onClick={() => fetchCoverQuery.refetch()}
-          >
-            Fetch Cover
-          </Button>
+          <div style={{ display: 'flex', gap: '5px' }}>
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={() => fetchCoverQuery.refetch()}
+            >
+              Fetch Cover
+            </Button>
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={handleCoverDeletion}
+              style={{ borderColor: 'red', color: 'red' }}
+            >
+              Delete Cover
+            </Button>
+          </div>
           <Button variant="contained" color="primary" type="submit">
             Create Book
           </Button>
