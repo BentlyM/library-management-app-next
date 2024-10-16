@@ -34,7 +34,7 @@ const DefaultDashPage = () => {
   if (fetchBookQuery.isError) {
     return <div>Error loading books</div>;
   }
-  
+
   const books = fetchBookQuery.data?.books || [];
   const filteredBooks = books.filter((book) =>
     book.title.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
@@ -46,7 +46,7 @@ const DefaultDashPage = () => {
     <div
       style={{
         display: 'flex',
-        justifyContent: 'start',
+        justifyContent: 'center',
         flexDirection: 'row',
         flexWrap: 'wrap-reverse',
         gap: '2%',
@@ -54,7 +54,7 @@ const DefaultDashPage = () => {
     >
       {noBooks && !fetchBookQuery.isFetching && <DashCard />}
       {!noBooks && (
-        <div style={{ width: '50%', position: 'relative' }}>
+        <div style={{ width: '45%', position: 'relative' }}>
           <input
             type="text"
             placeholder="Search for a book..."
@@ -90,7 +90,7 @@ const DefaultDashPage = () => {
                   isLoading={
                     fetchBookQuery.isLoading || fetchBookQuery.isFetching
                   }
-                  key={book.title} // Moved the key here to avoid using it inside map
+                  key={book.title}
                 >
                   <BookCard book={book} />
                 </SkeletonWrapper>
@@ -100,7 +100,33 @@ const DefaultDashPage = () => {
           </div>
         </div>
       )}
-      <div className="data-chart"></div>
+      <div
+        className="data"
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          width: '45%',
+          alignItems: 'center',
+        }}
+      >
+        <span
+          style={{ margin: 'none', fontWeight: 'normal', fontSize: '1.5rem' }}
+        >
+          Data
+        </span>
+        <div
+          style={{
+            width: '100%',
+            display: 'grid',
+            gridTemplateRows: '[row-1-start] 1fr [row-2-start] 1fr [row-2-end]',
+            gridTemplateColumns: '[col-1-start] 1fr [col-2-start] 1fr',
+          }}
+        >
+          <div>
+            
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
