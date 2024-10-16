@@ -5,19 +5,15 @@ import InfoCard from './_components/InfoCard';
 import { Container } from '@mui/material';
 import FooterContent from './_components/FooterContent';
 import Image from 'next/image';
-import bookReadingSvg from '../public/book-reading.svg';
-import creativeThinkingSvg from '../public/creative-thinking.svg';
-import barnesAndNoblesPng from '../public/Barnes-Noble-Logo.png';
-import yalePng from '../public/yale-university-logo.png';
-import harvardPng from '../public/Harvard-Logo.png';
-import readingTimeSvg from '../public/reading-time.svg'
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 
 const HomePage = async () => {
   const supabase = createClient();
-  const {data, error} = await supabase.auth.getUser();
-  if(data.user && !error){redirect('/dashboard')}
+  const { data, error } = await supabase.auth.getUser();
+  if (data.user && !error) {
+    redirect('/dashboard');
+  }
   return (
     <div
       className="home-layout"
@@ -43,7 +39,7 @@ const HomePage = async () => {
           width={'450px'}
         />
         <Image
-          src={bookReadingSvg}
+          src="/image/book-reading.svg"
           height={300}
           width={350}
           style={{ border: 'transparent' }}
@@ -68,7 +64,11 @@ const HomePage = async () => {
           sentence="We're proud to collaborate with partners who share our passion for making books accessible to everyone. Together, we can create a world where reading is a fundamental part of every community. Explore our partnership opportunities and discover how we can work together to inspire a love of reading."
           align={'center'}
           width="50%"
-          images={[barnesAndNoblesPng.src, yalePng.src, harvardPng.src]}
+          images={[
+            '/image/Barnes-Noble-Logo.png',
+            '/image/yale-university-logo.png',
+            '/image/Harvard-Logo.png',
+          ]}
         />
         <div
           style={{
@@ -80,7 +80,7 @@ const HomePage = async () => {
           }}
         >
           <Image
-            src={creativeThinkingSvg}
+            src={'/image/creative-thinking.svg'}
             height={300}
             width={350}
             style={{ border: 'transparent' }}
@@ -111,7 +111,7 @@ const HomePage = async () => {
             title={''}
           />
           <Image
-            src={readingTimeSvg}
+            src={'image/reading-time.svg'}
             height={300}
             width={350}
             style={{ border: 'transparent' }}

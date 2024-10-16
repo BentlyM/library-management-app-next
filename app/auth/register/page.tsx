@@ -11,7 +11,6 @@ import {
   FormControlLabel,
   Link,
 } from '@mui/material';
-import bibliophile from '../../public/bibliophile.svg';
 import { register } from './_actions/register';
 import { useMutation } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
@@ -162,7 +161,7 @@ const SignUp = () => {
           }}
         >
           <Image
-            src={bibliophile.src}
+            src="/image/bibliophile.svg"
             alt="Sign Up"
             style={{ width: '300px', height: 'auto' }}
             width={250}

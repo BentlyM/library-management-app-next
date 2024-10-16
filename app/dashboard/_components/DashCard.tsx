@@ -1,7 +1,5 @@
 import { Container } from '@mui/material';
-import defaultImage from '../../public/DefaultDisplayImage.svg';
 import React from 'react';
-import Image from 'next/image';
 
 const DashCard = () => {
   return (
@@ -14,7 +12,11 @@ const DashCard = () => {
         height: '100%',
       }}
     >
-      <Image src={defaultImage} alt="default" style={{ width: '35vw' }} />
+      <img
+        src='image/DefaultDisplayImage.svg'
+        alt="default"
+        style={{ width: '35vw' }}
+      />
       <p>Manage your library efficiently with the following options:</p>
       <ul>
         <li>Add new books to the library collection.</li>

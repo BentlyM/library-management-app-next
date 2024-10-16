@@ -109,22 +109,8 @@ const DefaultDashPage = () => {
           alignItems: 'center',
         }}
       >
-        <span
-          style={{ margin: 'none', fontWeight: 'normal', fontSize: '1.5rem' }}
-        >
-          Data
-        </span>
-        <div
-          style={{
-            width: '100%',
-            display: 'grid',
-            gridTemplateRows: '[row-1-start] 1fr [row-2-start] 1fr [row-2-end]',
-            gridTemplateColumns: '[col-1-start] 1fr [col-2-start] 1fr',
-          }}
-        >
-          <div>
-            
-          </div>
+        <div style={{ width: '100%' }}>
+          {/* prob gonna put locked data charts here as some sorta SaaS thing */}
         </div>
       </div>
     </div>

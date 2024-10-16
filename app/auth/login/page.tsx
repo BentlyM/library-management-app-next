@@ -10,7 +10,6 @@ import {
   FormControlLabel,
   Link,
 } from '@mui/material';
-import bookLoverPng from '../../public/book-lover.svg';
 import { login } from './_actions/login';
 import toast from 'react-hot-toast';
 import { useMutation } from '@tanstack/react-query';
@@ -75,7 +74,7 @@ const Login = () => {
           }}
         >
           <Image
-            src={bookLoverPng.src}
+            src={'/image/book-lover.svg'}
             alt="Sign In"
             style={{ maxWidth: '300px', height: 'auto' }}
             width={250}
