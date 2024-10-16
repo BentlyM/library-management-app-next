@@ -54,7 +54,7 @@ export default function NavBar() {
           <li>
             <Link
               style={{ textDecoration: 'none', color: 'black'}} 
-              href={'auth/login'}
+              href={'/login'}
             >
               Login
             </Link>
@@ -62,7 +62,7 @@ export default function NavBar() {
           <li>
             <Link
               style={{ textDecoration: 'none', color: 'black'}} 
-              href={'auth/register'}
+              href={'/register'}
             >
               Register
             </Link>
