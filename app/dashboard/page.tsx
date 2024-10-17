@@ -5,14 +5,7 @@ import { useDebounce } from 'use-debounce'; // Import the useDebounce hook
 import DashCard from './_components/DashCard';
 import BookCard from './_components/BookCard';
 import SkeletonWrapper from '../components/SkeletonWrapper';
-
-export interface Book {
-  title: string;
-  author: string;
-  summary: string;
-  genre: string;
-  cover: string;
-}
+import { Book } from '@prisma/client';
 
 type BooksResponse = {
   books: Book[];
@@ -90,7 +83,7 @@ const DefaultDashPage = () => {
                   isLoading={
                     fetchBookQuery.isLoading || fetchBookQuery.isFetching
                   }
-                  key={book.title}
+                  key={book.id}
                 >
                   <BookCard book={book} />
                 </SkeletonWrapper>
@@ -110,7 +103,7 @@ const DefaultDashPage = () => {
         }}
       >
         <div style={{ width: '100%' }}>
-          {/* prob gonna put locked data charts here as some sorta SaaS thing */}
+          
         </div>
       </div>
     </div>

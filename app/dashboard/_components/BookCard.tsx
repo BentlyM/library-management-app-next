@@ -5,11 +5,17 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { Book } from '../page';
+import FormDialog from '@/app/components/FormDialog';
+import { Book } from '@prisma/client';
 
 export default function BookCard({ book }: { book: Book }) {
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
   return (
-    <Card sx={{ maxWidth: 300, padding: 2 , margin: 1}}>
+    <Card sx={{ maxWidth: 300, padding: 2, margin: 1 }}>
       <CardMedia
         component="img"
         alt="Book Cover"
@@ -25,12 +31,13 @@ export default function BookCard({ book }: { book: Book }) {
           {book.summary}
         </Typography>
         <Typography variant="body2" sx={{ color: 'text.secondary', mt: 1 }}>
-          Author: {book.author} {/* Added author */}
+          Author: {book.author}
         </Typography>
       </CardContent>
       <CardActions>
         <Button size="small">Share</Button>
-        <Button size="small">Details</Button>
+        <Button onClick={handleOpen}>Details</Button>
+        <FormDialog open={open} setOpen={setOpen} book={book} />
       </CardActions>
     </Card>
   );

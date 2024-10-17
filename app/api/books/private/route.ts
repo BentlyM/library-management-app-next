@@ -31,6 +31,8 @@ export async function GET() {
           summary: true,
           genre: true,
           cover: true,
+          createdAt: true,
+          updatedAt: true,
         },
       },
     },
