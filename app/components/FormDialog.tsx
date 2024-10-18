@@ -8,14 +8,30 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Book } from '@prisma/client';
 import { Box, Typography } from '@mui/material';
+import { DeleteBook } from '../dashboard/_actions/deleteBook';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 
 interface Props {
   open: boolean;
   setOpen: (open: boolean) => void;
   book: Book;
+  queryKey: string;
 }
 
-export default function FormDialog({ open, setOpen, book }: Props) {
+export default function FormDialog({ open, setOpen, book, queryKey }: Props) {
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: DeleteBook,
+    onSuccess: () => {
+      toast.success('Book Deleted Successfully');
+      queryClient.invalidateQueries({
+        queryKey: [queryKey],
+      });
+    },
+    onError: (error: Error) => toast.error(error.message),
+  });
   return (
     <Dialog
       open={open}
@@ -103,6 +119,9 @@ export default function FormDialog({ open, setOpen, book }: Props) {
                   color: 'red',
                   marginLeft: 2,
                   height: 'fit-content', // Ensure it fits nicely
+                }}
+                onClick={() => {
+                  mutation.mutate(book.id);
                 }}
               >
                 Delete

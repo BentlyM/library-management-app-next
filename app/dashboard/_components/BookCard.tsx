@@ -37,7 +37,7 @@ export default function BookCard({ book }: { book: Book }) {
       <CardActions>
         <Button size="small">Share</Button>
         <Button onClick={handleOpen}>Details</Button>
-        <FormDialog open={open} setOpen={setOpen} book={book} />
+        <FormDialog open={open} setOpen={setOpen} book={book} queryKey="books"/>
       </CardActions>
     </Card>
   );
