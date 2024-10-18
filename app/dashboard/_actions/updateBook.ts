@@ -1,6 +1,5 @@
 'use server';
 import prisma from '@/app/lib/prisma';
-import { revalidatePath } from 'next/cache';
 
 export async function updateBook(formData: FormData) {
   if (!formData) throw new Error('Unable to Config Data...');
