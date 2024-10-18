@@ -11,6 +11,7 @@ import { Box, Typography } from '@mui/material';
 import { DeleteBook } from '../dashboard/_actions/deleteBook';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
+import { updateBook } from '../dashboard/_actions/updateBook';
 
 interface Props {
   open: boolean;
@@ -32,6 +33,19 @@ export default function FormDialog({ open, setOpen, book, queryKey }: Props) {
     },
     onError: (error: Error) => toast.error(error.message),
   });
+
+  const mutative = useMutation({
+    // running outta names lol
+    mutationFn: updateBook,
+    onSuccess: () => {
+      toast.success('Book Updated Successfully');
+      queryClient.invalidateQueries({
+        queryKey: [queryKey],
+      });
+    },
+    onError: (error: Error) => toast.error(error.message),
+  });
+
   return (
     <Dialog
       open={open}
@@ -41,7 +55,9 @@ export default function FormDialog({ open, setOpen, book, queryKey }: Props) {
         onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
           event.preventDefault();
           const formData = new FormData(event.currentTarget);
-          // Handle form data as needed
+          formData.append('id', book.id);
+
+          mutative.mutate(formData);
           setOpen(false);
         },
       }}
