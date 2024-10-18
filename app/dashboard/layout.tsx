@@ -1,4 +1,5 @@
 'use client';
+
 import * as React from 'react';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -43,41 +44,23 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
   });
 
   const navigation = [
-    {
-      text: 'Home',
-      icon: <ImportContactsIcon />,
-      to: '/dashboard',
-    },
+    { text: 'Home', icon: <ImportContactsIcon />, to: '/dashboard' },
     { text: 'Add Book', icon: <AddBoxIcon />, to: '/dashboard/add' },
     { text: 'Discover Books', icon: <BookIcon />, to: '/dashboard/discover' },
     { text: 'Send Books', icon: <SendIcon />, to: '/dashboard/send' },
     { text: 'Profile', icon: <AccountCircleIcon />, to: '/dashboard/settings' },
   ];
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  const handleDrawerOpen = () => setOpen(true);
+  const handleDrawerClose = () => setOpen(false);
 
   React.useEffect(() => {
-    switch (pathname[1]) {
-      case 'add':
-        setTitle(navigation[1].text);
-        break;
-      case 'discover':
-        setTitle(navigation[2].text);
-        break;
-      case 'send':
-        setTitle(navigation[3].text);
-      case 'profile':
-        setTitle(navigation[4].text);
-      default:
-        setTitle('Home Content');
-    }
-  }, [pathname, title]);
+    const currentPath = pathname[1];
+    const navItem = navigation.find((item) => item.to.includes(currentPath));
+    setTitle(navItem ? navItem.text : 'Home Content');
+  }, [pathname]);
+
+  const isSmallViewport = window.innerWidth < theme.breakpoints.values.md;
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -88,7 +71,21 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
           aria-label="open drawer"
           onClick={handleDrawerOpen}
           edge="start"
-          sx={{ position: 'absolute', top: 16, left: 16, zIndex: 1201 }}
+          sx={{
+            position: 'absolute',
+            top: 16,
+            left: {
+              xs: 'auto', 
+              sm: 'auto', 
+              md: 16, 
+            },
+            right: {
+              xs: 16,
+              sm: 16, 
+              md: 'auto',
+            },
+            zIndex: 1201,
+          }}
         >
           <MenuIcon />
         </IconButton>
@@ -98,12 +95,12 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
           width: drawerWidth,
           flexShrink: 0,
           '& .MuiDrawer-paper': {
-            width: drawerWidth,
+            width: isSmallViewport ? '100%' : drawerWidth,
             boxSizing: 'border-box',
           },
         }}
-        variant="persistent"
-        anchor="left"
+        variant={isSmallViewport ? 'temporary' : 'persistent'}
+        anchor={isSmallViewport ? 'bottom' : 'left'}
         open={open}
       >
         <Box
@@ -115,7 +112,9 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
             justifyContent: 'space-between',
           }}
         >
-          <h2>Welcome, {user.data?.name || 'anonymous'}!</h2>
+          <h2 style={{ margin: 0 }}>
+            Welcome, {user.data?.name || 'anonymous'}!
+          </h2>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'ltr' ? (
               <ChevronLeftIcon />
@@ -125,19 +124,20 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
           </IconButton>
         </Box>
         <Divider />
-        <List style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+        <List sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
           {navigation.map((item) => (
             <ListItem key={item.text} disablePadding>
               <Link
+                href={item.to}
                 style={{
                   display: 'flex',
                   textDecoration: 'none',
                   color: 'black',
+                  width: '100%',
                 }}
-                href={`${item.to}`}
               >
                 <ListItemIcon
-                  style={{
+                  sx={{
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
@@ -156,18 +156,17 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
         component="main"
         sx={{
           flexGrow: 1,
-          padding: theme.spacing(3),
+          padding: { md: theme.spacing(3) },
           transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
           }),
-          marginLeft: open ? 0 : `-${drawerWidth}px`,
+          marginLeft: open ? 0 : isSmallViewport ? 0 : `-${drawerWidth}px`,
         }}
       >
         <h1>{title}</h1>
         {children}
       </Box>
-
     </Box>
   );
 };
