@@ -47,15 +47,14 @@ const Login = () => {
       maxWidth="sm"
       sx={{
         display: 'flex',
-        flexDirection: 'row-reverse',
         alignItems: 'center',
         justifyContent: 'center',
         minHeight: '100vh',
         minWidth: '80%',
       }}
     >
-      <div
-        style={{
+      <Box
+        sx={{
           backgroundColor: 'white',
           display: 'flex',
           alignItems: 'center',
@@ -63,6 +62,10 @@ const Login = () => {
           borderRadius: '8px',
           padding: '20px',
           gap: '25px',
+          flexDirection: {
+            xs: 'column-reverse',
+            sm: 'row'
+          },
         }}
       >
         <Box
@@ -73,13 +76,28 @@ const Login = () => {
             flex: 1,
           }}
         >
-          <Image
-            src={'/image/book-lover.svg'}
-            alt="Sign In"
-            style={{ maxWidth: '300px', height: 'auto' }}
-            width={250}
-            height={250}
-          />
+          <Box
+            sx={{
+              display: {
+                xs: 'none',
+                sm: 'flex',
+                md: 'flex',
+                lg: 'flex',
+                xl: 'flex',
+              },
+              flexDirection: 'column',
+              alignItems: 'center',
+              flex: 1,
+            }}
+          >
+            <Image
+              src={'/image/book-lover.svg'}
+              alt="Sign In"
+              style={{ maxWidth: '300px', height: 'auto' }}
+              width={250}
+              height={250}
+            />
+          </Box>
           <Link href="/register" sx={{ mt: 2 }}>
             Create an account
           </Link>
@@ -146,7 +164,7 @@ const Login = () => {
             </Box>
           </form>
         </Box>
-      </div>
+      </Box>
     </Container>
   );
 };
