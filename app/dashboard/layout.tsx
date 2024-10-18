@@ -33,6 +33,7 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
     .split('/')
     .filter((index) => index !== '');
   const [title, setTitle] = React.useState('');
+  const [isSmallViewport, setIsSmallViewport] = React.useState(false);
 
   const user = useQuery<{
     id: string;
@@ -60,7 +61,18 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
     setTitle(navItem ? navItem.text : 'Home Content');
   }, [pathname]);
 
-  const isSmallViewport = window.innerWidth < theme.breakpoints.values.md;
+  React.useEffect(() => {
+    const handleResize = () => {
+      setIsSmallViewport(window.innerWidth < theme.breakpoints.values.md);
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [theme.breakpoints.values.md]);
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -75,13 +87,13 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
             position: 'absolute',
             top: 16,
             left: {
-              xs: 'auto', 
-              sm: 'auto', 
-              md: 16, 
+              xs: 'auto',
+              sm: 'auto',
+              md: 16,
             },
             right: {
               xs: 16,
-              sm: 16, 
+              sm: 16,
               md: 'auto',
             },
             zIndex: 1201,

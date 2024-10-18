@@ -1,4 +1,3 @@
-// HomePage.tsx
 import React from 'react';
 import NavBar from './_components/NavBar';
 import InfoCard from './_components/InfoCard';
