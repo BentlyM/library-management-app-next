@@ -27,8 +27,8 @@ export async function updateSession(request: NextRequest) {
 
   // Redirect if the user is authenticated and accessing the login page
   if (
-    (user && request.nextUrl.pathname === '/auth/login') ||
-    (user && request.nextUrl.pathname === '/auth/register')
+    (user && request.nextUrl.pathname === '/login') ||
+    (user && request.nextUrl.pathname === '/register')
   ) {
     const url = request.nextUrl.clone();
     url.pathname = '/dashboard'; // Redirect to dashboard
@@ -46,7 +46,6 @@ export async function updateSession(request: NextRequest) {
 
     // Allow access to login and register pages
     if (
-      !request.nextUrl.pathname.startsWith('/auth') &&
       !request.nextUrl.pathname.startsWith('/')
     ) {
       const url = request.nextUrl.clone();
