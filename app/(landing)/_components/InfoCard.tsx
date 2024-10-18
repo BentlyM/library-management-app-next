@@ -36,20 +36,68 @@ const InfoCard = ({
         p={2}
         color={color}
         alignItems={align}
+        textAlign="center" // Center align text
       >
         {title && (
           <Typography
             fontSize={'14px'}
             justifySelf={'start'}
-            sx={{ letterSpacing: '2px' }}
+            sx={{
+              letterSpacing: '2px',
+              textAlign: {
+                xs: 'center',
+                sm: 'center',
+                md: 'start',
+                lg: 'start',
+                xl: 'start',
+              },
+            }}
           >
             {title}
           </Typography>
         )}
-        <Typography variant="h6" fontWeight={'bolder'}>
+        <Typography
+          variant="h6"
+          fontWeight={'bolder'}
+          sx={{
+            fontSize: {
+              xs: '1rem',
+              sm: '1rem',
+              md: '1rem',
+              lg: '1rem',
+              xl: '1rem',
+            },
+            textAlign: {
+              xs: align || 'center',
+              sm: align || 'center',
+              md: 'start',
+              lg: 'start',
+              xl: 'start',
+            },
+          }}
+        >
           {titleHook}
         </Typography>
-        <Typography>{sentence}</Typography>
+        <Typography
+          sx={{
+            textAlign: {
+              xs: 'center',
+              sm: 'center',
+              md: 'start',
+              lg: 'start',
+              xl: 'start',
+            },
+            fontSize: {
+              xs: '1rem',
+              sm: '1rem',
+              md: '1rem',
+              lg: '1rem',
+              xl: '1rem',
+            },
+          }}
+        >
+          {sentence}
+        </Typography>
         <div
           className="marquee"
           style={{
@@ -71,10 +119,18 @@ const InfoCard = ({
               />
             ))}
         </div>
-        <Button variant="contained" sx={{ width: 'fit-content' }}>
-          {title?.toLowerCase() == 'welcome'
+        <Button
+          variant="contained"
+          sx={{
+            margin: { xs: '0 auto', md: '0' }, // Center for xs and sm, start for md and up
+            display: 'block', // Ensure it behaves like a block element
+            width: 'fit-content', // Ensure it doesn't stretch
+            textAlign: { xs: 'center', md: 'left' }, // Center text for small, left for larger
+          }}
+        >
+          {title?.toLowerCase() === 'welcome'
             ? 'Explore'
-            : title?.toLowerCase() == 'team'
+            : title?.toLowerCase() === 'team'
             ? 'im the team'
             : 'Learn More'}
         </Button>

@@ -13,11 +13,25 @@ export default function NavBar() {
         padding={'5px'}
         sx={{
           display: 'flex',
-          justifyContent: 'space-between', 
+          justifyContent: {
+            xs: 'center',
+            sm: 'center',
+            md: 'space-between',
+            lg: 'space-between',
+            xl: 'space-between',
+          },
           alignItems: 'center',
           padding: '15px',
-          maxWidth: '1200px', 
+          maxWidth: '1200px',
           margin: '0 auto',
+          flexWrap: 'wrap',
+          flexDirection: {
+            xs: 'column',
+            sm: 'column',
+            md: 'row',
+            lg: 'row',
+            xl: 'row',
+          },
         }}
       >
         <Typography
@@ -45,7 +59,7 @@ export default function NavBar() {
         >
           <li>
             <Link
-              style={{ textDecoration: 'none', color: 'black'}} 
+              style={{ textDecoration: 'none', color: 'black' }}
               href={'pricing'}
             >
               Services
@@ -53,7 +67,7 @@ export default function NavBar() {
           </li>
           <li>
             <Link
-              style={{ textDecoration: 'none', color: 'black'}} 
+              style={{ textDecoration: 'none', color: 'black' }}
               href={'/login'}
             >
               Login
@@ -61,7 +75,7 @@ export default function NavBar() {
           </li>
           <li>
             <Link
-              style={{ textDecoration: 'none', color: 'black'}} 
+              style={{ textDecoration: 'none', color: 'black' }}
               href={'/register'}
             >
               Register
