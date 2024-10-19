@@ -138,7 +138,10 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
         <Divider />
         <List sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
           {navigation.map((item) => (
-            <ListItem key={item.text} disablePadding>
+            <ListItem
+              key={item.text}
+              disablePadding
+            >
               <Link
                 href={item.to}
                 style={{

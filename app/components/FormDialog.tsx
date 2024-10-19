@@ -12,6 +12,7 @@ import { DeleteBook } from '../dashboard/_actions/deleteBook';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { updateBook } from '../dashboard/_actions/updateBook';
+import AreaChartComponent from './AreaChart';
 
 interface Props {
   open: boolean;
@@ -163,8 +164,9 @@ export default function FormDialog({ open, setOpen, book, queryKey }: Props) {
             }}
           />
         </Box>
-        <Box sx={{ height: 100, bgcolor: '#f0f0f0', borderRadius: 1, mt: 2 }}>
+        <Box sx={{ height: 100, bgcolor: '#f0f0f0', borderRadius: 1, mt: 2, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
           {/* Unique chart data could go here */}
+          <AreaChartComponent />
         </Box>
       </DialogContent>
       <DialogActions>
