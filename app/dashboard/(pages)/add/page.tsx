@@ -26,7 +26,6 @@ const BookForm = () => {
   const [fetchedCoverUrl, setFetchedCoverUrl] = useState<string | undefined>();
   const [fileInputKey, setFileInputKey] = useState(0);
 
-  // Debounce
   const [debounceTitle] = useDebounce(title, 500);
   const [debounceAuthor] = useDebounce(author, 500);
 
@@ -103,17 +102,27 @@ const BookForm = () => {
   };
 
   return (
-    <form
-      style={{
+    <Box
+      component="form"
+      onSubmit={handleSubmit}
+      sx={{
         display: 'flex',
+        flexDirection: { xs: 'column', sm: 'row' },
         maxWidth: 1200,
         margin: 'auto',
-        padding: '16px',
-        borderRadius: '4px',
+        padding: 2,
+        borderRadius: 1,
       }}
-      onSubmit={handleSubmit}
     >
-      <Box style={{ flex: 1, padding: '16px', textAlign: 'center' }}>
+      <Box
+        sx={{
+          flex: 1,
+          padding: 2,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
         {manualCover ? (
           <img
             src={manualCover}
@@ -136,6 +145,7 @@ const BookForm = () => {
                   objectFit: 'contain',
                   height: 'fit-content',
                   width: '100%',
+                  flex: '0'
                 }}
               />
             ) : (
@@ -153,18 +163,15 @@ const BookForm = () => {
       </Box>
 
       <Box
-        style={{
+        sx={{
           flex: 1,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          padding: '16px',
+          padding: 2,
         }}
       >
-        <Typography
-          variant="h4"
-          style={{ marginBottom: '16px', fontWeight: 600 }}
-        >
+        <Typography variant="h4" sx={{ marginBottom: 2, fontWeight: 600 }}>
           Add a New Book
         </Typography>
         <TextField
@@ -174,7 +181,7 @@ const BookForm = () => {
           variant="outlined"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          style={{ marginBottom: '16px' }}
+          sx={{ marginBottom: 2 }}
           required
         />
         <TextField
@@ -184,7 +191,7 @@ const BookForm = () => {
           variant="outlined"
           value={author}
           onChange={(e) => setAuthor(e.target.value)}
-          style={{ marginBottom: '16px' }}
+          sx={{ marginBottom: 2 }}
           required
         />
         <TextField
@@ -196,14 +203,10 @@ const BookForm = () => {
           rows={4}
           value={summary}
           onChange={(e) => setSummary(e.target.value)}
-          style={{ marginBottom: '16px' }}
+          sx={{ marginBottom: 2 }}
           required
         />
-        <FormControl
-          fullWidth
-          variant="outlined"
-          style={{ marginBottom: '16px' }}
-        >
+        <FormControl fullWidth variant="outlined" sx={{ marginBottom: 2 }}>
           <InputLabel id="genre-label">Genre</InputLabel>
           <Select
             id="genre"
@@ -228,15 +231,15 @@ const BookForm = () => {
             ))}
           </Select>
         </FormControl>
-        <div
-          style={{
+        <Box
+          sx={{
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
             width: '100%',
           }}
         >
-          <div style={{ display: 'flex', gap: '5px' }}>
+          <Box sx={{ display: 'flex', gap: '5px' }}>
             <Button
               variant="outlined"
               color="primary"
@@ -248,17 +251,17 @@ const BookForm = () => {
               variant="outlined"
               color="primary"
               onClick={handleCoverDeletion}
-              style={{ borderColor: 'red', color: 'red' }}
+              sx={{ borderColor: 'red', color: 'red' }}
             >
               Delete Cover
             </Button>
-          </div>
+          </Box>
           <Button variant="contained" color="primary" type="submit">
             Create Book
           </Button>
-        </div>
+        </Box>
       </Box>
-    </form>
+    </Box>
   );
 };
 
