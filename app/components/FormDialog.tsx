@@ -39,7 +39,6 @@ export default function FormDialog({ open, setOpen, book, queryKey }: Props) {
   });
 
   const mutative = useMutation({
-    // running outta names lol
     mutationFn: updateBook,
     onSuccess: (data) => {
       if (data.success) {
@@ -75,11 +74,13 @@ export default function FormDialog({ open, setOpen, book, queryKey }: Props) {
         <Box
           sx={{
             display: 'flex',
+            flexDirection: { xs: 'column', sm: 'row' },
             justifyContent: 'space-between',
             alignItems: 'flex-start',
+            gap: 2,
           }}
         >
-          <Box sx={{ flexGrow: 1, marginRight: 2 }}>
+          <Box sx={{ flexGrow: 1 }}>
             <DialogContentText>
               Change/Update Details of Book as needed
             </DialogContentText>
@@ -127,22 +128,20 @@ export default function FormDialog({ open, setOpen, book, queryKey }: Props) {
             >
               <Box>
                 <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                  Created:
-                  {new Date(book.createdAt).toLocaleDateString()}
+                  Created: {new Date(book.createdAt).toLocaleDateString()}
                 </Typography>
                 <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                  Updated:
-                  {new Date(book.updatedAt).toLocaleDateString()}
+                  Updated: {new Date(book.updatedAt).toLocaleDateString()}
                 </Typography>
               </Box>
               <Button
                 variant="outlined"
-                color="error" // Use 'error' color for better visibility
+                color="error"
                 sx={{
                   borderColor: 'red',
                   color: 'red',
                   marginLeft: 2,
-                  height: 'fit-content', // Ensure it fits nicely
+                  height: 'fit-content',
                 }}
                 onClick={() => {
                   mutation.mutate(book.id);
@@ -157,15 +156,15 @@ export default function FormDialog({ open, setOpen, book, queryKey }: Props) {
             src={book.cover}
             alt="Book Cover"
             sx={{
-              width: '30vw',
-              height: '30vh',
+              width: { xs: '100%', sm: '30vw' },
+              height: { xs: '30vh', sm: '30vh' },
               objectFit: 'contain',
-              marginLeft: 2,
+              marginTop: { xs: 2, sm: 0 },
             }}
           />
         </Box>
         <Box sx={{ height: 100, bgcolor: '#f0f0f0', borderRadius: 1, mt: 2 }}>
-          {/* going to to put some unique chart data here */}
+          {/* Unique chart data could go here */}
         </Box>
       </DialogContent>
       <DialogActions>
