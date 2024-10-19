@@ -9,7 +9,6 @@ import {
   YAxis,
   XAxis,
   CartesianGrid,
-  Legend,
 } from 'recharts';
 
 interface MonthlyReadingProgress {
@@ -43,33 +42,9 @@ const AreaChartComponent = () => {
         <XAxis dataKey={'month'} />
         <CartesianGrid />
         <Area dataKey={'hoursRead'} />
-
-        <Tooltip children={<BookTooltip />} title={''} />
       </AreaChart>
     </ResponsiveContainer>
   );
 };
 
 export default AreaChartComponent;
-
-const BookTooltip = ({ bookTitle, hoursRead, totalHours }: any) => {
-    const progressPercentage = ((hoursRead / totalHours) * 100).toFixed(2);
-  
-    return (
-      <Tooltip
-        title={
-          <Typography variant="body2">
-            {bookTitle}
-            <br />
-            Reading Progress: {progressPercentage}%
-            <br />
-            Hours Read: {hoursRead} / {totalHours}
-          </Typography>
-        }
-      >
-        <IconButton>
-          <BadgeInfo />
-        </IconButton>
-      </Tooltip>
-    );
-  };
