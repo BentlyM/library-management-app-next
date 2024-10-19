@@ -26,7 +26,7 @@ const BookForm = () => {
   const [fetchedCoverUrl, setFetchedCoverUrl] = useState<string | undefined>();
   const [fileInputKey, setFileInputKey] = useState(0);
 
-  // Debounce 
+  // Debounce
   const [debounceTitle] = useDebounce(title, 500);
   const [debounceAuthor] = useDebounce(author, 500);
 
@@ -41,8 +41,14 @@ const BookForm = () => {
 
   const mutation = useMutation({
     mutationFn: CreateBook,
-    onSuccess: () => toast.success('Book Created Successfully'),
-    onError: (error: Error) => toast.error(error.message),
+    onSuccess: (data) => {
+      if (data.success) {
+        toast.success('Book Created Successfully');
+      } else {
+        toast.error(data.message!);
+      }
+    },
+    onError: () => toast.error('An unexpected error occurred'),
   });
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {

@@ -20,7 +20,10 @@ export async function register(formData: FormData) {
   });
 
   if (!parsedData.success) {
-    throw new Error(parsedData.error.errors.map((e) => e.message).join(', '));
+    return {
+      success: false,
+      message: parsedData.error.errors.map((e) => e.message).join(', '),
+    };
   }
 
   const { username, email, password } = parsedData.data;
@@ -28,7 +31,7 @@ export async function register(formData: FormData) {
   const { error } = await supabase.auth.signUp({ email, password });
 
   if (error) {
-    throw new Error(error.message);
+    return { success: false, message: error.message };
   }
 
   try {
@@ -40,7 +43,7 @@ export async function register(formData: FormData) {
     });
   } catch (e) {
     if (e instanceof Error) {
-      throw new Error(e.message); // wait wouldnt this be recursive?
+      return { success: false, message: e.message };
     }
   }
 

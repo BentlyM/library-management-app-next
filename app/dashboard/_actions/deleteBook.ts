@@ -3,7 +3,7 @@
 import prisma from '@/app/lib/prisma';
 
 export async function DeleteBook(id: string) {
-  if (!id) throw new Error('Book can not be identified');
+  if (!id) return { success: false, message: 'Book cannot be identified' };
 
   const deletedBook = await prisma.book.delete({
     where: {
@@ -11,9 +11,7 @@ export async function DeleteBook(id: string) {
     },
   });
 
-  if (!deletedBook) {
-    throw new Error('Book Not Found!');
-  }
+  if (!deletedBook) return { success: false, message: 'Book Not Found!' };
 
-  return deletedBook;
+  return { success: true, data: deletedBook };
 }

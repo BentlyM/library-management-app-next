@@ -25,9 +25,10 @@ export async function CreateBook(formData: FormData) {
   const validatedData = CreateBookSchema.safeParse(parsedData);
 
   if (!validatedData.success) {
-    throw new Error(
-      validatedData.error.errors.map((e) => e.message).join(', ')
-    );
+    return {
+      success: false,
+      message: validatedData.error.errors.map((e) => e.message).join(', '),
+    };
   }
 
   const book = await prisma.book.create({
@@ -45,7 +46,7 @@ export async function CreateBook(formData: FormData) {
     },
   });
 
-  return book;
+  return {success: true, data: book};
 }
 
 async function uploadCover(cover: File): Promise<string> {

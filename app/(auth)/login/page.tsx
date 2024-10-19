@@ -18,14 +18,18 @@ import Image from 'next/image';
 const Login = () => {
   const mutation = useMutation({
     mutationFn: login,
-    onSuccess: () => {
-      toast.success('login successful');
-    },
-    onError: (error: Error) => {
-      if (error instanceof Error) {
-        toast.error(error.message);
+    onSuccess: (data) => {
+      if (data && typeof data.success !== 'undefined') {
+        if (!data.success) {
+          toast.error(data.message);
+        } else {
+          toast.success('Login successful');
+        }
+      } else {
+        toast.success('Login successful (success state undefined)'); // due to the redirect
       }
     },
+    onError: () => toast.error('An unexpected error occurred'),
   });
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -64,7 +68,7 @@ const Login = () => {
           gap: '25px',
           flexDirection: {
             xs: 'column-reverse',
-            sm: 'row'
+            sm: 'row',
           },
         }}
       >

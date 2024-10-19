@@ -19,7 +19,10 @@ export async function login(formData: FormData) {
   });
 
   if (!parsedData.success) {
-    throw new Error(parsedData.error.errors.map((e) => e.message).join(', '));
+    return {
+      success: false,
+      message: parsedData.error.errors.map((e) => e.message).join(', '),
+    };
   }
 
   const { email, password } = parsedData.data;
@@ -27,7 +30,7 @@ export async function login(formData: FormData) {
   const { error } = await supabase.auth.signInWithPassword({ email, password });
 
   if (error) {
-    throw new Error(error.message);
+    return { success: false, message: error.message };
   }
 
   revalidatePath('/dashboard', 'layout');

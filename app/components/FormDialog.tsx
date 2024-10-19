@@ -25,25 +25,33 @@ export default function FormDialog({ open, setOpen, book, queryKey }: Props) {
 
   const mutation = useMutation({
     mutationFn: DeleteBook,
-    onSuccess: () => {
-      toast.success('Book Deleted Successfully');
-      queryClient.invalidateQueries({
-        queryKey: [queryKey],
-      });
+    onSuccess: (data) => {
+      if (data.success) {
+        toast.success('Book Deleted Successfully');
+        queryClient.invalidateQueries({
+          queryKey: [queryKey],
+        });
+      } else {
+        toast.error(data.message!);
+      }
     },
-    onError: (error: Error) => toast.error(error.message),
+    onError: () => toast.error('An unexpected error occurred'),
   });
 
   const mutative = useMutation({
     // running outta names lol
     mutationFn: updateBook,
-    onSuccess: () => {
-      toast.success('Book Updated Successfully');
-      queryClient.invalidateQueries({
-        queryKey: [queryKey],
-      });
+    onSuccess: (data) => {
+      if (data.success) {
+        toast.success('Book Updated Successfully');
+        queryClient.invalidateQueries({
+          queryKey: [queryKey],
+        });
+      } else {
+        toast.error(data.message!);
+      }
     },
-    onError: (error: Error) => toast.error(error.message),
+    onError: () => toast.error('An unexpected error occurred'),
   });
 
   return (
