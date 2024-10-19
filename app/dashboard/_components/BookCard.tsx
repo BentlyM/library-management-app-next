@@ -7,11 +7,10 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import FormDialog from '@/app/components/FormDialog';
 import { Book } from '@prisma/client';
-import { Box, useTheme } from '@mui/material';
+import { Box } from '@mui/material';
 
 export default function BookCard({ book }: { book: Book }) {
   const [open, setOpen] = React.useState(false);
-  const theme = useTheme();
 
   const handleOpen = () => {
     setOpen(true);
