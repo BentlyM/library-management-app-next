@@ -202,7 +202,7 @@ export default function FormDialog({ open, setOpen, book, queryKey }: Props) {
             alignItems: 'center',
           }}
         >
-          <AreaChartComponent />
+          <AreaChartComponent readingProgress={book.readingProgress} />
         </Box>
         <Box>
           <Typography

@@ -1,4 +1,5 @@
 'use client';
+import { ReadingProgress } from '@prisma/client';
 import React from 'react';
 import {
   AreaChart,
@@ -11,35 +12,39 @@ import {
 
 interface MonthlyReadingProgress {
   month: string;
-  hoursRead: number;
+  completionPercentage: number;
 }
 
-const readingProgressData: MonthlyReadingProgress[] = [
-  { month: 'January', hoursRead: 10 },
-  { month: 'February', hoursRead: 8 },
-  { month: 'March', hoursRead: 12 },
-  { month: 'April', hoursRead: 4 },
-  { month: 'May', hoursRead: 5 },
-  { month: 'June', hoursRead: 18 },
-  { month: 'July', hoursRead: 20 },
-  { month: 'August', hoursRead: 20 },
-  { month: 'September', hoursRead: 12 },
-  { month: 'October', hoursRead: 15 },
-  { month: 'November', hoursRead: 10 },
-  { month: 'December', hoursRead: 5 },
-];
+interface AreaChartComponentProps {
+  readingProgress: ReadingProgress[];
+}
 
-const AreaChartComponent = () => {
+const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
+  readingProgress,
+}) => {
+  const readingProgressData: MonthlyReadingProgress[] = Array.from(
+    { length: 12 },
+    (_, index) => {
+      const monthIndex = index + 1;
+      const progress = readingProgress.find(
+        (progress) => progress.month === monthIndex
+      );
+      return {
+        month: new Intl.DateTimeFormat('en-US', { month: 'long' }).format(
+          new Date(0, monthIndex - 1)
+        ),
+        completionPercentage: progress ? progress.completionPercentage : 0,
+      };
+    }
+  );
+
   return (
-    <ResponsiveContainer
-      width={'100%'}
-      height={'100%'}
-    >
+    <ResponsiveContainer width={'100%'} height={'100%'}>
       <AreaChart data={readingProgressData}>
         <YAxis />
         <XAxis dataKey={'month'} />
         <CartesianGrid />
-        <Area dataKey={'hoursRead'} />
+        <Area dataKey={'completionPercentage'} fill="#8884d8" />
       </AreaChart>
     </ResponsiveContainer>
   );
