@@ -1,6 +1,4 @@
 'use client';
-import { IconButton, Tooltip, Typography } from '@mui/material';
-import { BadgeInfo } from 'lucide-mui';
 import React from 'react';
 import {
   AreaChart,
