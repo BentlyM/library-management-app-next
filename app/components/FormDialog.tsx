@@ -13,6 +13,9 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { updateBook } from '../dashboard/_actions/updateBook';
 import AreaChartComponent from './AreaChart';
+import { Line } from 'rc-progress';
+import GroupedButtons from './GroupedButtons';
+import HoverRating from './HoverRating';
 
 interface Props {
   open: boolean;
@@ -22,6 +25,9 @@ interface Props {
 }
 
 export default function FormDialog({ open, setOpen, book, queryKey }: Props) {
+  const [value, setValue] = React.useState<number | null>(2);
+  const [hover, setHover] = React.useState(-1);
+  const [counter, setCounter] = React.useState(0);
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
@@ -64,6 +70,9 @@ export default function FormDialog({ open, setOpen, book, queryKey }: Props) {
           event.preventDefault();
           const formData = new FormData(event.currentTarget);
           formData.append('id', book.id);
+          formData.append('rating', String(value));
+          formData.append('progress', String(counter));
+          console.log(formData);
 
           mutative.mutate(formData);
           setOpen(false);
@@ -82,8 +91,16 @@ export default function FormDialog({ open, setOpen, book, queryKey }: Props) {
           }}
         >
           <Box sx={{ flexGrow: 1 }}>
-            <DialogContentText>
-              Change/Update Details of Book as needed
+            <DialogContentText
+              style={{ display: 'flex', justifyContent: 'center', gap: '5px' }}
+            >
+              <GroupedButtons counter={counter} setCounter={setCounter} />
+              <HoverRating
+                value={value}
+                hover={hover}
+                setHover={setHover}
+                setValue={setValue}
+              />
             </DialogContentText>
             <TextField
               autoFocus
@@ -164,9 +181,36 @@ export default function FormDialog({ open, setOpen, book, queryKey }: Props) {
             }}
           />
         </Box>
-        <Box sx={{ height: 100, bgcolor: '#f0f0f0', borderRadius: 1, mt: 2, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+        <Box
+          sx={{
+            height: 100,
+            bgcolor: '#f0f0f0',
+            borderRadius: 1,
+            mt: 2,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
           {/* Unique chart data could go here */}
-          <AreaChartComponent />
+          <AreaChartComponent /> {/* placeholder */}
+        </Box>
+        <Box>
+          <Typography
+            sx={{
+              opacity: 0.7,
+              fontSize: {
+                xs: 'small',
+                sm: 'small',
+                md: 'medium',
+              },
+              textAlign: 'center',
+              marginTop: '5px',
+            }}
+          >
+            <em>Reading Progress</em>
+          </Typography>
+          <Line style={{ height: '5px', width: '100%' }} percent={counter} />
         </Box>
       </DialogContent>
       <DialogActions>
