@@ -23,6 +23,7 @@ model Book {
   summary     String
   genre       String
   cover       String
+  rating      Int                @default(2)
   user        User[]             @relation("UserBooks")
   createdAt   DateTime           @default(now())
   updatedAt   DateTime           @default(now()) @updatedAt
@@ -33,7 +34,7 @@ model ReadingProgress {
   id        String   @id @default(uuid()) @unique
   bookId    String
   month     Int
-  hoursRead Int
+  completionPercentage Int  @default(0) // completion percentage (1-100)
   book      Book     @relation("BookReadingProgress", fields: [bookId], references: [id])
 
   @@unique([bookId, month]) 

@@ -6,10 +6,25 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import FormDialog from '@/app/components/FormDialog';
-import { Book } from '@prisma/client';
 import { Box } from '@mui/material';
+import { ReadingProgress } from '@prisma/client';
 
-export default function BookCard({ book }: { book: Book }) {
+export type Book = {
+  summary: string;
+  title: string;
+  id: string;
+  cover: string;
+  author: string;
+  genre: string;
+  rating: number;
+  createdAt: Date;
+  updatedAt: Date;
+} & {
+  readingProgress: ReadingProgress[];
+}
+
+
+export default function BookCard({ book }: { book: Book}) {
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => {

@@ -5,17 +5,28 @@ import { useDebounce } from 'use-debounce'; // Import the useDebounce hook
 import DashCard from './_components/DashCard';
 import BookCard from './_components/BookCard';
 import SkeletonWrapper from '../components/SkeletonWrapper';
-import { Book } from '@prisma/client';
+import {
+  Book as PrismaBook,
+  ReadingProgress as PrismaReadingProgress,
+} from '@prisma/client'; // Adjust the import based on your project structure
 
-type BooksResponse = {
-  books: Book[];
+export type ReadingProgress = {
+  id: string;
+  month: number;
+  completionPercentage: number;
 };
 
+// If you are using the PrismaBook type directly:
+export type Books = {
+  books: (PrismaBook & {
+    readingProgress: PrismaReadingProgress[];
+  })[];
+};
 const DefaultDashPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearchTerm] = useDebounce(searchTerm, 300);
 
-  const fetchBookQuery = useQuery<BooksResponse>({
+  const fetchBookQuery = useQuery<Books>({
     queryKey: ['books'],
     queryFn: () => fetch(`/api/books/private`).then((res) => res.json()),
   });
@@ -102,9 +113,7 @@ const DefaultDashPage = () => {
           alignItems: 'center',
         }}
       >
-        <div style={{ width: '100%' }}>
-          
-        </div>
+        <div style={{ width: '100%' }}></div>
       </div>
     </div>
   );

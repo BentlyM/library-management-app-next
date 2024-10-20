@@ -29,15 +29,22 @@ export async function GET() {
           title: true,
           author: true,
           summary: true,
+          rating: true,
           genre: true,
           cover: true,
+          readingProgress: {
+            select: {
+              month: true,
+              completionPercentage: true,
+            },
+          },
           createdAt: true,
           updatedAt: true,
         },
       },
     },
   });
-  
+
   revalidatePath('/dashboard');
   return new Response(JSON.stringify(userBooks ? userBooks : []), {
     status: 200,

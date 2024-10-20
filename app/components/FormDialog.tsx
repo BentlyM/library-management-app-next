@@ -6,7 +6,6 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Book } from '@prisma/client';
 import { Box, Typography } from '@mui/material';
 import { DeleteBook } from '../dashboard/_actions/deleteBook';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -16,6 +15,7 @@ import AreaChartComponent from './AreaChart';
 import { Line } from 'rc-progress';
 import GroupedButtons from './GroupedButtons';
 import HoverRating from './HoverRating';
+import { Book } from '../dashboard/_components/BookCard';
 
 interface Props {
   open: boolean;
@@ -24,10 +24,20 @@ interface Props {
   queryKey: string;
 }
 
+const getCurrentMonth = () => new Date().getMonth() + 1;
+
 export default function FormDialog({ open, setOpen, book, queryKey }: Props) {
-  const [value, setValue] = React.useState<number | null>(2);
+  const currentMonth = getCurrentMonth();
+
+  const currentProgress = book.readingProgress?.find(
+    (progress) => progress.month === currentMonth
+  );
+
+  const [value, setValue] = React.useState<number | null>(book.rating);
   const [hover, setHover] = React.useState(-1);
-  const [counter, setCounter] = React.useState(0);
+  const [counter, setCounter] = React.useState(
+    currentProgress?.completionPercentage || 0
+  );
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
@@ -192,8 +202,7 @@ export default function FormDialog({ open, setOpen, book, queryKey }: Props) {
             alignItems: 'center',
           }}
         >
-          {/* Unique chart data could go here */}
-          <AreaChartComponent /> {/* placeholder */}
+          <AreaChartComponent />
         </Box>
         <Box>
           <Typography
