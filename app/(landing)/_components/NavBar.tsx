@@ -43,7 +43,7 @@ export default function NavBar() {
             gap: '5px',
           }}
         >
-          Library Management
+          <a href='/' style={{textDecoration: 'none', color: 'black'}}>Library Management</a>
         </Typography>
         <ul
           className="nav-bar"
@@ -60,7 +60,7 @@ export default function NavBar() {
           <li>
             <Link
               style={{ textDecoration: 'none', color: 'black' }}
-              href={'pricing'}
+              href={'/services'}
             >
               Services
             </Link>

@@ -11,6 +11,7 @@ interface InfoCardType {
   align?: string;
   images?: string[] | undefined;
   color?: string;
+  hasButton?: boolean;
 }
 
 const InfoCard = ({
@@ -22,6 +23,7 @@ const InfoCard = ({
   align,
   images,
   color,
+  hasButton = true,
 }: InfoCardType) => {
   return (
     <>
@@ -36,7 +38,7 @@ const InfoCard = ({
         p={2}
         color={color}
         alignItems={align}
-        textAlign="center" // Center align text
+        textAlign="center"
       >
         {title && (
           <Typography
@@ -47,7 +49,7 @@ const InfoCard = ({
               textAlign: {
                 xs: 'center',
                 sm: 'center',
-                md: 'start',
+                md: 'center',
                 lg: 'start',
                 xl: 'start',
               },
@@ -70,7 +72,7 @@ const InfoCard = ({
             textAlign: {
               xs: align || 'center',
               sm: align || 'center',
-              md: 'start',
+              md: 'center',
               lg: 'start',
               xl: 'start',
             },
@@ -83,7 +85,7 @@ const InfoCard = ({
             textAlign: {
               xs: 'center',
               sm: 'center',
-              md: 'start',
+              md: 'center',
               lg: 'start',
               xl: 'start',
             },
@@ -119,13 +121,13 @@ const InfoCard = ({
               />
             ))}
         </div>
-        <Button
+        {hasButton && <Button
           variant="contained"
           sx={{
-            margin: { xs: '0 auto', md: '0' }, // Center for xs and sm, start for md and up
-            display: 'block', // Ensure it behaves like a block element
-            width: 'fit-content', // Ensure it doesn't stretch
-            textAlign: { xs: 'center', md: 'left' }, // Center text for small, left for larger
+            margin: { xs: '0 auto', md: '0' },
+            display: 'block',
+            width: 'fit-content', 
+            textAlign: { xs: 'center', md: 'left' }, 
           }}
         >
           {title?.toLowerCase() === 'welcome'
@@ -133,7 +135,7 @@ const InfoCard = ({
             : title?.toLowerCase() === 'team'
             ? 'im the team'
             : 'Learn More'}
-        </Button>
+        </Button>}
       </Box>
     </>
   );
