@@ -90,7 +90,7 @@ export default function FormDialog({ open, setOpen, book, queryKey }: Props) {
       }}
     >
       <DialogTitle>Details</DialogTitle>
-      <DialogContent>
+      <DialogContent sx={{padding: 1}}>
         <Box
           sx={{
             display: 'flex',

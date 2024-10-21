@@ -62,6 +62,14 @@ export default async function NavBar() {
             margin: '0',
           }}
         >
+          {user && <li>
+            <Link
+              style={{ textDecoration: 'none', color: 'black' }}
+              href={'/dashboard'}
+            >
+              Dashboard
+            </Link>
+          </li>}
           <li>
             <Link
               style={{ textDecoration: 'none', color: 'black' }}
