@@ -1,12 +1,16 @@
-// components/NavBar.tsx
-'use client';
-
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Link from 'next/link';
 import ThemeToggle from '@/app/components/ThemeToggle';
-export default function NavBar() {
+import { createClient } from '@/utils/supabase/server';
+
+export default async function NavBar() {
+  const supabase = createClient();
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
   return (
     <div className="navigation">
       <Box
@@ -43,7 +47,9 @@ export default function NavBar() {
             gap: '5px',
           }}
         >
-          <a href='/' style={{textDecoration: 'none', color: 'black'}}>Library Management</a>
+          <a href="/" style={{ textDecoration: 'none', color: 'black' }}>
+            Library Management
+          </a>
         </Typography>
         <ul
           className="nav-bar"
@@ -65,22 +71,26 @@ export default function NavBar() {
               Services
             </Link>
           </li>
-          <li>
-            <Link
-              style={{ textDecoration: 'none', color: 'black' }}
-              href={'/login'}
-            >
-              Login
-            </Link>
-          </li>
-          <li>
-            <Link
-              style={{ textDecoration: 'none', color: 'black' }}
-              href={'/register'}
-            >
-              Register
-            </Link>
-          </li>
+          {!user && (
+            <>
+              <li>
+                <Link
+                  style={{ textDecoration: 'none', color: 'black' }}
+                  href={'/login'}
+                >
+                  Login
+                </Link>
+              </li>
+              <li>
+                <Link
+                  style={{ textDecoration: 'none', color: 'black' }}
+                  href={'/register'}
+                >
+                  Register
+                </Link>
+              </li>
+            </>
+          )}
           <li>
             <ThemeToggle />
           </li>

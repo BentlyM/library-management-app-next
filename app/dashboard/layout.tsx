@@ -44,6 +44,10 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
     queryFn: () => fetch('/api/user').then((res) => res.json()),
   });
 
+  if(user.data?.name){
+    localStorage.setItem('user', user.data?.name); // this may happen quicker then the response not sure
+  }
+
   const navigation = [
     { text: 'Home', icon: <ImportContactsIcon />, to: '/dashboard' },
     { text: 'Add Book', icon: <AddBoxIcon />, to: '/dashboard/add' },

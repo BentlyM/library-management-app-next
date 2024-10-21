@@ -4,7 +4,7 @@ import InfoCard from '../(landing)/_components/InfoCard';
 import ServiceTierCard from './_components/ServiceTierCard';
 import FooterContent from '../(landing)/_components/FooterContent';
 
-const ServicePage = () => {
+const ServicePage = async () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100vh'}}>
       <NavBar />

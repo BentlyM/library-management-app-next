@@ -4,15 +4,8 @@ import InfoCard from './_components/InfoCard';
 import { Container } from '@mui/material';
 import FooterContent from './_components/FooterContent';
 import Image from 'next/image';
-import { createClient } from '@/utils/supabase/server';
-import { redirect } from 'next/navigation';
 
 const HomePage = async () => {
-  const supabase = createClient();
-  const { data, error } = await supabase.auth.getUser();
-  if (data.user && !error) {
-    redirect('/dashboard');
-  }
   return (
     <div
       className="home-layout"
