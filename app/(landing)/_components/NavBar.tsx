@@ -9,7 +9,6 @@ export default async function NavBar() {
   const supabase = createClient();
   const {
     data: { user },
-    error,
   } = await supabase.auth.getUser();
   return (
     <div className="navigation">
