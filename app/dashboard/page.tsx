@@ -9,7 +9,14 @@ import {
   Book as PrismaBook,
   ReadingProgress as PrismaReadingProgress,
 } from '@prisma/client';
-import { Box, Skeleton } from '@mui/material';
+import {
+  Box,
+  Skeleton,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+} from '@mui/material';
 import { GenreCountBarChart } from './_components/GenreCountBarChart';
 import CompletionPercentageChart from './_components/CompletionChartProps';
 
@@ -28,6 +35,8 @@ export type Books = {
 const DefaultDashPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearchTerm] = useDebounce(searchTerm, 300);
+  const [selectedGenre, setSelectedGenre] = useState<string>('');
+  const [selectedRating, setSelectedRating] = useState<number | ''>('');
   const dataContainerRef = useRef<HTMLDivElement>(null);
   const [count, setCount] = useState(0);
 
@@ -37,9 +46,18 @@ const DefaultDashPage = () => {
   });
 
   const books = fetchBookQuery.data?.books || [];
-  const filteredBooks = books.filter((book) =>
-    book.title.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
-  );
+
+  const filteredBooks = books.filter((book) => {
+    const matchesSearchTerm = book.title
+      .toLowerCase()
+      .includes(debouncedSearchTerm.toLowerCase());
+    const matchesGenre = selectedGenre ? book.genre === selectedGenre : true;
+    const matchesRating = selectedRating
+      ? book.rating === selectedRating
+      : true;
+
+    return matchesSearchTerm && matchesGenre && matchesRating;
+  });
 
   useEffect(() => {
     if (dataContainerRef.current) {
@@ -57,6 +75,8 @@ const DefaultDashPage = () => {
   }
 
   const noBooks = books.length === 0;
+
+  const genres = Array.from(new Set(books.map((book) => book.genre)));
 
   return (
     <Box
@@ -82,6 +102,50 @@ const DefaultDashPage = () => {
       )}
       {!noBooks && (
         <div style={{ width: '100%', position: 'relative' }}>
+          <ul
+            style={{ display: 'flex', listStyleType: 'none', padding: 0, justifyContent: 'end', margin: 0}}
+          >
+            <li>
+              <FormControl
+                variant="outlined"
+                size="small"
+                style={{ marginRight: '5px' }}
+              >
+                <Select
+                  value={selectedGenre}
+                  onChange={(e) => setSelectedGenre(e.target.value)}
+                  displayEmpty
+                >
+                  <MenuItem value="">
+                    <em>Genre</em>
+                  </MenuItem>
+                  {genres.map((genre) => (
+                    <MenuItem key={genre} value={genre}>
+                      {genre}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </li>
+            <li>
+              <FormControl variant="outlined" size="small">
+                <Select
+                  value={selectedRating}
+                  onChange={(e: any) => setSelectedRating(e.target.value)}
+                  displayEmpty
+                >
+                  <MenuItem value="">
+                    <em>Rating</em>
+                  </MenuItem>
+                  {[1, 2, 3, 4, 5].map((rating) => (
+                    <MenuItem key={rating} value={rating}>
+                      {rating}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </li>
+          </ul>
           <input
             type="text"
             placeholder="Search for a book..."
@@ -144,7 +208,6 @@ const DefaultDashPage = () => {
       >
         {fetchBookQuery.isLoading || fetchBookQuery.isFetching ? (
           <>
-            {' '}
             <Skeleton />
             <Skeleton />
           </>

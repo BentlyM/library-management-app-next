@@ -175,7 +175,7 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
         component="main"
         sx={{
           flexGrow: 1,
-          padding: { md: theme.spacing(3) },
+          padding: { md: theme.spacing(1.5) },
           transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
@@ -183,7 +183,7 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
           marginLeft: open ? 0 : isSmallViewport ? 0 : `-${drawerWidth}px`,
         }}
       >
-        <h1>{title}</h1>
+        <h1 style={{marginBottom: '10px'}}>{title}</h1>
         {children}
       </Box>
     </Box>
