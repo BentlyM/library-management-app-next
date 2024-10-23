@@ -1,14 +1,25 @@
 'use client';
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { useDebounce } from 'use-debounce'; // Import the useDebounce hook
+import { useDebounce } from 'use-debounce';
 import DashCard from './_components/DashCard';
 import BookCard from './_components/BookCard';
 import SkeletonWrapper from '../components/SkeletonWrapper';
 import {
   Book as PrismaBook,
   ReadingProgress as PrismaReadingProgress,
-} from '@prisma/client'; // Adjust the import based on your project structure
+} from '@prisma/client';
+import { Box } from '@mui/material';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from 'recharts';
 
 export type ReadingProgress = {
   id: string;
@@ -16,12 +27,22 @@ export type ReadingProgress = {
   completionPercentage: number;
 };
 
-// If you are using the PrismaBook type directly:
 export type Books = {
   books: (PrismaBook & {
     readingProgress: PrismaReadingProgress[];
   })[];
 };
+
+const mockData = [
+  { name: 'Jan', uv: 4000, pv: 2400 },
+  { name: 'Feb', uv: 3000, pv: 1398 },
+  { name: 'Mar', uv: 2000, pv: 9800 },
+  { name: 'Apr', uv: 2780, pv: 3908 },
+  { name: 'May', uv: 1890, pv: 4800 },
+  { name: 'Jun', uv: 2390, pv: 3800 },
+  { name: 'Jul', uv: 3490, pv: 4300 },
+];
+
 const DefaultDashPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearchTerm] = useDebounce(searchTerm, 300);
@@ -32,7 +53,7 @@ const DefaultDashPage = () => {
   });
 
   if (fetchBookQuery.isLoading) {
-    return <div>Loading...</div>; // prob gonna change this to some sorta dash skeleton for the internet lol
+    return <div>Loading...</div>;
   }
 
   if (fetchBookQuery.isError) {
@@ -47,18 +68,20 @@ const DefaultDashPage = () => {
   const noBooks = books.length === 0;
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        flexDirection: 'row',
-        flexWrap: 'wrap-reverse',
+    <Box
+      sx={{
+        display: 'grid',
+        gridTemplateColumns: {
+          xs: '1fr',
+          sm: 'repeat(2, 1fr)',
+        },
         gap: '2%',
+        overflow: 'hidden',
       }}
     >
       {noBooks && !fetchBookQuery.isFetching && <DashCard />}
       {!noBooks && (
-        <div style={{ width: '45%', position: 'relative' }}>
+        <div style={{ width: '100%', position: 'relative' }}>
           <input
             type="text"
             placeholder="Search for a book..."
@@ -104,18 +127,37 @@ const DefaultDashPage = () => {
           </div>
         </div>
       )}
-      <div
+      <Box
         className="data"
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          width: '45%',
-          alignItems: 'center',
+        sx={{
+          display: 'grid',
+          gridTemplateRows: 'repeat(auto-fill, minmax(200px, 1fr))',
+          gridTemplateColumns: {
+            xs: '1fr',
+            sm:  false ? '1fr' : 'repeat(2, 1fr)', // if there is only one chart of data display one chart fill width
+          },
+          gap: '10px',
+          overflowY: 'auto',
+          maxHeight: '80vh',
         }}
       >
-        <div style={{ width: '100%' }}></div>
-      </div>
-    </div>
+        {Array.from({ length: 2 }).map((_, index) => (
+          <div key={index} style={{ height: '100%' }}>
+            <ResponsiveContainer>
+              <LineChart data={mockData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Line type="monotone" dataKey="uv" stroke="#8884d8" />
+                <Line type="monotone" dataKey="pv" stroke="#82ca9d" />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        ))}
+      </Box>
+    </Box>
   );
 };
 
