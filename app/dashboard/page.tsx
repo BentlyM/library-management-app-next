@@ -11,6 +11,7 @@ import {
 } from '@prisma/client';
 import { Box, Skeleton } from '@mui/material';
 import { GenreCountBarChart } from './_components/GenreCountBarChart';
+import CompletionPercentageChart from './_components/CompletionChartProps';
 
 export type ReadingProgress = {
   id: string;
@@ -73,7 +74,7 @@ const DefaultDashPage = () => {
         <Box
           sx={{
             width: '100%',
-            gridColumn: '1 / -1', 
+            gridColumn: '1 / -1',
           }}
         >
           <DashCard />
@@ -133,7 +134,7 @@ const DefaultDashPage = () => {
           gridTemplateRows: 'repeat(auto-fill, minmax(200px, 1fr))',
           gridTemplateColumns: {
             xs: '1fr',
-            sm: count <= 4 ? '1fr' : 'repeat(2, 1fr)', 
+            sm: count <= 4 ? '1fr' : 'repeat(2, 1fr)',
           },
           gap: '10px',
           overflowY: 'auto',
@@ -142,9 +143,16 @@ const DefaultDashPage = () => {
         ref={dataContainerRef}
       >
         {fetchBookQuery.isLoading || fetchBookQuery.isFetching ? (
-          <Skeleton />
+          <>
+            {' '}
+            <Skeleton />
+            <Skeleton />
+          </>
         ) : (
-          <GenreCountBarChart books={books} />
+          <>
+            <GenreCountBarChart books={books} />
+            <CompletionPercentageChart books={books} />
+          </>
         )}
       </Box>
     </Box>

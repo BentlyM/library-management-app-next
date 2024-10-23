@@ -49,7 +49,7 @@ export function GenreCountBarChart({ books }: Books) {
           flexDirection: 'column',
         }}
       >
-        <span>Genre</span>
+        <span>Genre Read</span>
         <ResponsiveContainer width="100%">
           <BarChart data={genreCounts}>
             <CartesianGrid strokeDasharray="3 3" />

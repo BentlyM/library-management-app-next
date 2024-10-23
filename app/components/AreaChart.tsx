@@ -8,6 +8,8 @@ import {
   YAxis,
   XAxis,
   CartesianGrid,
+  Tooltip,
+  Legend,
 } from 'recharts';
 
 interface MonthlyReadingProgress {
@@ -44,6 +46,8 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
         <YAxis />
         <XAxis dataKey={'month'} />
         <CartesianGrid />
+        <Tooltip />
+        <Legend />
         <Area dataKey={'completionPercentage'} fill="#8884d8" />
       </AreaChart>
     </ResponsiveContainer>
