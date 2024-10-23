@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useDebounce } from 'use-debounce';
 import DashCard from './_components/DashCard';
@@ -9,17 +9,8 @@ import {
   Book as PrismaBook,
   ReadingProgress as PrismaReadingProgress,
 } from '@prisma/client';
-import { Box } from '@mui/material';
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from 'recharts';
+import { Box, Skeleton } from '@mui/material';
+import { GenreCountBarChart } from './_components/GenreCountBarChart';
 
 export type ReadingProgress = {
   id: string;
@@ -33,24 +24,28 @@ export type Books = {
   })[];
 };
 
-const mockData = [
-  { name: 'Jan', uv: 4000, pv: 2400 },
-  { name: 'Feb', uv: 3000, pv: 1398 },
-  { name: 'Mar', uv: 2000, pv: 9800 },
-  { name: 'Apr', uv: 2780, pv: 3908 },
-  { name: 'May', uv: 1890, pv: 4800 },
-  { name: 'Jun', uv: 2390, pv: 3800 },
-  { name: 'Jul', uv: 3490, pv: 4300 },
-];
-
 const DefaultDashPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearchTerm] = useDebounce(searchTerm, 300);
+  const dataContainerRef = useRef<HTMLDivElement>(null);
+  const [count, setCount] = useState(0);
 
   const fetchBookQuery = useQuery<Books>({
     queryKey: ['books'],
     queryFn: () => fetch(`/api/books/private`).then((res) => res.json()),
   });
+
+  const books = fetchBookQuery.data?.books || [];
+  const filteredBooks = books.filter((book) =>
+    book.title.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
+  );
+
+  useEffect(() => {
+    if (dataContainerRef.current) {
+      const childCount = dataContainerRef.current.childElementCount;
+      setCount(childCount);
+    }
+  }, [filteredBooks]);
 
   if (fetchBookQuery.isLoading) {
     return <div>Loading...</div>;
@@ -59,11 +54,6 @@ const DefaultDashPage = () => {
   if (fetchBookQuery.isError) {
     return <div>Error loading books</div>;
   }
-
-  const books = fetchBookQuery.data?.books || [];
-  const filteredBooks = books.filter((book) =>
-    book.title.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
-  );
 
   const noBooks = books.length === 0;
 
@@ -79,7 +69,16 @@ const DefaultDashPage = () => {
         overflow: 'hidden',
       }}
     >
-      {noBooks && !fetchBookQuery.isFetching && <DashCard />}
+      {noBooks && !fetchBookQuery.isFetching && (
+        <Box
+          sx={{
+            width: '100%',
+            gridColumn: '1 / -1', 
+          }}
+        >
+          <DashCard />
+        </Box>
+      )}
       {!noBooks && (
         <div style={{ width: '100%', position: 'relative' }}>
           <input
@@ -134,28 +133,19 @@ const DefaultDashPage = () => {
           gridTemplateRows: 'repeat(auto-fill, minmax(200px, 1fr))',
           gridTemplateColumns: {
             xs: '1fr',
-            sm:  false ? '1fr' : 'repeat(2, 1fr)', // if there is only one chart of data display one chart fill width
+            sm: count <= 4 ? '1fr' : 'repeat(2, 1fr)', 
           },
           gap: '10px',
           overflowY: 'auto',
           maxHeight: '80vh',
         }}
+        ref={dataContainerRef}
       >
-        {Array.from({ length: 2 }).map((_, index) => (
-          <div key={index} style={{ height: '100%' }}>
-            <ResponsiveContainer>
-              <LineChart data={mockData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Line type="monotone" dataKey="uv" stroke="#8884d8" />
-                <Line type="monotone" dataKey="pv" stroke="#82ca9d" />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-        ))}
+        {fetchBookQuery.isLoading || fetchBookQuery.isFetching ? (
+          <Skeleton />
+        ) : (
+          <GenreCountBarChart books={books} />
+        )}
       </Box>
     </Box>
   );
