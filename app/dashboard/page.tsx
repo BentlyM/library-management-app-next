@@ -9,14 +9,7 @@ import {
   Book as PrismaBook,
   ReadingProgress as PrismaReadingProgress,
 } from '@prisma/client';
-import {
-  Box,
-  Skeleton,
-  MenuItem,
-  Select,
-  InputLabel,
-  FormControl,
-} from '@mui/material';
+import { Box, Skeleton, MenuItem, Select, FormControl } from '@mui/material';
 import { GenreCountBarChart } from './_components/GenreCountBarChart';
 import CompletionPercentageChart from './_components/CompletionChartProps';
 
@@ -103,7 +96,13 @@ const DefaultDashPage = () => {
       {!noBooks && (
         <div style={{ width: '100%', position: 'relative' }}>
           <ul
-            style={{ display: 'flex', listStyleType: 'none', padding: 0, justifyContent: 'end', margin: 0}}
+            style={{
+              display: 'flex',
+              listStyleType: 'none',
+              padding: 0,
+              justifyContent: 'end',
+              margin: 0,
+            }}
           >
             <li>
               <FormControl
@@ -131,7 +130,7 @@ const DefaultDashPage = () => {
               <FormControl variant="outlined" size="small">
                 <Select
                   value={selectedRating}
-                  onChange={(e: any) => setSelectedRating(e.target.value)}
+                  onChange={(e) => setSelectedRating(e.target.value as number)}
                   displayEmpty
                 >
                   <MenuItem value="">

@@ -12,16 +12,21 @@ function GroupedButtons({
   const displayCounter = counter > 0;
 
   const handleIncrement = () => {
-    setCounter((count: number) => count + 1); // Correct increment
+    if (counter < 100) {
+      // Prevent incrementing above 100
+      setCounter((count: number) => count + 1);
+    }
   };
 
   const handleDecrement = () => {
-    setCounter((count: number) => Math.max(count - 1, 0)); // Correct decrement, preventing negative values
+    setCounter((count: number) => Math.max(count - 1, 0)); // Prevent negative values
   };
 
   return (
     <ButtonGroup size="small" aria-label="small outlined button group">
-      <Button onClick={handleIncrement}>+</Button>
+      <Button onClick={handleIncrement} disabled={counter >= 100}>
+        +
+      </Button>
       {displayCounter && <Button disabled>{counter}</Button>}
       {displayCounter && <Button onClick={handleDecrement}>-</Button>}
     </ButtonGroup>
