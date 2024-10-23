@@ -38,12 +38,10 @@ const ProfileSettings: React.FC = () => {
       .catch(() => setError('Error fetching profile data.'));
   }, []);
 
-  const mutative = useMutation({})
-
   const handleUpdate = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    
+
   }
 
   const mutation = useMutation({
