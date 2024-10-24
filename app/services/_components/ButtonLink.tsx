@@ -23,7 +23,7 @@ const ButtonLink = ({
       }}
       href={!user ? '/login' : paymentLink}
       onClick={() => {
-        if (paymentLink) {
+        if (paymentLink && !user) {
           localStorage.setItem('stripePaymentLink', paymentLink);
         }
       }}

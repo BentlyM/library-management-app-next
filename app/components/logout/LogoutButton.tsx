@@ -5,6 +5,7 @@ import { logout } from './_actions/logout';
 const LogoutButton = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    localStorage.removeItem('user');
     return logout();
   };
   return (
