@@ -14,7 +14,6 @@ export async function DeleteAccount() {
   }
 
   try {
-    // Fetch the user's books to find related reading progress
     const userWithBooks = await prisma.user.findUnique({
       where: { email: data.user?.email },
       include: { books: { include: { readingProgress: true } } },
@@ -24,7 +23,7 @@ export async function DeleteAccount() {
       return { success: false, message: 'User not found' };
     }
 
-    // Delete all related ReadingProgress entries
+   
     await prisma.readingProgress.deleteMany({
       where: {
         bookId: {
@@ -33,23 +32,21 @@ export async function DeleteAccount() {
       },
     });
 
-    // Delete all books associated with the user
+    
     await prisma.book.deleteMany({
       where: {
         user: {
           some: {
-            email: data.user?.email, // Use 'some' for an array relation
+            email: data.user?.email,
           },
         },
       },
     });
 
-    // Delete the user from the database
     await prisma.user.delete({
       where: { email: data.user?.email },
     });
 
-    // Delete the user from Supabase
     const { error } = await supabase.auth.admin.deleteUser(data.user?.id, true);
 
     if (error) {

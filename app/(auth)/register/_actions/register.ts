@@ -37,6 +37,7 @@ export async function register(formData: FormData) {
   try {
     await prisma.user.create({
       data: {
+        id: (await supabase.auth.getUser()).data.user?.id,
         name: username,
         email,
       },

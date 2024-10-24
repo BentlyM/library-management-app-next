@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 // Define the Zod schema for your form data
 export const registrationSchema = z.object({
-  username: z.string().min(1, 'Username is required'),
+  username: z.string().min(3, 'Username is required'),
   email: z.string().email('Invalid email format'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
   confirmPassword: z.string().min(6, 'Confirm Password must be at least 6 characters'),

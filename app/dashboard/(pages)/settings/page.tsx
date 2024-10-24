@@ -18,8 +18,9 @@ import { DeleteAccount } from './_actions/deleteAccount';
 import { useMutation } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import { UpdateAccount } from './_actions/updateAccount';
 
-const ProfileSettings: React.FC = () => {
+const ProfileSettings = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [currentPassword, setCurrentPassword] = useState('');
@@ -38,11 +39,28 @@ const ProfileSettings: React.FC = () => {
       .catch(() => setError('Error fetching profile data.'));
   }, []);
 
+  const mutative = useMutation({
+    mutationFn: UpdateAccount,
+    onSuccess: (data) => {
+      if (data.success) {
+        toast.success('Account update successfully');
+      } else {
+        toast.error(`Error updating account: ${data.message}`);
+      }
+    },
+    onError: () => toast.error('Internal Server Error'),
+  });
+
   const handleUpdate = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    const formData = new FormData();
+    formData.append('username', username), formData.append('email', email);
+    formData.append('currentPassword', currentPassword);
+    formData.append('newPassword', newPassword);
 
-  }
+    mutative.mutate(formData);
+  };
 
   const mutation = useMutation({
     mutationFn: DeleteAccount,
@@ -89,6 +107,7 @@ const ProfileSettings: React.FC = () => {
             variant="outlined"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
         </Box>
 
@@ -100,6 +119,7 @@ const ProfileSettings: React.FC = () => {
             variant="outlined"
             value={currentPassword}
             onChange={(e) => setCurrentPassword(e.target.value)}
+            required
           />
         </Box>
 
