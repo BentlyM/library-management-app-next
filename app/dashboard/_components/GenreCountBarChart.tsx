@@ -10,13 +10,22 @@ import {
   BarChart,
   Bar,
 } from 'recharts';
+import SubBlur from '@/app/components/SubBlur';
 
 interface GenreCount {
   genre: string;
   count: number;
 }
 
-export function GenreCountBarChart({ books }: Books) {
+interface GenreCountBarChartProps {
+  books: Books['books'];
+  isSubscribed: boolean; // New prop to check subscription status
+}
+
+export function GenreCountBarChart({
+  books,
+  isSubscribed,
+}: GenreCountBarChartProps) {
   const [genreCounts, setGenreCounts] = useState<GenreCount[]>([]);
 
   useEffect(() => {
@@ -47,6 +56,7 @@ export function GenreCountBarChart({ books }: Books) {
           display: 'flex',
           alignItems: 'center',
           flexDirection: 'column',
+          position: 'relative', // Position relative for overlay
         }}
       >
         <span>Genre Read</span>
@@ -60,6 +70,7 @@ export function GenreCountBarChart({ books }: Books) {
             <Bar dataKey="count" fill="#8884d8" barSize={20} />
           </BarChart>
         </ResponsiveContainer>
+        {!isSubscribed && <SubBlur>Subscribe to view this chart</SubBlur>}
       </div>
     )
   );

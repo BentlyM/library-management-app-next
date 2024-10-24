@@ -212,8 +212,8 @@ const DefaultDashPage = () => {
           </>
         ) : (
           <>
-            <GenreCountBarChart books={books} />
-            <CompletionPercentageChart books={books} />
+            <GenreCountBarChart books={books} isSubscribed={false} />
+            <CompletionPercentageChart books={books} isSubscribed={false} />
           </>
         )}
       </Box>

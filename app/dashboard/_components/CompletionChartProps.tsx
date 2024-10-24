@@ -9,8 +9,17 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import { Books } from '../page';
+import SubBlur from '@/app/components/SubBlur';
 
-const CompletionPercentageChart = ({ books }: Books) => {
+interface CompletionPercentageChartProps {
+  books: Books['books'];
+  isSubscribed: boolean; // New prop to check subscription status
+}
+
+const CompletionPercentageChart = ({
+  books,
+  isSubscribed,
+}: CompletionPercentageChartProps) => {
   const totalBooks = books.length;
   const completedBooks = books.filter((book) =>
     book.readingProgress.some(
@@ -30,6 +39,7 @@ const CompletionPercentageChart = ({ books }: Books) => {
           display: 'flex',
           alignItems: 'center',
           flexDirection: 'column',
+          position: 'relative', // Position relative for overlay
         }}
       >
         <span>Books Completed</span>
@@ -42,6 +52,7 @@ const CompletionPercentageChart = ({ books }: Books) => {
             <Bar dataKey="value" fill="#82ca9d" barSize={20} />
           </BarChart>
         </ResponsiveContainer>
+        {!isSubscribed && <SubBlur>Subscribe to view this chart</SubBlur>}
       </div>
     )
   );
