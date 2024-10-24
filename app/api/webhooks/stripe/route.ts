@@ -11,7 +11,7 @@ export async function POST(req: Request) {
 
   try {
     event = stripe.webhooks.constructEvent(body, sig, WEBHOOK_SECRET);
-  } catch (err: any) {
+  } catch (err) {
     if (err instanceof Error) {
       console.error('Webhook signature verification failed.', err.message);
       return new Response(`Webhook Error: ${err.message}`, { status: 400 });
@@ -55,7 +55,7 @@ export async function POST(req: Request) {
             const isSubscription = item.price?.type === 'recurring';
 
             if (isSubscription) {
-              let endDate = new Date();
+              const endDate = new Date();
               if (priceId === process.env.STRIPE_MONTHLY_PRICE_ID!) {
                 endDate.setMonth(endDate.getMonth() + 1);
               } else {
@@ -95,7 +95,7 @@ export async function POST(req: Request) {
       default:
         console.log(`Unhandled Event Type ${event.type}`);
     }
-  } catch (err: any) {
+  } catch (err) {
     if (err instanceof Error) {
       console.error('Error handling event', err);
       return new Response('Webhook Error', { status: 400 });

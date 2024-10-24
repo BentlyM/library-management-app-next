@@ -6,7 +6,6 @@ import { createClient } from '@/utils/supabase/server';
 
 export async function UpdateAccount(formData: FormData) {
   const parsedData = UpdateBookSchema.safeParse({
-    email: formData.get('email'),
     username: formData.get('username'),
     currentPassword: formData.get('currentPassword'),
     newPassword: formData.get('newPassword'),
@@ -33,52 +32,45 @@ export async function UpdateAccount(formData: FormData) {
     password: parsedData.data.currentPassword,
   });
 
-  console.log(userData.user.email);
-
   if (signInError) {
     return { success: false, message: 'Current password is incorrect' };
   }
 
-  // Check if the new email already exists in Prisma
+  // Check if the user exists
   const existingUser = await prisma.user.findUnique({
-    where: { email: parsedData.data.email },
+    where: { id: userData.user.id },
   });
 
-  if (existingUser && existingUser.id !== userData.user.id) {
-    return { success: false, message: 'Email already in use' };
+  if (!existingUser) {
+    return { success: false, message: 'User not found' };
+  }
+
+  // Prepare update data for Prisma
+  const updatedUserData: { name?: string } = {};
+  if (parsedData.data.username) {
+    updatedUserData.name = parsedData.data.username;
   }
 
   // Update user in Prisma
-  const updatedUserData = {
-    name: parsedData.data.username || undefined,
-    email: parsedData.data.email || undefined,
-  };
-
-  // Update user only if there's any change
   await prisma.user.update({
-    where: { id: userData.user.id }, // Use user ID from Supabase
-    data: Object.fromEntries(
-      Object.entries(updatedUserData).filter(([_, v]) => v !== undefined)
-    ),
+    where: { id: userData.user.id },
+    data: updatedUserData,
   });
 
-  // Prepare updates for Supabase
-  const updates: { email?: string; password?: string } = {};
+  // Prepare updates for Supabase (only password)
+  const updates: { password?: string } = {};
   if (parsedData.data.newPassword) {
     updates.password = parsedData.data.newPassword;
   }
-  if (parsedData.data.email !== userData.user.email) {
-    updates.email = parsedData.data.email;
-  }
 
-  // Update email and password in Supabase
-  const { error } = await supabase.auth.updateUser(updates,
-    {emailRedirectTo: '/dashboard'}
-  );
+  // Update password in Supabase
+  const { error } = await supabase.auth.updateUser(updates, {
+    emailRedirectTo: '/dashboard',
+  });
 
   if (error) {
     return { success: false, message: 'Error updating account' };
   }
 
   return { success: true, message: 'Account updated successfully' };
-} // extremely buggy need to fix
+}

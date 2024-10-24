@@ -61,7 +61,7 @@ export function GenreCountBarChart({
       >
         <span>Genre Read</span>
         <ResponsiveContainer width="100%">
-          <BarChart data={genreCounts}>
+          <BarChart data={genreCounts}> {/*i could make it so that the data does not show either but*/}
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="genre" />
             <YAxis />

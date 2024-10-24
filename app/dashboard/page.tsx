@@ -8,6 +8,7 @@ import SkeletonWrapper from '../components/SkeletonWrapper';
 import {
   Book as PrismaBook,
   ReadingProgress as PrismaReadingProgress,
+  User,
 } from '@prisma/client';
 import { Box, Skeleton, MenuItem, Select, FormControl } from '@mui/material';
 import { GenreCountBarChart } from './_components/GenreCountBarChart';
@@ -33,13 +34,17 @@ const DefaultDashPage = () => {
   const [selectedRating, setSelectedRating] = useState<number | ''>('');
   const dataContainerRef = useRef<HTMLDivElement>(null);
   const [count, setCount] = useState(0);
+  const [user, setUser] = useState<User | undefined>(undefined);
 
   useEffect(() => {
     const stripePaymentLink = localStorage.getItem('stripePaymentLink');
     localStorage.removeItem('stripePaymentLink');
-    if(stripePaymentLink){
+    if (stripePaymentLink && user?.plan == 'FREE') {
       redirect(stripePaymentLink);
     }
+    fetch('/api/user')
+      .then((res) => res.json())
+      .then((data: User) => setUser(data));
   }, []);
 
   const fetchBookQuery = useQuery<Books>({
@@ -221,8 +226,14 @@ const DefaultDashPage = () => {
           </>
         ) : (
           <>
-            <GenreCountBarChart books={books} isSubscribed={false} />
-            <CompletionPercentageChart books={books} isSubscribed={false} />
+            <GenreCountBarChart
+              books={books}
+              isSubscribed={user?.plan == 'SUBSCRIPTION' ? true : false}
+            />
+            <CompletionPercentageChart
+              books={books}
+              isSubscribed={user?.plan == 'SUBSCRIPTION' ? true : false}
+            />
           </>
         )}
       </Box>
