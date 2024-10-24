@@ -1,63 +1,85 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
+import { Books } from '../page';
 import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
+  Radar,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  RadarChart,
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
-import { Book as PrismaBook } from '@prisma/client';
+import SubBlur from '@/app/components/SubBlur';
 
-interface RatingChartProps {
-  books: PrismaBook[];
+interface RatingData {
+  genre: string;
+  rating: number; // 1-5
 }
 
-const RatingChart: React.FC<RatingChartProps> = ({ books }) => {
-  
-  const ratingsData = books.map((book) => ({
-    title: book.title,
-    rating: book.rating,
-  }));
+interface RatingRadarChartProps {
+  books: Books['books'];
+  isSubscribed: boolean;
+}
 
-  const maxRating = 5;
+export function RatingRadarChart({
+  books,
+  isSubscribed,
+}: RatingRadarChartProps) {
+  const [ratings, setRatings] = useState<RatingData[]>([]);
 
-  // Create chart data structure
-  const chartData = Array.from({ length: maxRating }, (_, rating) => ({
-    rating: rating + 1,
-    ...ratingsData.reduce((acc, { title, rating: bookRating }) => {
-      acc[title] = bookRating >= rating + 1 ? rating + 1 : 0; 
-      return acc;
-    }, {} as Record<string, number>),
-  }));
+  useEffect(() => {
+    const genreRatings: Record<string, { total: number; count: number }> = {};
 
+    books.forEach((book) => {
+      const { genre, rating } = book;
 
-  const transformedData = chartData.map((data) => ({
-    rating: data.rating,
-    ...Object.fromEntries(
-      Object.entries(data).filter(([key]) => key !== 'rating')
-    ),
-  }));
+      if (!genreRatings[genre]) {
+        genreRatings[genre] = { total: 0, count: 0 };
+      }
+      genreRatings[genre].total += rating;
+      genreRatings[genre].count += 1;
+    });
+
+    const formattedData: RatingData[] = Object.entries(genreRatings).map(
+      ([genre, { total, count }]) => ({
+        genre,
+        rating: total / count, 
+      })
+    );
+
+    setRatings(formattedData);
+  }, [books]);
 
   return (
-    <ResponsiveContainer width="100%">
-      <LineChart data={transformedData}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="title" /> 
-        <YAxis />
-        <Tooltip />
-        {books.map((book) => (
-          <Line
-            key={book.id}
-            type="monotone"
-            dataKey={book.title}
-            stroke="#8884d8"
-          />
-        ))}
-      </LineChart>
-    </ResponsiveContainer>
+    ratings.length !== 0 && (
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: 'column',
+          position: 'relative',
+        }}
+      >
+        <span>Average Ratings by Genre</span>
+        <ResponsiveContainer width="100%">
+          <RadarChart data={ratings}>
+            <PolarGrid />
+            <PolarAngleAxis dataKey="genre" />
+            <PolarRadiusAxis angle={30} domain={[0, 5]} />
+            <Radar
+              name="Average Rating"
+              dataKey="rating"
+              stroke="#8884d8"
+              fill="#8884d8"
+              fillOpacity={0.6}
+            />
+            <Tooltip />
+          </RadarChart>
+        </ResponsiveContainer>
+        {!isSubscribed && (
+          <SubBlur link="/services">Subscribe to view this chart</SubBlur>
+        )}
+      </div>
+    )
   );
-};
-
-export default RatingChart;
+}

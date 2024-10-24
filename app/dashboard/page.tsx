@@ -14,12 +14,8 @@ import { Box, Skeleton, MenuItem, Select, FormControl } from '@mui/material';
 import { GenreCountBarChart } from './_components/GenreCountBarChart';
 import CompletionPercentageChart from './_components/CompletionChartProps';
 import { redirect } from 'next/navigation';
-
-export type ReadingProgress = {
-  id: string;
-  month: number;
-  completionPercentage: number;
-};
+import { RatingRadarChart } from './_components/RatingChart';
+import { RatingDistributionChart } from './_components/RatingDistributionChart';
 
 export type Books = {
   books: (PrismaBook & {
@@ -39,7 +35,7 @@ const DefaultDashPage = () => {
   useEffect(() => {
     const stripePaymentLink = localStorage.getItem('stripePaymentLink');
     localStorage.removeItem('stripePaymentLink');
-    if (stripePaymentLink && user?.plan == 'FREE') {
+    if (stripePaymentLink && user?.plan === 'FREE') {
       redirect(stripePaymentLink);
     }
     fetch('/api/user')
@@ -66,6 +62,10 @@ const DefaultDashPage = () => {
     return matchesSearchTerm && matchesGenre && matchesRating;
   });
 
+  const noBooks = books.length === 0;
+
+  const genres = Array.from(new Set(books.map((book) => book.genre)));
+
   useEffect(() => {
     if (dataContainerRef.current) {
       const childCount = dataContainerRef.current.childElementCount;
@@ -81,10 +81,6 @@ const DefaultDashPage = () => {
     return <div>Error loading books</div>;
   }
 
-  const noBooks = books.length === 0;
-
-  const genres = Array.from(new Set(books.map((book) => book.genre)));
-
   return (
     <Box
       sx={{
@@ -98,12 +94,7 @@ const DefaultDashPage = () => {
       }}
     >
       {noBooks && !fetchBookQuery.isFetching && (
-        <Box
-          sx={{
-            width: '100%',
-            gridColumn: '1 / -1',
-          }}
-        >
+        <Box sx={{ width: '100%', gridColumn: '1 / -1' }}>
           <DashCard />
         </Box>
       )}
@@ -204,39 +195,50 @@ const DefaultDashPage = () => {
           </div>
         </div>
       )}
-      <Box
-        className="data"
-        sx={{
-          display: 'grid',
-          gridTemplateRows: 'repeat(auto-fill, minmax(200px, 1fr))',
-          gridTemplateColumns: {
-            xs: '1fr',
-            sm: count <= 4 ? '1fr' : 'repeat(2, 1fr)',
-          },
-          gap: '10px',
-          overflowY: 'auto',
-          maxHeight: '80vh',
-        }}
-        ref={dataContainerRef}
-      >
-        {fetchBookQuery.isLoading || fetchBookQuery.isFetching ? (
-          <>
-            <Skeleton />
-            <Skeleton />
-          </>
-        ) : (
-          <>
-            <GenreCountBarChart
-              books={books}
-              isSubscribed={user?.plan == 'SUBSCRIPTION' ? true : false}
-            />
-            <CompletionPercentageChart
-              books={books}
-              isSubscribed={user?.plan == 'SUBSCRIPTION' ? true : false}
-            />
-          </>
-        )}
-      </Box>
+      {filteredBooks.length > 0 && (
+        <Box
+          className="data"
+          sx={{
+            display: 'grid',
+            gridTemplateRows: `repeat(${count}, minmax(200px, auto))`,
+            gridTemplateColumns: {
+              xs: '1fr',
+              sm: count <= 4 ? '1fr' : 'repeat(2, 1fr)',
+            },
+            gap: '10px',
+            overflowY: 'auto',
+            maxHeight: '80vh',
+          }}
+          ref={dataContainerRef}
+        >
+          {fetchBookQuery.isLoading || fetchBookQuery.isFetching ? (
+            <>
+              <Skeleton />
+              <Skeleton />
+              <Skeleton />
+            </>
+          ) : (
+            <>
+              <GenreCountBarChart
+                books={books}
+                isSubscribed={user?.plan === 'SUBSCRIPTION'}
+              />
+              <CompletionPercentageChart
+                books={books}
+                isSubscribed={user?.plan === 'SUBSCRIPTION'}
+              />
+              <RatingRadarChart
+                books={books}
+                isSubscribed={user?.plan === 'SUBSCRIPTION'}
+              />
+              <RatingDistributionChart
+                books={books}
+                isSubscribed={user?.plan === 'SUBSCRIPTION'}
+              />
+            </>
+          )}
+        </Box>
+      )}
     </Box>
   );
 };
