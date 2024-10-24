@@ -70,7 +70,9 @@ export function GenreCountBarChart({
             <Bar dataKey="count" fill="#8884d8" barSize={20} />
           </BarChart>
         </ResponsiveContainer>
-        {!isSubscribed && <SubBlur>Subscribe to view this chart</SubBlur>}
+        {!isSubscribed && (
+          <SubBlur link="/services">Subscribe to view this chart</SubBlur>
+        )}
       </div>
     )
   );

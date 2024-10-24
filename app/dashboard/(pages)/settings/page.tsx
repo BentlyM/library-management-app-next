@@ -55,7 +55,8 @@ const ProfileSettings = () => {
     event.preventDefault();
 
     const formData = new FormData();
-    formData.append('username', username), formData.append('email', email);
+    formData.append('username', username);
+    formData.append('email', email);
     formData.append('currentPassword', currentPassword);
     formData.append('newPassword', newPassword);
 

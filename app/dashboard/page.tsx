@@ -12,6 +12,7 @@ import {
 import { Box, Skeleton, MenuItem, Select, FormControl } from '@mui/material';
 import { GenreCountBarChart } from './_components/GenreCountBarChart';
 import CompletionPercentageChart from './_components/CompletionChartProps';
+import { redirect } from 'next/navigation';
 
 export type ReadingProgress = {
   id: string;
@@ -32,6 +33,14 @@ const DefaultDashPage = () => {
   const [selectedRating, setSelectedRating] = useState<number | ''>('');
   const dataContainerRef = useRef<HTMLDivElement>(null);
   const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    const stripePaymentLink = localStorage.getItem('stripePaymentLink');
+    localStorage.removeItem('stripePaymentLink');
+    if(stripePaymentLink){
+      redirect(stripePaymentLink);
+    }
+  }, []);
 
   const fetchBookQuery = useQuery<Books>({
     queryKey: ['books'],

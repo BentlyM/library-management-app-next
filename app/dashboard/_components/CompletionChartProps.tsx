@@ -52,7 +52,7 @@ const CompletionPercentageChart = ({
             <Bar dataKey="value" fill="#82ca9d" barSize={20} />
           </BarChart>
         </ResponsiveContainer>
-        {!isSubscribed && <SubBlur>Subscribe to view this chart</SubBlur>}
+        {!isSubscribed && <SubBlur link='/services'>Subscribe to view this chart</SubBlur>}
       </div>
     )
   );

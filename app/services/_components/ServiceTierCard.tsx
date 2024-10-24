@@ -1,19 +1,26 @@
+import { createClient } from '@/utils/supabase/server';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import React from 'react';
+import ButtonLink from './ButtonLink';
 
-const ServiceTierCard = ({
+const ServiceTierCard = async ({
   title,
   tierRate,
   sentence,
   perks,
+  paymentLink,
 }: {
   title: string;
   tierRate: number;
   sentence: string;
   perks: string[];
+  paymentLink: string;
 }) => {
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   return (
       <Box
         sx={{
@@ -69,18 +76,7 @@ const ServiceTierCard = ({
             <li key={perk}>✔️ {perk}</li>
           ))}
         </ul>
-        <Button
-          variant="contained"
-          sx={{
-            margin: { xs: '0 auto', md: '0' },
-            display: 'block',
-            width: 'fit-content',
-          }}
-        >
-          {title?.toLowerCase() === 'basic'
-            ? 'Explore'
-            : 'unavailable'}
-        </Button>
+        <ButtonLink user={user} paymentLink={paymentLink} title={title}/>
       </Box>
   );
 };

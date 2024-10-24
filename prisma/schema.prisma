@@ -12,6 +12,11 @@ model User {
   name      String?
   email     String   @unique
   books     Book[]   @relation("UserBooks")
+  plan      Plan     @default(FREE)
+  
+  customerId String? @unique
+  Subscription Subscription?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 }
@@ -38,4 +43,28 @@ model ReadingProgress {
   book      Book     @relation("BookReadingProgress", fields: [bookId], references: [id])
 
   @@unique([bookId, month]) 
+}
+
+enum Plan {
+  FREE
+  SUBSCRIPTION
+}
+
+enum SubscriptionPeriod {
+  MONTHLY
+}
+
+model Subscription {
+  id String  @id @default(uuid()) @unique
+  userId String @unique
+  plan Plan
+  period SubscriptionPeriod
+
+  startDate DateTime @default(now())
+  endDate DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  User User @relation(fields: [userId], references: [id])
 }

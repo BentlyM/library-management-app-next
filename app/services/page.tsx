@@ -6,7 +6,14 @@ import FooterContent from '../(landing)/_components/FooterContent';
 
 const ServicePage = async () => {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100vh'}}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        height: '100vh',
+      }}
+    >
       <NavBar />
       <InfoCard
         title={'Plans'}
@@ -38,6 +45,7 @@ const ServicePage = async () => {
             'User Community: Access to a forums',
             'Email Newsletter: Monthly updates with reading tips and highlights.',
           ]}
+          paymentLink={process.env.STRIPE_MONTHLY_PLAN_LINK!}
         />
         <ServiceTierCard
           title={'Premium'}
@@ -51,6 +59,7 @@ const ServicePage = async () => {
             'Book Recommendations: Tailored recommendation',
             'Exclusive Content: Access to articles, interviews, and podcasts with authors and book experts.',
           ]}
+          paymentLink={''}
         />
         <ServiceTierCard
           title={'Pro'}
@@ -65,6 +74,7 @@ const ServicePage = async () => {
             'User Community: Access to a forums',
             'Email Newsletter: Monthly updates with reading tips and highlights.',
           ]}
+          paymentLink={''}
         />
       </div>
       <FooterContent />
