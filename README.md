@@ -10,18 +10,18 @@ A full-stack SaaS application for managing book libraries, built using Next.js, 
 * User Login and Authentication
 * User/Book details
 * Book Management: create, update, delete
-
+* User Chart Data
 -----------------
 
 ### User Authentication
 
-* `POST /auth/register`: Register a new user.
-* `POST /auth/login`: Log in with a registered user.
+* `POST /register`: Register a new user.
+* `POST /login`: Log in with a registered user.
 
 ### Book Management
 
 * `GET /books/`: List of all available books.
-* `GET /books/search?{title=?,available=? }`: Update book details.
+* `GET /books/search?{title=?,summary=?,author=?}`: Update book details. 
 * `POST /books/`: Add a new book.
 * `PUT /books/`: Update book details.
 * `DELETE /books/`: Delete a book from database.
@@ -29,7 +29,7 @@ A full-stack SaaS application for managing book libraries, built using Next.js, 
 ## Technologies Used
 --------------------
 * Next.js
-* Node.js
+* useQuery
 * supabase (mostly for auth)
 * postgres/prisma
 
