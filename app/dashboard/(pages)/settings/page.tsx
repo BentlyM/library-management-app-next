@@ -144,6 +144,16 @@ const ProfileSettings = () => {
         >
           {mutation.isPending ? <CircularProgress size={24} /> : 'Save Changes'}
         </Button>
+        <Button
+          type="button"
+          variant="outlined"
+          color="primary"
+          disabled={mutation.isPending}
+          sx={{ marginTop: 2, marginLeft: 2, padding: '12px 32px' }}
+          href={process.env.NEXT_PUBLIC_STRIPE_CUSTOMER_PORT_URL!}
+        >
+          billing
+        </Button>
       </form>
 
       <Divider sx={{ my: 2 }} />
