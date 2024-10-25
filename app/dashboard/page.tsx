@@ -195,7 +195,7 @@ const DefaultDashPage = () => {
           </div>
         </div>
       )}
-      {filteredBooks.length > 0 && (
+      {!noBooks && (
         <Box
           className="data"
           sx={{
