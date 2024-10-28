@@ -1,5 +1,6 @@
 'use server';
 import prisma from '@/app/lib/prisma';
+import { createClient } from '@/utils/supabase/server';
 
 export async function updateBook(formData: FormData) {
   if (!formData) return { success: false, message: 'Unable to Config Data...' };
@@ -20,13 +21,12 @@ export async function updateBook(formData: FormData) {
     ...(newRating ? { rating: newRating } : {}),
   };
 
-  const currentMonth = new Date().getMonth() + 1; // 1-indexed up (1-12)
+  const currentMonth = new Date().getMonth() + 1;
 
   const updatedProgressData = {
     completionPercentage: newProgress,
   };
 
-  // Check if progress entry exists for the current month
   const existingProgress = await prisma.readingProgress.findUnique({
     where: {
       bookId_month: {
@@ -68,4 +68,58 @@ export async function updateBook(formData: FormData) {
   }
 
   return { success: true, data: updatedBook };
+}
+
+export async function updatePermissions(formData: FormData) {
+  const bookId = formData.get('bookId') as string;
+  const isPublic = formData.get('isPublic') === 'true';
+  const supabase = createClient();
+
+  const userId = (await supabase.auth.getUser()).data.user?.id;
+
+  if (!bookId || !userId) {
+    if (!userId) {
+      return { success: false, message: 'userID is required' };
+    } else {
+      return { success: false, message: 'bookID is required' };
+    }
+  }
+
+  const existingPermission = await prisma.bookPermission.findUnique({
+    where: {
+      userId_bookId: {
+        userId,
+        bookId,
+      },
+    },
+  });
+
+  if (existingPermission) {
+    await prisma.bookPermission.update({
+      where: {
+        id: existingPermission.id,
+      },
+      data: {
+        isPublic,
+      },
+    });
+
+    return {
+      success: true,
+      message: 'Permissions updated successfully',
+    };
+  } else {
+    await prisma.bookPermission.create({
+      data: {
+        userId,
+        bookId,
+        isPublic,
+      },
+    });
+
+    return {
+      success: true,
+      message: 'Permissions created successfully',
+    };
+  }
 }

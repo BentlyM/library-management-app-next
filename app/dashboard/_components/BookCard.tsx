@@ -6,6 +6,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import FormDialog from '@/app/components/FormDialog';
+import ShareSettingsDialog from '@/app/components/ShareSettingsDialog'; // Import your new component
 import { Box } from '@mui/material';
 import { ReadingProgress } from '@prisma/client';
 
@@ -21,14 +22,18 @@ export type Book = {
   updatedAt: Date;
 } & {
   readingProgress: ReadingProgress[];
-}
+};
 
-
-export default function BookCard({ book }: { book: Book}) {
+export default function BookCard({ book }: { book: Book }) {
   const [open, setOpen] = React.useState(false);
+  const [shareOpen, setShareOpen] = React.useState(false); // State for share settings dialog
 
   const handleOpen = () => {
     setOpen(true);
+  };
+
+  const handleShareOpen = () => {
+    setShareOpen(true);
   };
 
   return (
@@ -75,13 +80,15 @@ export default function BookCard({ book }: { book: Book}) {
           justifyContent="center"
           alignItems="center"
           sx={{
-            flexDirection: { xs: 'column', sm: 'row' }, // Stack on small screens
-            padding: '1rem', // Padding around the buttons
-            width: '100%', // Full width
-            margin: '0 auto', // Center the box
+            flexDirection: { xs: 'column', sm: 'row' },
+            padding: '1rem',
+            width: '100%',
+            margin: '0 auto',
           }}
         >
-          <Button size="small">Share</Button>
+          <Button size="small" onClick={handleShareOpen}>
+            Share
+          </Button>{' '}
           <Button onClick={handleOpen}>Details</Button>
         </Box>
         <FormDialog
@@ -89,6 +96,15 @@ export default function BookCard({ book }: { book: Book}) {
           setOpen={setOpen}
           book={book}
           queryKey="books"
+        />
+        <ShareSettingsDialog
+          open={shareOpen}
+          setOpen={setShareOpen}
+          permissions={{
+            bookId: book.id,
+            isPublic: false,
+          }}
+          queryKey="permissions"
         />
       </CardActions>
     </Card>
