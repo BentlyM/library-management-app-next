@@ -81,7 +81,6 @@ export default function BookCard({ book }: { book: Book}) {
             margin: '0 auto', // Center the box
           }}
         >
-          <Button size="small">Share</Button>
           <Button onClick={handleOpen}>Details</Button>
         </Box>
         <FormDialog
