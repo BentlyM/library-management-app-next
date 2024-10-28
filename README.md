@@ -1,7 +1,7 @@
 # SaaS Book Library Management System
 =====================================
 
-A full-stack SaaS application for managing book libraries, built using Next.js, React Query, and MUI
+A full-stack SaaS application for managing book libraries, built using Next.js, React Query, stripe, and MUI
 
 ## Functionality
 ---------------
