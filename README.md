@@ -8,10 +8,9 @@ A full-stack SaaS application for managing book libraries, built using Next.js, 
 
 * User Registration
 * User Login and Authentication
-* User/Book details
-* Book Management: create, update, delete
-* User Chart Data
-* full crud usage 
+* User/Book details: read, update
+* Book Management: create, read ,update, delete
+* User Chart Data: read, update, (delete in relation to book)
 -----------------
 
 ### User Authentication
