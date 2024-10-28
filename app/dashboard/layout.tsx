@@ -15,8 +15,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import AddBoxIcon from '@mui/icons-material/AddBox';
-import BookIcon from '@mui/icons-material/Book';
-import SendIcon from '@mui/icons-material/Send';
 import ImportContactsIcon from '@mui/icons-material/ImportContacts';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Link from 'next/link';
