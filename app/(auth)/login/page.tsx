@@ -9,13 +9,21 @@ import {
   Button,
   FormControlLabel,
   Link,
+  InputAdornment,
+  IconButton,
+  OutlinedInput,
+  InputLabel,
+  FormControl,
 } from '@mui/material';
 import { login } from './_actions/login';
 import toast from 'react-hot-toast';
 import { useMutation } from '@tanstack/react-query';
 import Image from 'next/image';
+import { useState } from 'react';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const Login = () => {
+  const [showPassword, setShowPassword] = useState(false);
   const mutation = useMutation({
     mutationFn: login,
     onSuccess: (data) => {
@@ -45,6 +53,10 @@ const Login = () => {
 
     target.email.value = '';
     target.password.value = '';
+  };
+
+  const handleClickShowPassword = () => {
+    setShowPassword((prev) => !prev);
   };
   return (
     <Container
@@ -141,17 +153,29 @@ const Login = () => {
                 required
               />
             </Box>
-            <Box sx={{ mb: 2 }}>
-              <TextField
+            <FormControl sx={{ m: 1 }} variant="outlined">
+              <InputLabel htmlFor="password">Password</InputLabel>
+              <OutlinedInput
                 fullWidth
                 sx={{ width: '250px' }}
                 label="Password"
-                variant="outlined"
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 name="password"
+                id="password"
                 required
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={handleClickShowPassword}
+                      onMouseDown={(e) => e.preventDefault()} // Prevent focus loss
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
               />
-            </Box>
+            </FormControl>
             <FormControlLabel
               control={<Checkbox name="remember-me" color="primary" />}
               label="Remember me"

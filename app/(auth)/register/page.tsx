@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Container,
   Box,
@@ -10,13 +10,21 @@ import {
   Button,
   FormControlLabel,
   Link,
+  FormControl,
+  InputLabel,
+  OutlinedInput,
+  InputAdornment,
+  IconButton,
 } from '@mui/material';
 import { register } from './_actions/register';
 import { useMutation } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import Image from 'next/image';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const SignUp = () => {
+  const [showPassword, setShowPassword] = useState(false);
+
   const mutation = useMutation({
     mutationFn: register,
     onSuccess: (data) => {
@@ -50,6 +58,10 @@ const SignUp = () => {
     target.email.value = '';
     target.password.value = '';
     target.confirmPassword.value = '';
+  };
+
+  const handleClickShowPassword = () => {
+    setShowPassword((prev) => !prev);
   };
 
   return (
@@ -127,28 +139,54 @@ const SignUp = () => {
                   required
                 />
               </Box>
-              <Box sx={{ mb: 2 }}>
-                <TextField
+              <FormControl sx={{ mb: 2 }} variant="outlined">
+                <InputLabel htmlFor="password">Password *</InputLabel>
+                <OutlinedInput
                   fullWidth
                   sx={{ width: '250px' }}
                   label="Password"
-                  variant="outlined"
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   name="password"
+                  id="password"
                   required
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={handleClickShowPassword}
+                        onMouseDown={(e) => e.preventDefault()} // Prevent focus loss
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
                 />
-              </Box>
-              <Box sx={{ mb: 2 }}>
-                <TextField
+              </FormControl>
+
+              <FormControl sx={{ mb: 2 }} variant="outlined">
+                <InputLabel htmlFor="confirmPassword">
+                  Repeat Password *
+                </InputLabel>
+                <OutlinedInput
                   fullWidth
                   sx={{ width: '250px' }}
                   label="Repeat Password"
-                  variant="outlined"
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   name="confirmPassword"
                   required
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={handleClickShowPassword}
+                        onMouseDown={(e) => e.preventDefault()} // Prevent focus loss
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
                 />
-              </Box>
+              </FormControl>
 
               <FormControlLabel
                 control={<Checkbox name="agree-term" color="primary" />}

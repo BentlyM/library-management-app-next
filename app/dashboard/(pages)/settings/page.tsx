@@ -12,6 +12,11 @@ import {
   DialogTitle,
   CircularProgress,
   Divider,
+  FormControl,
+  InputLabel,
+  OutlinedInput,
+  InputAdornment,
+  IconButton,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { DeleteAccount } from './_actions/deleteAccount';
@@ -19,10 +24,12 @@ import { useMutation } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { UpdateAccount } from './_actions/updateAccount';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const ProfileSettings = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
@@ -43,7 +50,7 @@ const ProfileSettings = () => {
     mutationFn: UpdateAccount,
     onSuccess: (data) => {
       if (data.success) {
-        toast.success('Account update successfully');
+        toast.success('Account updated successfully');
       } else {
         toast.error(`Error updating account: ${data.message}`);
       }
@@ -70,13 +77,17 @@ const ProfileSettings = () => {
         toast.success('Account deleted successfully');
         router.push('/login');
       } else {
-        toast.error('Error Deleting account');
+        toast.error('Error deleting account');
       }
     },
     onError: () => {
       toast.error('Internal server error...');
     },
   });
+
+  const handleClickShowPassword = () => {
+    setShowPassword((prev) => !prev);
+  };
 
   return (
     <Box
@@ -112,28 +123,53 @@ const ProfileSettings = () => {
           />
         </Box>
 
-        <Box mb={3}>
-          <TextField
-            fullWidth
-            label="Current Password"
-            type="password"
-            variant="outlined"
+        <FormControl sx={{ mb: 3 }} variant="outlined" fullWidth>
+          <InputLabel htmlFor="current-password">Current Password *</InputLabel>
+          <OutlinedInput
             value={currentPassword}
-            onChange={(e) => setCurrentPassword(e.target.value)}
+            label="Current Password"
+            type={showPassword ? 'text' : 'password'}
+            name="current-password"
+            id="current-password"
             required
+            onChange={(e) => setCurrentPassword(e.target.value)}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={handleClickShowPassword}
+                  onMouseDown={(e) => e.preventDefault()} // Prevent focus loss
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
           />
-        </Box>
+        </FormControl>
 
-        <Box mb={3}>
-          <TextField
-            fullWidth
-            label="New Password"
-            type="password"
-            variant="outlined"
+        <FormControl sx={{ mb: 3 }} variant="outlined" fullWidth>
+          <InputLabel htmlFor="new-password">New Password *</InputLabel>
+          <OutlinedInput
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
+            label="New Password"
+            type={showPassword ? 'text' : 'password'}
+            name="new-password"
+            id="new-password"
+            required
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={handleClickShowPassword}
+                  onMouseDown={(e) => e.preventDefault()} // Prevent focus loss
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
           />
-        </Box>
+        </FormControl>
 
         <Button
           type="submit"
@@ -152,7 +188,7 @@ const ProfileSettings = () => {
           sx={{ marginTop: 2, marginLeft: 2, padding: '12px 32px' }}
           href={process.env.NEXT_PUBLIC_STRIPE_CUSTOMER_PORT_URL!}
         >
-          billing
+          Billing
         </Button>
       </form>
 
@@ -182,24 +218,18 @@ const ProfileSettings = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpenDeleteDialog(false)}>Cancel</Button>
-          <button
-            color="red"
+          <Button
+            color="error"
             disabled={mutation.isPending}
             onClick={() => mutation.mutate()}
-            style={{
-              backgroundColor: 'transparent',
-              border: '1px solid transparent',
-              fontSize: '16px',
-              color: '#1565c0',
-              cursor: 'pointer',
-            }}
+            variant="outlined"
           >
             {mutation.isPending ? (
               <CircularProgress size={24} />
             ) : (
               'Delete Account'
             )}
-          </button>
+          </Button>
         </DialogActions>
       </Dialog>
     </Box>
