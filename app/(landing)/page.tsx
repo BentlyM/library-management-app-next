@@ -29,6 +29,7 @@ const HomePage = async () => {
           titleHook="Welcome to Our Library Management System!"
           sentence="We're glad you're here! Our library management system is designed to make it easy for you to manage your book collections, discover books, and access your account information. Take a look around and explore our features to get started!"
           width={'450px'}
+          align='center'
         />
         <Image
           src="/image/book-reading.svg"

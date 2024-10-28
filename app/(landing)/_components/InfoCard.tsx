@@ -82,6 +82,10 @@ const InfoCard = ({
         </Typography>
         <Typography
           sx={{
+            width: {
+              xs: '90vw',
+              sm: width
+            },
             textAlign: {
               xs: 'center',
               sm: 'center',
