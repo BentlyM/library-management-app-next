@@ -16,11 +16,11 @@ html[data-theme='dark'] {
 }
 
 .home-layout {
-  min-height: 100vh; /* Ensure it takes full height */
+  min-height: 100vh; 
 }
 
 .main-content {
-  background-color: inherit; /* Inherit background from the body */
+  background-color: inherit; 
 }
 
 div {
