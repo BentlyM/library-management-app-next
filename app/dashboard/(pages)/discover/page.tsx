@@ -15,7 +15,10 @@ const DiscoverPage = () => {
   return (
     <Box
       sx={{
-        width: `calc(98vw - ${open ? drawerWidth : 0}px)`,
+        width: {
+          xs: '98vw',
+          md: `calc(98vw - ${open ? drawerWidth : 0}px)`
+        },
         border: '1px dotted red',
         padding: '10px',
       }}
