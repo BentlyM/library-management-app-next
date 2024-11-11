@@ -133,7 +133,7 @@ const Carousel = ({
           paddingRight:
             index === children.length - 1 ? undefined : `${cardDist}px`,
           zIndex: children.length - index,
-          minHeight: !isVisible ? cardWidthRef.current : undefined,
+          minHeight: !isVisible ? 'fit-content' : undefined,
           minWidth: !isVisible ? cardWidthRef.current : undefined,
         }}
         className="card"

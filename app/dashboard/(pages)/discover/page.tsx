@@ -5,39 +5,42 @@ import { Box } from '@mui/system';
 import React, { useState } from 'react';
 import Carousel from './_components/Carousel/Carousel';
 import SampleCard from './_components/TestCards/SampleCard';
+import { useDrawer } from '@/app/components/providers/DrawerProvider';
 
 const DiscoverPage = () => {
   const [collapsed, setCollapsed] = useState<boolean>(false);
 
+  const { open, drawerWidth } = useDrawer();
+
   return (
+    <Box
+      sx={{
+        width: `calc(98vw - ${open ? drawerWidth : 0}px)`,
+        border: '1px dotted red',
+        padding: '10px',
+      }}
+    >
+      <Button color="primary" onClick={() => setCollapsed(!collapsed)}>
+        Collapse
+      </Button>
+
       <Box
-        sx={{
-          maxWidth: '98vw',
+        style={{
+          padding: '15px 0',
+          margin: '10px 0',
           border: '1px dotted red',
-          padding: '10px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
       >
-        <Button color="primary" onClick={() => setCollapsed(!collapsed)}>
-          Collapse
-        </Button>
-
-        <Box
-          style={{
-            padding: '15px 0',
-            margin: '10px 0',
-            border: '1px dotted red',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <Carousel>
-            {['','',',','','','',',','',''].map((_, index) => (
-              <SampleCard key={index} />
-            ))}
-          </Carousel>
-        </Box>
+        <Carousel>
+          {['', '', ',', '', '', '', ',', '', ''].map((_, index) => (
+            <SampleCard key={index} />
+          ))}
+        </Carousel>
       </Box>
+    </Box>
   );
 };
 

@@ -23,17 +23,17 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import LogoutButton from '../components/logout/LogoutButton';
-
-const drawerWidth = 240;
+import { useDrawer } from '../components/providers/DrawerProvider';
 
 const Dashboard = ({ children }: { children: React.ReactNode }) => {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
   const pathname = usePathname()
     .split('/')
     .filter((index) => index !== '');
   const [title, setTitle] = React.useState('');
   const [isSmallViewport, setIsSmallViewport] = React.useState(false);
+
+  const { open, setOpen, drawerWidth } = useDrawer();
 
   const user = useQuery<{
     id: string;
@@ -44,7 +44,7 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
     queryFn: () => fetch('/api/user').then((res) => res.json()),
   });
 
-  if(user.data?.name){
+  if (user.data?.name) {
     localStorage.setItem('user', user.data?.name); // this may happen quicker then the response not sure
   }
 
@@ -142,10 +142,7 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
         <Divider />
         <List sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
           {navigation.map((item) => (
-            <ListItem
-              key={item.text}
-              disablePadding
-            >
+            <ListItem key={item.text} disablePadding>
               <Link
                 href={item.to}
                 style={{
@@ -183,7 +180,7 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
           marginLeft: open ? 0 : isSmallViewport ? 0 : `-${drawerWidth}px`,
         }}
       >
-        <h1 style={{marginBottom: '10px'}}>{title}</h1>
+        <h1 style={{ marginBottom: '10px' }}>{title}</h1>
         {children}
       </Box>
     </Box>
