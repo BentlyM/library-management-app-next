@@ -6,18 +6,28 @@ import React, { useState } from 'react';
 import Carousel from './_components/Carousel/Carousel';
 import SampleCard from './_components/TestCards/SampleCard';
 import { useDrawer } from '@/app/components/providers/DrawerProvider';
+import { useQuery } from '@tanstack/react-query';
+import { Books } from '../../page';
 
 const DiscoverPage = () => {
   const [collapsed, setCollapsed] = useState<boolean>(false);
-
   const { open, drawerWidth } = useDrawer();
+
+  const fetchPublicBookQuery = useQuery<Books>({
+    queryKey: ['public-books'],
+    queryFn: () => fetch(`/api/books/public`).then((res) => res.json()),
+  });
+
+  const books = fetchPublicBookQuery.data?.books || []
+
+  console.log(books);
 
   return (
     <Box
       sx={{
         width: {
           xs: '98vw',
-          md: `calc(98vw - ${open ? drawerWidth : 0}px)`
+          md: `calc(98vw - ${open ? drawerWidth : 0}px)`,
         },
         border: '1px dotted red',
         padding: '10px',
@@ -38,8 +48,12 @@ const DiscoverPage = () => {
         }}
       >
         <Carousel>
-          {['', '', ',', '', '', '', ',', '', ''].map((_, index) => (
-            <SampleCard key={index} />
+          {books.map((data, index) => (
+            <SampleCard
+              key={index}
+              title={data.title}
+              coverUrl={data.cover}
+            />
           ))}
         </Carousel>
       </Box>

@@ -32,7 +32,6 @@ model Book {
   cover            String
   rating           Int                 @default(2)
   user             User[]              @relation("UserBooks")
-  permissions      BookPermission[]    @relation("BookPermissions")
   createdAt        DateTime            @default(now())
   updatedAt        DateTime            @default(now()) @updatedAt
   readingProgress   ReadingProgress[]   @relation("BookReadingProgress")
@@ -61,7 +60,6 @@ model BookPermission {
   book       Book     @relation(fields: [bookId], references: [id])
 
   @@unique([userId, bookId])
-  Book Book[] @relation("BookPermissions")
 }
 
 enum Plan {
