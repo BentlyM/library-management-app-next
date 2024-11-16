@@ -13,7 +13,7 @@ import SubBlur from '@/app/components/SubBlur';
 
 interface CompletionPercentageChartProps {
   books: Books['books'];
-  isSubscribed: boolean; // New prop to check subscription status
+  isSubscribed: boolean; 
 }
 
 const CompletionPercentageChart = ({
@@ -39,7 +39,7 @@ const CompletionPercentageChart = ({
           display: 'flex',
           alignItems: 'center',
           flexDirection: 'column',
-          position: 'relative', // Position relative for overlay
+          position: 'relative', 
         }}
       >
         <span>Books Completed</span>

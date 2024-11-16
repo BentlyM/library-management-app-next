@@ -5,8 +5,8 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import FormDialog from '@/app/components/FormDialog';
-import ShareSettingsDialog from '@/app/components/ShareSettingsDialog'; // Import your new component
+import FormDialog from '@/app/components/BookDetails';
+import ShareSettingsDialog from '@/app/components/ShareSettingsDialog';
 import { Box } from '@mui/material';
 import { ReadingProgress } from '@prisma/client';
 
@@ -26,7 +26,7 @@ export type Book = {
 
 export default function BookCard({ book }: { book: Book }) {
   const [open, setOpen] = React.useState(false);
-  const [shareOpen, setShareOpen] = React.useState(false); // State for share settings dialog
+  const [shareOpen, setShareOpen] = React.useState(false); 
 
   const handleOpen = () => {
     setOpen(true);

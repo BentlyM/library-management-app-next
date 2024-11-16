@@ -13,13 +13,12 @@ function GroupedButtons({
 
   const handleIncrement = () => {
     if (counter < 100) {
-      // Prevent incrementing above 100
       setCounter((count: number) => count + 1);
     }
   };
 
   const handleDecrement = () => {
-    setCounter((count: number) => Math.max(count - 1, 0)); // Prevent negative values
+    setCounter((count: number) => Math.max(count - 1, 0));
   };
 
   return (

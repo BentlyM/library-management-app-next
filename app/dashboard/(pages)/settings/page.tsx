@@ -137,7 +137,7 @@ const ProfileSettings = () => {
               <InputAdornment position="end">
                 <IconButton
                   onClick={handleClickShowPassword}
-                  onMouseDown={(e) => e.preventDefault()} // Prevent focus loss
+                  onMouseDown={(e) => e.preventDefault()} 
                   edge="end"
                 >
                   {showPassword ? <VisibilityOff /> : <Visibility />}
@@ -161,7 +161,7 @@ const ProfileSettings = () => {
               <InputAdornment position="end">
                 <IconButton
                   onClick={handleClickShowPassword}
-                  onMouseDown={(e) => e.preventDefault()} // Prevent focus loss
+                  onMouseDown={(e) => e.preventDefault()} 
                   edge="end"
                 >
                   {showPassword ? <VisibilityOff /> : <Visibility />}

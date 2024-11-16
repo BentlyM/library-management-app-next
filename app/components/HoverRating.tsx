@@ -33,10 +33,10 @@ export default function HoverRating({
         value={value}
         precision={1}
         getLabelText={getLabelText}
-        onChange={(event, newValue) => {
+        onChange={(_, newValue) => {
           setValue(newValue);
         }}
-        onChangeActive={(event, newHover) => {
+        onChangeActive={(_, newHover) => {
           setHover(newHover);
         }}
         emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}

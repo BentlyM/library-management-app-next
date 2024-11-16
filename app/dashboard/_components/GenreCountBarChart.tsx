@@ -19,7 +19,7 @@ interface GenreCount {
 
 interface GenreCountBarChartProps {
   books: Books['books'];
-  isSubscribed: boolean; // New prop to check subscription status
+  isSubscribed: boolean;
 }
 
 export function GenreCountBarChart({
@@ -56,12 +56,12 @@ export function GenreCountBarChart({
           display: 'flex',
           alignItems: 'center',
           flexDirection: 'column',
-          position: 'relative', // Position relative for overlay
+          position: 'relative', 
         }}
       >
         <span>Genre Read</span>
         <ResponsiveContainer width="100%">
-          <BarChart data={genreCounts}> {/*i could make it so that the data does not show either but*/}
+          <BarChart data={genreCounts}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="genre" />
             <YAxis />

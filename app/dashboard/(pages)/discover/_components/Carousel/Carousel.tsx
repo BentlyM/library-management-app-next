@@ -42,7 +42,6 @@ const Carousel = ({
     updateCardWidth();
     window.addEventListener('resize', updateCardWidth);
 
-    // IntersectionObserver setup
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {

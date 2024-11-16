@@ -45,7 +45,7 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
   });
 
   if (user.data?.name) {
-    localStorage.setItem('user', user.data?.name); // this may happen quicker then the response not sure
+    localStorage.setItem('user', user.data?.name);
   }
 
   const navigation = [
