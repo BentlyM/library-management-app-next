@@ -8,6 +8,7 @@ import SampleCard from './_components/TestCards/SampleCard';
 import { useDrawer } from '@/app/components/providers/DrawerProvider';
 import { useQuery } from '@tanstack/react-query';
 import { Books } from '../../page';
+import SkeletonWrapper from '@/app/components/SkeletonWrapper';
 
 const DiscoverPage = () => {
   const [collapsed, setCollapsed] = useState<boolean>(false);
@@ -18,10 +19,8 @@ const DiscoverPage = () => {
     queryFn: () => fetch(`/api/books/public`).then((res) => res.json()),
   });
 
-  const books = fetchPublicBookQuery.data?.books || []
-
-  console.log(books);
-
+  const books = fetchPublicBookQuery.data?.books || [];
+  
   return (
     <Box
       sx={{
@@ -49,11 +48,12 @@ const DiscoverPage = () => {
       >
         <Carousel>
           {books.map((data, index) => (
-            <SampleCard
+            <SkeletonWrapper
+              isLoading={fetchPublicBookQuery.isFetching}
               key={index}
-              title={data.title}
-              coverUrl={data.cover}
-            />
+            >
+              <SampleCard book={data} />
+            </SkeletonWrapper>
           ))}
         </Carousel>
       </Box>

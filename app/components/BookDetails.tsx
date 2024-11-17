@@ -22,11 +22,18 @@ interface Props {
   setOpen: (open: boolean) => void;
   book: Book;
   queryKey: string;
+  readOnly?: boolean;
 }
 
 const getCurrentMonth = () => new Date().getMonth() + 1;
 
-export default function FormDialog({ open, setOpen, book, queryKey }: Props) {
+export default function FormDialog({
+  open,
+  setOpen,
+  book,
+  queryKey,
+  readOnly,
+}: Props) {
   const currentMonth = getCurrentMonth();
 
   const currentProgress = book.readingProgress?.find(
@@ -82,7 +89,6 @@ export default function FormDialog({ open, setOpen, book, queryKey }: Props) {
           formData.append('id', book.id);
           formData.append('rating', String(value));
           formData.append('progress', String(counter));
-          console.log(formData);
 
           mutative.mutate(formData);
           setOpen(false);
@@ -90,7 +96,7 @@ export default function FormDialog({ open, setOpen, book, queryKey }: Props) {
       }}
     >
       <DialogTitle>Details</DialogTitle>
-      <DialogContent sx={{padding: 1}}>
+      <DialogContent sx={{ padding: 1 }}>
         <Box
           sx={{
             display: 'flex',
@@ -104,12 +110,15 @@ export default function FormDialog({ open, setOpen, book, queryKey }: Props) {
             <DialogContentText
               style={{ display: 'flex', justifyContent: 'center', gap: '5px' }}
             >
-              <GroupedButtons counter={counter} setCounter={setCounter} />
+              {!readOnly && (
+                <GroupedButtons counter={counter} setCounter={setCounter} />
+              )}
               <HoverRating
                 value={value}
                 hover={hover}
                 setHover={setHover}
                 setValue={setValue}
+                readOnly={readOnly}
               />
             </DialogContentText>
             <TextField
@@ -123,6 +132,7 @@ export default function FormDialog({ open, setOpen, book, queryKey }: Props) {
               fullWidth
               variant="outlined"
               defaultValue={book.title}
+              disabled={readOnly}
             />
             <TextField
               required
@@ -134,6 +144,7 @@ export default function FormDialog({ open, setOpen, book, queryKey }: Props) {
               fullWidth
               variant="outlined"
               defaultValue={book.author}
+              disabled={readOnly}
             />
             <TextField
               required
@@ -145,6 +156,7 @@ export default function FormDialog({ open, setOpen, book, queryKey }: Props) {
               fullWidth
               variant="outlined"
               defaultValue={book.summary}
+              disabled={readOnly}
             />
             <Box
               sx={{
@@ -162,21 +174,24 @@ export default function FormDialog({ open, setOpen, book, queryKey }: Props) {
                   Updated: {new Date(book.updatedAt).toLocaleDateString()}
                 </Typography>
               </Box>
-              <Button
-                variant="outlined"
-                color="error"
-                sx={{
-                  borderColor: 'red',
-                  color: 'red',
-                  marginLeft: 2,
-                  height: 'fit-content',
-                }}
-                onClick={() => {
-                  mutation.mutate(book.id);
-                }}
-              >
-                Delete
-              </Button>
+              {!readOnly && (
+                <Button
+                  variant="outlined"
+                  color="error"
+                  sx={{
+                    borderColor: 'red',
+                    color: 'red',
+                    marginLeft: 2,
+                    height: 'fit-content',
+                  }}
+                  onClick={() => {
+                    mutation.mutate(book.id);
+                  }}
+                  disabled={readOnly}
+                >
+                  Delete
+                </Button>
+              )}
             </Box>
           </Box>
           <Box
@@ -202,29 +217,35 @@ export default function FormDialog({ open, setOpen, book, queryKey }: Props) {
             alignItems: 'center',
           }}
         >
-          <AreaChartComponent readingProgress={book.readingProgress} />
+          {!readOnly && (
+            <AreaChartComponent readingProgress={book.readingProgress} />
+          )}
         </Box>
-        <Box>
-          <Typography
-            sx={{
-              opacity: 0.7,
-              fontSize: {
-                xs: 'small',
-                sm: 'small',
-                md: 'medium',
-              },
-              textAlign: 'center',
-              marginTop: '5px',
-            }}
-          >
-            <em>Reading Progress</em>
-          </Typography>
-          <Line style={{ height: '5px', width: '100%' }} percent={counter} />
-        </Box>
+        {!readOnly && (
+          <Box>
+            <Typography
+              sx={{
+                opacity: 0.7,
+                fontSize: {
+                  xs: 'small',
+                  sm: 'small',
+                  md: 'medium',
+                },
+                textAlign: 'center',
+                marginTop: '5px',
+              }}
+            >
+              <em>Reading Progress</em>
+            </Typography>
+            <Line style={{ height: '5px', width: '100%' }} percent={counter} />
+          </Box>
+        )}
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => setOpen(false)}>Cancel</Button>
-        <Button type="submit">Update</Button>
+        <Button onClick={() => setOpen(false)}>
+          {readOnly ? 'Close' : 'Cancel'}
+        </Button>
+        {!readOnly && <Button type="submit">Update</Button>}
       </DialogActions>
     </Dialog>
   );

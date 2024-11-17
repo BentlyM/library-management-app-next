@@ -19,12 +19,14 @@ export default function HoverRating({
   value,
   hover,
   setValue,
-  setHover
+  setHover,
+  readOnly
 }: {
   value: number | null;
   hover: number;
   setValue: (value: number | null) => void;
   setHover: (value: number) => void;
+  readOnly?: boolean;
 }) {
   return (
     <Box sx={{ width: 200, display: 'flex', alignItems: 'center' }}>
@@ -40,6 +42,7 @@ export default function HoverRating({
           setHover(newHover);
         }}
         emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+        disabled={readOnly}
       />
       {value !== null && (
         <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : value]}</Box>

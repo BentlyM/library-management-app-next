@@ -1,3 +1,6 @@
+'use client';
+import FormDialog from '@/app/components/BookDetails';
+import { Book } from '@/app/dashboard/_components/BookCard';
 import {
   Button,
   Card,
@@ -6,14 +9,14 @@ import {
   Typography,
 } from '@mui/material';
 import Image from 'next/image';
+import { useState } from 'react';
 
-const SampleCard = ({
-  coverUrl,
-  title,
-}: {
-  coverUrl: string;
-  title: string;
-}) => {
+const SampleCard = ({ book }: { book: Book }) => {
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
   return (
     <Card
       sx={{
@@ -41,11 +44,20 @@ const SampleCard = ({
           }}
           gutterBottom
         >
-          {title || 'rendering...'}
+          {book.title || 'rendering...'}
         </Typography>
-        <Image src={coverUrl} alt={'image'} width={100} height={120} />
+        <Image src={book.cover} alt={'image'} width={100} height={120} />
         <CardActions>
-          <Button size="small">More</Button>
+          <Button size="small" onClick={handleOpen}>
+            More
+          </Button>
+          <FormDialog
+            open={open}
+            setOpen={setOpen}
+            book={book}
+            queryKey="public-books"
+            readOnly={true}
+          />
         </CardActions>
       </CardContent>
     </Card>

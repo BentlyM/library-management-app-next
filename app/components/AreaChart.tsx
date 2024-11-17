@@ -18,11 +18,11 @@ interface MonthlyReadingProgress {
 }
 
 interface AreaChartComponentProps {
-  readingProgress: ReadingProgress[];
+  readingProgress?: ReadingProgress[];
 }
 
 const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
-  readingProgress,
+  readingProgress = [],
 }) => {
   const readingProgressData: MonthlyReadingProgress[] = Array.from(
     { length: 12 },

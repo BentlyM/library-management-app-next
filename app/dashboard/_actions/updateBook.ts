@@ -74,7 +74,6 @@ export async function updatePermissions(formData: FormData) {
   const bookId = formData.get('bookId') as string;
   const isPublic = formData.get('isPublic') === 'true';
   const supabase = createClient();
-
   const userId = (await supabase.auth.getUser()).data.user?.id;
 
   if (!bookId || !userId) {
@@ -82,6 +81,34 @@ export async function updatePermissions(formData: FormData) {
       return { success: false, message: 'userID is required' };
     } else {
       return { success: false, message: 'bookID is required' };
+    }
+  }
+
+  const book = await prisma.book.findUnique({
+    where: { id: bookId },
+    select: { cover: true },
+  });
+
+  if (!book) {
+    return { success: false, message: 'Book not found' };
+  }
+
+  if (isPublic && book.cover) {
+    const existingPublicCover = await prisma.bookPermission.findFirst({
+      where: {
+        isPublic: true,
+        book: {
+          cover: book.cover,
+        },
+      },
+    });
+
+    if (existingPublicCover) {
+      return {
+        success: false,
+        message:
+          'Cannot make book public: Cover image is already in use by another public book',
+      };
     }
   }
 
@@ -103,7 +130,6 @@ export async function updatePermissions(formData: FormData) {
         isPublic,
       },
     });
-
     return {
       success: true,
       message: 'Permissions updated successfully',
@@ -116,7 +142,6 @@ export async function updatePermissions(formData: FormData) {
         isPublic,
       },
     });
-
     return {
       success: true,
       message: 'Permissions created successfully',
