@@ -121,6 +121,7 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
             variant={isSmallViewport ? 'temporary' : 'persistent'}
             anchor={isSmallViewport ? 'bottom' : 'left'}
             open={open}
+            onClick={isSmallViewport ? handleDrawerClose : undefined}
           >
             <Box
               sx={{
