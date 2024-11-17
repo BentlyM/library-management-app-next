@@ -24,6 +24,7 @@ import { usePathname } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import LogoutButton from '../components/logout/LogoutButton';
 import { useDrawer } from '../components/providers/DrawerProvider';
+import { ClickAwayListener } from '@mui/material';
 
 const Dashboard = ({ children }: { children: React.ReactNode }) => {
   const theme = useTheme();
@@ -81,93 +82,97 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      {!open && (
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          onClick={handleDrawerOpen}
-          edge="start"
-          sx={{
-            position: 'absolute',
-            top: 16,
-            left: {
-              xs: 'auto',
-              sm: 'auto',
-              md: 16,
-            },
-            right: {
-              xs: 16,
-              sm: 16,
-              md: 'auto',
-            },
-            zIndex: 1201,
-          }}
-        >
-          <MenuIcon />
-        </IconButton>
-      )}
-      <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            width: isSmallViewport ? '100%' : drawerWidth,
-            boxSizing: 'border-box',
-          },
-        }}
-        variant={isSmallViewport ? 'temporary' : 'persistent'}
-        anchor={isSmallViewport ? 'bottom' : 'left'}
-        open={open}
-      >
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            padding: theme.spacing(0, 1),
-            ...theme.mixins.toolbar,
-            justifyContent: 'space-between',
-          }}
-        >
-          <h2 style={{ margin: 0 }}>
-            Welcome, {user.data?.name || 'anonymous'}!
-          </h2>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? (
-              <ChevronLeftIcon />
-            ) : (
-              <ChevronRightIcon />
-            )}
-          </IconButton>
+      <ClickAwayListener onClickAway={handleDrawerClose}>
+        <Box>
+          {!open && (
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={{
+                position: 'absolute',
+                top: 16,
+                left: {
+                  xs: 'auto',
+                  sm: 'auto',
+                  md: 16,
+                },
+                right: {
+                  xs: 16,
+                  sm: 16,
+                  md: 'auto',
+                },
+                zIndex: 1201,
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
+          )}
+          <Drawer
+            sx={{
+              width: drawerWidth,
+              flexShrink: 0,
+              '& .MuiDrawer-paper': {
+                width: isSmallViewport ? '100%' : drawerWidth,
+                boxSizing: 'border-box',
+              },
+            }}
+            variant={isSmallViewport ? 'temporary' : 'persistent'}
+            anchor={isSmallViewport ? 'bottom' : 'left'}
+            open={open}
+          >
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: theme.spacing(0, 1),
+                ...theme.mixins.toolbar,
+                justifyContent: 'space-between',
+              }}
+            >
+              <h2 style={{ margin: 0 }}>
+                Welcome, {user.data?.name || 'anonymous'}!
+              </h2>
+              <IconButton onClick={handleDrawerClose}>
+                {theme.direction === 'ltr' ? (
+                  <ChevronLeftIcon />
+                ) : (
+                  <ChevronRightIcon />
+                )}
+              </IconButton>
+            </Box>
+            <Divider />
+            <List sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+              {navigation.map((item) => (
+                <ListItem key={item.text} disablePadding>
+                  <Link
+                    href={item.to}
+                    style={{
+                      display: 'flex',
+                      textDecoration: 'none',
+                      color: 'black',
+                      width: '100%',
+                    }}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}
+                    >
+                      {item.icon}
+                    </ListItemIcon>
+                    <ListItemText primary={item.text} />
+                  </Link>
+                </ListItem>
+              ))}
+            </List>
+            <LogoutButton />
+          </Drawer>
         </Box>
-        <Divider />
-        <List sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-          {navigation.map((item) => (
-            <ListItem key={item.text} disablePadding>
-              <Link
-                href={item.to}
-                style={{
-                  display: 'flex',
-                  textDecoration: 'none',
-                  color: 'black',
-                  width: '100%',
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  {item.icon}
-                </ListItemIcon>
-                <ListItemText primary={item.text} />
-              </Link>
-            </ListItem>
-          ))}
-        </List>
-        <LogoutButton />
-      </Drawer>
+      </ClickAwayListener>
       <Box
         component="main"
         sx={{
