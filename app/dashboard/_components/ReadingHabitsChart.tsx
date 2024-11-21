@@ -12,7 +12,7 @@ import SubBlur from '@/app/components/SubBlur';
 import { Books } from '../page';
 
 interface ReadingData {
-  month: string; // or Date
+  month: string;
   count: number;
 }
 

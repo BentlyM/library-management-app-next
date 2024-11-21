@@ -16,11 +16,11 @@ html[data-theme='dark'] {
 }
 
 .home-layout {
-  min-height: 100vh; /* Ensure it takes full height */
+  min-height: 100vh; 
 }
 
 .main-content {
-  background-color: inherit; /* Inherit background from the body */
+  background-color: inherit; 
 }
 
 div {
@@ -30,4 +30,36 @@ div {
 
 div::-webkit-scrollbar {
   display: none; /* Safari and Chrome */
+}
+
+.carousel-container {
+  position: relative;
+}
+
+.arrows {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  top: 50%;
+  width: 100%;
+}
+
+.arrow {
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.3s;
+}
+
+.arrow.hide {
+  opacity: 0;
+}
+
+.carousel-items {
+  display: flex;
+  overflow-x: scroll;
+  width: 100%;
+}
+
+.card {
+  flex-shrink: 0;
 }

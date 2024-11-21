@@ -3,6 +3,7 @@
 import React from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { DrawerProvider } from './DrawerProvider';
 
 function RootProviders({ children }: { children: React.ReactNode }) {
   const [queryClient] = React.useState(() => new QueryClient({}));
@@ -10,7 +11,7 @@ function RootProviders({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools />
-        {children}
+      <DrawerProvider>{children}</DrawerProvider>
     </QueryClientProvider>
   );
 }
