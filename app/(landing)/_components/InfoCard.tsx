@@ -12,6 +12,7 @@ interface InfoCardType {
   images?: string[] | undefined;
   color?: string;
   hasButton?: boolean;
+  center?: boolean;
 }
 
 const InfoCard = ({
@@ -24,6 +25,7 @@ const InfoCard = ({
   images,
   color,
   hasButton = true,
+  center,
 }: InfoCardType) => {
   return (
     <>
@@ -84,14 +86,14 @@ const InfoCard = ({
           sx={{
             width: {
               xs: '90vw',
-              sm: width
+              sm: width,
             },
             textAlign: {
               xs: 'center',
               sm: 'center',
               md: 'center',
-              lg: 'start',
-              xl: 'start',
+              lg: `${center ? 'center' : 'start'}`,
+              xl: `${center ? 'center' : 'start'}`,
             },
             fontSize: {
               xs: '1rem',
@@ -125,21 +127,23 @@ const InfoCard = ({
               />
             ))}
         </div>
-        {hasButton && <Button
-          variant="contained"
-          sx={{
-            margin: { xs: '0 auto', md: '0' },
-            display: 'block',
-            width: 'fit-content', 
-            textAlign: { xs: 'center', md: 'left' }, 
-          }}
-        >
-          {title?.toLowerCase() === 'welcome'
-            ? 'Explore'
-            : title?.toLowerCase() === 'team'
-            ? 'im the team'
-            : 'Learn More'}
-        </Button>}
+        {hasButton && (
+          <Button
+            variant="contained"
+            sx={{
+              margin: { xs: '0 auto', md: '0' },
+              display: 'block',
+              width: 'fit-content',
+              textAlign: { xs: 'center', md: 'left' },
+            }}
+          >
+            {title?.toLowerCase() === 'welcome'
+              ? 'Explore'
+              : title?.toLowerCase() === 'team'
+              ? 'im the team'
+              : 'Learn More'}
+          </Button>
+        )}
       </Box>
     </>
   );
