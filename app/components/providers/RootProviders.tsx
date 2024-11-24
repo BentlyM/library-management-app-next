@@ -1,6 +1,6 @@
-'use client';
+'use client'
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { DrawerProvider } from './DrawerProvider';
@@ -12,7 +12,7 @@ import { CacheProvider, EmotionCache } from '@emotion/react';
 
 const clientSideEmotionCache = createEmotionCache();
 
-interface rootProviderProps {
+interface RootProviderProps {
   emotionCache?: EmotionCache;
   children: React.ReactNode;
 }
@@ -20,18 +20,35 @@ interface rootProviderProps {
 function RootProviders({
   children,
   emotionCache = clientSideEmotionCache,
-}: rootProviderProps) {
+}: RootProviderProps) {
   const [queryClient] = React.useState(() => new QueryClient({}));
+  const [isThemeReady, setIsThemeReady] = useState(false);
+
+  // When the theme has been resolved, we set the state to true
+  useEffect(() => {
+    setIsThemeReady(true);
+  }, []);
 
   return (
-    <PreferredThemeProvider>
+    <PreferredThemeProvider
+      enableSystem={true}
+      enableColorScheme={true}
+    >
       <CacheProvider value={emotionCache}>
         <QueryClientProvider client={queryClient}>
-          <Toaster />
-          <ReactQueryDevtools />
-          <MUIThemeProvider>
-            <DrawerProvider>{children}</DrawerProvider>
-          </MUIThemeProvider>
+          {/* Only render once the theme is ready */}
+          {isThemeReady ? (
+            <>
+              <Toaster />
+              <ReactQueryDevtools />
+              <MUIThemeProvider>
+                <DrawerProvider>{children}</DrawerProvider>
+              </MUIThemeProvider>
+            </>
+          ) : (
+            // You can render an empty fragment or minimal styles in the meantime
+            <div style={{ visibility: 'hidden' }}></div>
+          )}
         </QueryClientProvider>
       </CacheProvider>
     </PreferredThemeProvider>

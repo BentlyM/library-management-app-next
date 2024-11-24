@@ -209,7 +209,7 @@ export default function FormDialog({
         <Box
           sx={{
             height: 100,
-            bgcolor: '#f0f0f0',
+            bgcolor: 'inherit',
             borderRadius: 1,
             mt: 2,
             display: 'flex',
