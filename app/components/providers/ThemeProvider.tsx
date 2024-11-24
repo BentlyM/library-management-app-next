@@ -19,11 +19,11 @@ const AppThemeProvider = (props: AppThemeProviderProps) => {
             },
             palette: {
                 primary: {
-                  main: `rgb(10, 18, 42)`,
+                  main: `#4f46e5`,
                   contrastText: 'rgb(255, 255, 255)',
                 },
                 secondary: {
-                  main: `rgb(27, 59, 111)`,
+                  main: `#818cf8`,
                   contrastText: 'rgb(255, 255, 255)',
                 },
               },
@@ -31,17 +31,17 @@ const AppThemeProvider = (props: AppThemeProviderProps) => {
                 light: {
                     palette: {
                         primary: {
-                            main: "rgba(10,18,42)"
+                            main: "#4f46e5"
                         },
                         secondary: {
-                            main: "rgb(27, 59, 111)"
+                            main: "#4f46e5"
                         }
                     }
                 },
                 dark: {
                     palette: {
                       primary: {
-                        main: "rgb(10, 18, 42)",
+                        main: "#818cf8",
                       },
                       secondary: {
                         main: "rgb(27, 59, 111)",

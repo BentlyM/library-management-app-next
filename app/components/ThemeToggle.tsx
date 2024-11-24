@@ -9,12 +9,7 @@ const ThemeToggle: React.FC = () => {
 
   const toggleDarkTheme = React.useCallback(() => {
     if (mode) {
-      const currMode =
-        mode === 'dark'
-          ? 'light'
-          : mode === 'light'
-          ? 'dark'
-          : (localStorage.getItem('mui-mode') as 'light' | 'dark');
+      const currMode = mode === 'dark' ? 'light' : 'dark';
       setMode(currMode);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
