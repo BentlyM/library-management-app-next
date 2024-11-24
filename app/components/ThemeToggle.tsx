@@ -1,45 +1,35 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Moon, Sun } from 'lucide-mui';
-import { useTheme } from 'next-themes';
+import { useColorScheme } from '@mui/material/styles';
 
 const ThemeToggle: React.FC = () => {
-  const { resolvedTheme, setTheme } = useTheme();
-  const [open, setOpen] = useState(false);
+  const { mode, systemMode, setMode } = useColorScheme();
 
-  // Toggle visibility once component has mounted
-  useEffect(() => {
-    setOpen(true);
-  }, []);
-
-  // Return a placeholder if it's not mounted yet
-  if (!open) {
-    return (
-      <div
-        style={{
-          minHeight: '162.37px', // Adjust height if needed
-        }}
-      ></div>
-    );
-  }
-
-  // Function to toggle theme
-  const handleToggle = () => {
-    const newTheme = resolvedTheme === 'dark' ? 'light' : 'dark';
-    setTheme(newTheme);
-  };
+  const toggleDarkTheme = React.useCallback(() => {
+    if (mode) {
+      const currMode =
+        mode === 'dark'
+          ? 'light'
+          : mode === 'light'
+          ? 'dark'
+          : (localStorage.getItem('mui-mode') as 'light' | 'dark');
+      setMode(currMode);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mode, systemMode]);
 
   return (
     <div
-      onClick={handleToggle}
+      onClick={toggleDarkTheme}
       style={{
         cursor: 'pointer',
         display: 'flex',
         alignItems: 'center',
       }}
     >
-      {resolvedTheme === 'dark' ? <Sun /> : <Moon />}
+      {mode === 'dark' ? <Sun /> : <Moon />}
     </div>
   );
 };
