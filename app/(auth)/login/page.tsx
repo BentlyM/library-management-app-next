@@ -71,7 +71,6 @@ const Login = () => {
     >
       <Box
         sx={{
-          backgroundColor: 'white',
           display: 'flex',
           alignItems: 'center',
           boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
@@ -117,7 +116,7 @@ const Login = () => {
           <Link href="/register" sx={{ mt: 2 }}>
             Create an account
           </Link>
-          <Link href="/" sx={{ textDecoration: 'none', color: 'black' }}>
+          <Link href="/" sx={{ textDecoration: 'none', color: 'inherit' }}>
             Back to Landing
           </Link>
         </Box>

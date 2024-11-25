@@ -23,6 +23,7 @@ const ServicePage = async () => {
         }
         align="center"
         hasButton={false}
+        center={true}
       />
       <div
         style={{

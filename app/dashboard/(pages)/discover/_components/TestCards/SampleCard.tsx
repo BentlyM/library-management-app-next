@@ -40,7 +40,8 @@ const SampleCard = ({ book }: { book: Book }) => {
           style={{
             fontSize: 14,
             textAlign: 'center',
-            color: 'rgba(0, 0, 0, 0.5)',
+            color: 'inherit',
+            opacity: '0.5'
           }}
           gutterBottom
         >

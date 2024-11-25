@@ -1,21 +1,30 @@
-// components/ThemeToggle.tsx
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Moon, Sun } from 'lucide-mui';
+import { useColorScheme } from '@mui/material/styles';
 
 const ThemeToggle: React.FC = () => {
-  const [open, setOpen] = useState(false);
+  const { mode, systemMode, setMode } = useColorScheme();
 
-  const handleToggle = () => {
-    setOpen((prev) => !prev);
-  };
+  const toggleDarkTheme = React.useCallback(() => {
+    if (mode) {
+      const currMode = mode === 'dark' ? 'light' : 'dark';
+      setMode(currMode);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mode, systemMode]);
+
   return (
     <div
-      onClick={handleToggle}
-      style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+      onClick={toggleDarkTheme}
+      style={{
+        cursor: 'pointer',
+        display: 'flex',
+        alignItems: 'center',
+      }}
     >
-      {open === true ? <Sun /> : <Moon />}
+      {mode === 'dark' ? <Sun /> : <Moon />}
     </div>
   );
 };

@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import RootProviders from './components/providers/RootProviders';
-import { Toaster } from 'react-hot-toast';
 
 export const metadata: Metadata = {
   title: 'Library App',
@@ -14,9 +13,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
-        <Toaster />
         <RootProviders>{children}</RootProviders>
       </body>
     </html>

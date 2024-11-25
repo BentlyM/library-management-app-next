@@ -148,7 +148,7 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
                     style={{
                       display: 'flex',
                       textDecoration: 'none',
-                      color: 'black',
+                      color: 'inherit',
                       width: '100%',
                     }}
                   >

@@ -119,6 +119,7 @@ const HomePage = async () => {
             align={'center'}
             images={[]}
             width={'450px'}
+            center={true}
           />
         </div>
       </Container>

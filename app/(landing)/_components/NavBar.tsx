@@ -46,7 +46,7 @@ export default async function NavBar() {
             gap: '5px',
           }}
         >
-          <a href="/" style={{ textDecoration: 'none', color: 'black' }}>
+          <a href="/" style={{ textDecoration: 'none', color: 'inherit' }}>
             Library Management
           </a>
         </Typography>
@@ -64,7 +64,7 @@ export default async function NavBar() {
         >
           {user && <li>
             <Link
-              style={{ textDecoration: 'none', color: 'black' }}
+              style={{ textDecoration: 'none', color: 'inherit' }}
               href={'/dashboard'}
             >
               Dashboard
@@ -72,7 +72,7 @@ export default async function NavBar() {
           </li>}
           <li>
             <Link
-              style={{ textDecoration: 'none', color: 'black' }}
+              style={{ textDecoration: 'none', color: 'inherit' }}
               href={'/services'}
             >
               Services
@@ -82,7 +82,7 @@ export default async function NavBar() {
             <>
               <li>
                 <Link
-                  style={{ textDecoration: 'none', color: 'black' }}
+                  style={{ textDecoration: 'none', color: 'inherit' }}
                   href={'/login'}
                 >
                   Login
@@ -90,7 +90,7 @@ export default async function NavBar() {
               </li>
               <li>
                 <Link
-                  style={{ textDecoration: 'none', color: 'black' }}
+                  style={{ textDecoration: 'none', color: 'inherit' }}
                   href={'/register'}
                 >
                   Register
