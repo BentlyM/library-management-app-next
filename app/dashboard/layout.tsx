@@ -52,6 +52,8 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
   const navigation = [
     { text: 'Home', icon: <ImportContactsIcon />, to: '/dashboard' },
     { text: 'Add Book', icon: <AddBoxIcon />, to: '/dashboard/add' },
+    { text: 'Discover Books', icon: <BookIcon />, to: '/dashboard/discover' },
+    { text: 'Send Books', icon: <SendIcon />, to: '/dashboard/send' },
     { text: 'Profile', icon: <AccountCircleIcon />, to: '/dashboard/settings' },
   ];
 
