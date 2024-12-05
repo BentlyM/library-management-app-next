@@ -11,6 +11,7 @@ import {
 } from 'recharts';
 import SubBlur from '@/app/components/SubBlur';
 import { Books } from '../page';
+import { CustomTooltip } from '@/app/components/CustomTooltip';
 
 interface RatingDistribution {
   rating: number;
@@ -64,7 +65,7 @@ export function RatingDistributionChart({
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="rating" />
             <YAxis />
-            <Tooltip />
+            <Tooltip cursor={{fill: 'inherit', opacity: '0.2'}} content={<CustomTooltip active={false} payload={[]} label={''} />}/>
             <Legend />
             <Bar dataKey="count" fill="#82ca9d" barSize={25} />
           </BarChart>

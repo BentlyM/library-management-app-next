@@ -1,18 +1,33 @@
-import { IconButton } from '@mui/material';
-import { LogOut } from 'lucide-mui'; 
+import { IconButton, useTheme } from '@mui/material';
+import { LogOut } from 'lucide-mui';
 import { logout } from './_actions/logout';
 
 const LogoutButton = () => {
+  const theme = useTheme(); // Access the current theme
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     localStorage.removeItem('user');
     return logout();
   };
+
   return (
     <div style={{ marginTop: 'auto' }}>
-      <form onSubmit={handleSubmit} style={{display: 'flex', justifyContent: 'end', alignItems: 'center'}}>
-        <IconButton sx={{ color: 'white' }} type={'submit'}>
-          <LogOut style={{ width: '30px', height: '30px', color: 'black'}} />
+      <form
+        onSubmit={handleSubmit}
+        style={{ display: 'flex', justifyContent: 'end', alignItems: 'center' }}
+      >
+        <IconButton
+          sx={{
+            backgroundColor: theme.palette.background.paper, // Inherit background color from theme
+            color: theme.palette.text.primary,
+            '&:hover': {
+              backgroundColor: theme.palette.background.default, 
+            },
+          }}
+          type="submit"
+        >
+          <LogOut style={{ width: '30px', height: '30px', color: 'inherit' }} />
         </IconButton>
       </form>
     </div>

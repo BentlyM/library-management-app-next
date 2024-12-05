@@ -16,7 +16,7 @@ export const SubBlur = ({
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundColor: 'rgba(255, 255, 255, 0.7)',
+        backgroundColor: 'inherit',
         backdropFilter: 'blur(5px)',
         display: 'flex',
         justifyContent: 'center',
@@ -25,6 +25,7 @@ export const SubBlur = ({
         fontSize: '20px',
         fontWeight: 'bold',
         cursor: 'pointer',
+        opacity: '1'
       }}
     >
       <Link

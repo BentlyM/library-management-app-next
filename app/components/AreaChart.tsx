@@ -11,6 +11,7 @@ import {
   Tooltip,
   Legend,
 } from 'recharts';
+import { CustomTooltip } from './CustomTooltip';
 
 interface MonthlyReadingProgress {
   month: string;
@@ -46,7 +47,10 @@ const AreaChartComponent: React.FC<AreaChartComponentProps> = ({
         <YAxis />
         <XAxis dataKey={'month'} />
         <CartesianGrid />
-        <Tooltip />
+        <Tooltip
+          cursor={{ fill: 'inherit', opacity: '0.2' }}
+          content={<CustomTooltip active={false} payload={[]} label={''} />}
+        />
         <Legend />
         <Area dataKey={'completionPercentage'} fill="#8884d8" />
       </AreaChart>

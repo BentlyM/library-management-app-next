@@ -10,6 +10,7 @@ import {
 } from 'recharts';
 import { Books } from '../page';
 import SubBlur from '@/app/components/SubBlur';
+import { CustomTooltip } from '@/app/components/CustomTooltip';
 
 interface CompletionPercentageChartProps {
   books: Books['books'];
@@ -48,7 +49,7 @@ const CompletionPercentageChart = ({
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
             <YAxis />
-            <Tooltip />
+            <Tooltip cursor={{fill: 'inherit', opacity: '0.2'}} content={<CustomTooltip active={false} payload={[]} label={''} />}/>
             <Bar dataKey="value" fill="#82ca9d" barSize={20} />
           </BarChart>
         </ResponsiveContainer>

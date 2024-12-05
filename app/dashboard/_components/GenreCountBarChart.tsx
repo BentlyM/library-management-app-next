@@ -11,6 +11,7 @@ import {
   Bar,
 } from 'recharts';
 import SubBlur from '@/app/components/SubBlur';
+import { CustomTooltip } from '@/app/components/CustomTooltip';
 
 interface GenreCount {
   genre: string;
@@ -65,7 +66,7 @@ export function GenreCountBarChart({
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="genre" />
             <YAxis />
-            <Tooltip />
+            <Tooltip cursor={{fill: 'inherit', opacity: '0.2'}} content={<CustomTooltip active={false} payload={[]} label={''} />}/>
             <Legend />
             <Bar dataKey="count" fill="#8884d8" barSize={20} />
           </BarChart>

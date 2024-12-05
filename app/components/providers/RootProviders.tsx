@@ -22,7 +22,12 @@ function RootProviders({ children }: RootProviderProps) {
         <AppThemeProvider>
           <InitColorSchemeScript attribute="class" />
           <QueryClientProvider client={queryClient}>
-            <Toaster />
+            <Toaster toastOptions={{
+              style: {
+                backgroundColor: 'inherit',
+                color: 'inherit'
+              }
+            }}/>
             <ReactQueryDevtools />
             <DrawerProvider>{children}</DrawerProvider>
           </QueryClientProvider>

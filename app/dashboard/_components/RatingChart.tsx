@@ -10,6 +10,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import SubBlur from '@/app/components/SubBlur';
+import { CustomTooltip } from '@/app/components/CustomTooltip';
 
 interface RatingData {
   genre: string;
@@ -73,7 +74,7 @@ export function RatingRadarChart({
               fill="#8884d8"
               fillOpacity={0.6}
             />
-            <Tooltip />
+            <Tooltip cursor={{fill: 'inherit', opacity: '0.2'}} content={<CustomTooltip active={false} payload={[]} label={''} />}/>
           </RadarChart>
         </ResponsiveContainer>
         {!isSubscribed && (

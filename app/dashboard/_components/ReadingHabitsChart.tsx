@@ -10,6 +10,7 @@ import {
 } from 'recharts';
 import SubBlur from '@/app/components/SubBlur';
 import { Books } from '../page';
+import { CustomTooltip } from '@/app/components/CustomTooltip';
 
 interface ReadingData {
   month: string;
@@ -60,7 +61,10 @@ export function ReadingHabitsChart({
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="month" />
             <YAxis />
-            <Tooltip />
+            <Tooltip
+              cursor={{ fill: 'inherit', opacity: '0.2' }}
+              content={<CustomTooltip active={false} payload={[]} label={''} />}
+            />
             <Line type="monotone" dataKey="count" stroke="#ff7300" />
           </LineChart>
         </ResponsiveContainer>
