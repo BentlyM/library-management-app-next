@@ -1,8 +1,7 @@
 'use client';
 
-import { Button } from '@mui/material';
 import { Box } from '@mui/system';
-import React, { useState } from 'react';
+import React from 'react';
 import Carousel from './_components/Carousel/Carousel';
 import { useDrawer } from '@/app/components/providers/DrawerProvider';
 import { useQuery } from '@tanstack/react-query';
