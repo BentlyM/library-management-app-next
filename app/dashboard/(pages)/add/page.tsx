@@ -30,12 +30,12 @@ const BookForm = () => {
   const [debounceAuthor] = useDebounce(author, 500);
 
   const fetchCoverQuery = useQuery({
-    queryKey: ['cover', debounceTitle, debounceAuthor],
+    queryKey: ['cover', debounceTitle, debounceAuthor, manualCover],
     queryFn: () =>
       fetch(`/api/cover?title=${debounceTitle}&author=${debounceAuthor}`).then(
         (res) => res.json().then((data) => setFetchedCoverUrl(data.url))
       ),
-    enabled: !!debounceTitle && !!debounceAuthor,
+    enabled: !!debounceTitle && !!debounceAuthor && !manualCover,
   });
 
   const mutation = useMutation({
