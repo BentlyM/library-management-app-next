@@ -60,6 +60,8 @@ export default function BookCard({ book }: { book: Book }) {
             color: 'text.secondary',
             textAlign: { xs: 'center', sm: 'start' },
           }}
+          maxHeight={100}
+          overflow={'scroll'}
         >
           {book.summary}
         </Typography>

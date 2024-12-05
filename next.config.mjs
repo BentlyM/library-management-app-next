@@ -13,6 +13,10 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'igtnbgdhxezmzgvxesbi.supabase.co'
+      },
+      {
+        protocol: 'https',
+        hostname: 'i.gr-assets.com'
       }
     ],
   },

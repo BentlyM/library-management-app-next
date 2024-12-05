@@ -6,7 +6,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Box, Typography } from '@mui/material';
+import { Box, TextareaAutosize, Typography } from '@mui/material';
 import { DeleteBook } from '../dashboard/_actions/deleteBook';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
@@ -146,18 +146,34 @@ export default function FormDialog({
               defaultValue={book.author}
               disabled={readOnly}
             />
-            <TextField
-              required
-              margin="dense"
-              id="summary"
-              name="summary"
-              label="Summary"
-              type="text"
-              fullWidth
-              variant="outlined"
-              defaultValue={book.summary}
-              disabled={readOnly}
-            />
+            {readOnly ? (
+              <div>
+                Summary: 
+                <TextareaAutosize
+                  value={book.summary}
+                  disabled={readOnly}
+                  style={{
+                    resize: 'none',
+                    width: '100%',
+                    overflowY: 'scroll',
+                    background: 'inherit',
+                    border: 'none',
+                  }}
+                />
+              </div>
+            ) : (
+              <TextField
+                required
+                margin="dense"
+                id="summary"
+                name="summary"
+                label="Summary"
+                type="text"
+                fullWidth
+                variant="outlined"
+                defaultValue={book.summary}
+              />
+            )}
             <Box
               sx={{
                 display: 'flex',
@@ -220,6 +236,7 @@ export default function FormDialog({
           {!readOnly && (
             <AreaChartComponent readingProgress={book.readingProgress} />
           )}
+          {/*WHAT DATA ARE YOU GOING TO PUT HERE????*/}
         </Box>
         {!readOnly && (
           <Box>
