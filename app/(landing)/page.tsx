@@ -37,6 +37,7 @@ const HomePage = async () => {
           width={350}
           style={{ border: 'transparent' }}
           alt="Group Book Reading"
+          priority
         />
       </Container>
       <Container
