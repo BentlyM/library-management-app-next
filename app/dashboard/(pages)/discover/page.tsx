@@ -24,38 +24,65 @@ const DiscoverPage = () => {
   const books = fetchPublicBookQuery.data?.books || [];
 
   return (
-    <Box
-      sx={{
-        width: {
-          xs: '98vw',
-          md: `calc(98vw - ${open ? drawerWidth : 0}px)`,
-        },
-        border: '1px dotted red',
-        padding: '10px',
-      }}
-    >
+    <>
       <Box
-        style={{
-          padding: '15px 0',
-          margin: '10px 0',
+        sx={{
+          width: {
+            xs: '98vw',
+            md: `calc(98vw - ${open ? drawerWidth : 0}px)`,
+          },
           border: '1px dotted red',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          padding: '10px',
         }}
       >
-        <Carousel>
-          {books.map((data, index) => (
-            <SkeletonWrapper
-              isLoading={fetchPublicBookQuery.isFetching}
-              key={index}
-            >
-              <SampleCard book={data} />
-            </SkeletonWrapper>
-          ))}
-        </Carousel>
+        <span style={{ fontSize: 'larger' }}>Self-Published</span>
+        <Box
+          style={{
+            padding: '15px 0',
+            margin: '10px 0',
+            border: '1px dotted red',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Carousel>
+            {books.map((data, index) => (
+              <SkeletonWrapper
+                isLoading={fetchPublicBookQuery.isFetching}
+                key={index}
+              >
+                <SampleCard book={data} />
+              </SkeletonWrapper>
+            ))}
+          </Carousel>
+        </Box>
       </Box>
-    </Box>
+      <Box
+        sx={{
+          width: {
+            xs: '98vw',
+            md: `calc(98vw - ${open ? drawerWidth : 0}px)`,
+          },
+          border: '1px dotted red',
+          padding: '10px',
+        }}
+      >
+        <span style={{ fontSize: 'larger' }}>Editor Picks</span>
+      </Box>
+      <Box
+        sx={{
+          width: {
+            xs: '98vw',
+            md: `calc(98vw - ${open ? drawerWidth : 0}px)`,
+          },
+          border: '1px dotted red',
+          padding: '10px',
+        }}
+      >
+        <span style={{ fontSize: 'larger' }}>Verified Literature</span>
+      </Box>
+    </>
   );
 };
 
