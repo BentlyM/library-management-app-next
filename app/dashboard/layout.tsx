@@ -25,6 +25,7 @@ import { useQuery } from '@tanstack/react-query';
 import LogoutButton from '../components/logout/LogoutButton';
 import { useDrawer } from '../components/providers/DrawerProvider';
 import { ClickAwayListener } from '@mui/material';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 const Dashboard = ({ children }: { children: React.ReactNode }) => {
   const theme = useTheme();
@@ -186,7 +187,36 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
           marginLeft: open ? 0 : isSmallViewport ? 0 : `-${drawerWidth}px`,
         }}
       >
-        <h1 style={{ marginBottom: '10px' }}>{title}</h1>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: {
+              sm: 'start',
+              md: 'space-between'
+            },
+            marginBottom: '10px',
+            alignItems: 'center',
+          }}
+        >
+          <h1>{title}</h1>
+          <ul
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-evenly',
+              listStyle: 'none',
+              gap: '10px',
+            }}
+          >
+            <li>
+              <AccountCircleIcon fontSize={'large'} />
+            </li>
+            <li>
+              <NotificationsIcon fontSize={'large'} />
+            </li>
+          </ul>
+        </Box>
         {children}
       </Box>
     </Box>

@@ -16,6 +16,7 @@ import { Line } from 'rc-progress';
 import GroupedButtons from './GroupedButtons';
 import HoverRating from './HoverRating';
 import { Book } from '../dashboard/_components/BookCard';
+import SubBlur from './SubBlur';
 
 interface Props {
   open: boolean;
@@ -85,13 +86,17 @@ export default function FormDialog({
         component: 'form',
         onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
           event.preventDefault();
-          const formData = new FormData(event.currentTarget);
-          formData.append('id', book.id);
-          formData.append('rating', String(value));
-          formData.append('progress', String(counter));
+          if (!readOnly) {
+            const formData = new FormData(event.currentTarget);
+            formData.append('id', book.id);
+            formData.append('rating', String(value));
+            formData.append('progress', String(counter));
 
-          mutative.mutate(formData);
-          setOpen(false);
+            mutative.mutate(formData);
+            setOpen(false);
+          } else {
+            alert('nice try lmao');
+          }
         },
       }}
     >
@@ -148,7 +153,7 @@ export default function FormDialog({
             />
             {readOnly ? (
               <div>
-                Summary: 
+                Summary:
                 <TextareaAutosize
                   value={book.summary}
                   disabled={readOnly}
@@ -233,10 +238,16 @@ export default function FormDialog({
             alignItems: 'center',
           }}
         >
-          {!readOnly && (
+          {!readOnly ? (
             <AreaChartComponent readingProgress={book.readingProgress} />
+          ) : (
+            <div
+              style={{ width: '100%', height: '100%', position: 'relative' }}
+            >
+              {readOnly && <SubBlur link="/services">Coming Soon</SubBlur>}
+              {/*WHAT DATA ARE YOU GOING TO PUT HERE????*/}
+            </div>
           )}
-          {/*WHAT DATA ARE YOU GOING TO PUT HERE????*/}
         </Box>
         {!readOnly && (
           <Box>
