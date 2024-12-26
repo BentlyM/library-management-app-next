@@ -3,7 +3,7 @@ import { LogOut } from 'lucide-mui';
 import { logout } from './_actions/logout';
 
 const LogoutButton = () => {
-  const theme = useTheme(); // Access the current theme
+  const theme = useTheme(); 
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -19,7 +19,7 @@ const LogoutButton = () => {
       >
         <IconButton
           sx={{
-            backgroundColor: theme.palette.background.paper, // Inherit background color from theme
+            backgroundColor: theme.palette.background.paper,
             color: theme.palette.text.primary,
             '&:hover': {
               backgroundColor: theme.palette.background.default, 

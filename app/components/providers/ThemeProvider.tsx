@@ -6,7 +6,7 @@ import type {} from '@mui/material/themeCssVarsAugmentation';
 const AppThemeContext = createContext(null)
 
 interface AppThemeProviderProps {
-  children: ReactNode; // or other props you want to define
+  children: ReactNode;
 }
 
 const AppThemeProvider = (props: AppThemeProviderProps) => {

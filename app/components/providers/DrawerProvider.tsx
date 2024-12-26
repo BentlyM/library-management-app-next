@@ -10,7 +10,7 @@ const DrawerContext = createContext<DrawerContextType | undefined>(undefined);
 
 export const DrawerProvider = ({ children }: { children: React.ReactNode }) => {
   const [open, setOpen] = useState(false);
-  const drawerWidth = 240;  // Define your drawer width, adjust as needed
+  const drawerWidth = 240; 
 
   return (
     <DrawerContext.Provider value={{ open, setOpen, drawerWidth }}>
