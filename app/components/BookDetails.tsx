@@ -95,7 +95,7 @@ export default function FormDialog({
             mutative.mutate(formData);
             setOpen(false);
           } else {
-            alert('nice try lmao');
+            alert('Error unable to update');
           }
         },
       }}
@@ -244,7 +244,7 @@ export default function FormDialog({
             <div
               style={{ width: '100%', height: '100%', position: 'relative' }}
             >
-              {readOnly && <SubBlur link="/services">Coming Soon</SubBlur>}
+              {readOnly && <SubBlur link={''} >Coming Soon</SubBlur>}
               {/*WHAT DATA ARE YOU GOING TO PUT HERE????*/}
             </div>
           )}

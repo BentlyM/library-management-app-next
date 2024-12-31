@@ -18,7 +18,6 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import BookIcon from '@mui/icons-material/Book';
 import SendIcon from '@mui/icons-material/Send';
 import ImportContactsIcon from '@mui/icons-material/ImportContacts';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
@@ -26,6 +25,9 @@ import LogoutButton from '../components/logout/LogoutButton';
 import { useDrawer } from '../components/providers/DrawerProvider';
 import { ClickAwayListener } from '@mui/material';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AccountButton from './_components/AccountButton';
+
 
 const Dashboard = ({ children }: { children: React.ReactNode }) => {
   const theme = useTheme();
@@ -210,7 +212,7 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
             }}
           >
             <li>
-              <AccountCircleIcon fontSize={'large'} />
+              <AccountButton />
             </li>
             <li>
               <NotificationsIcon fontSize={'large'} />
