@@ -8,9 +8,30 @@ import { logout } from '@/app/components/logout/_actions/logout';
 
 const AccountButton = () => {
   const [anchor, setAnchor] = React.useState<null | HTMLElement>(null);
+  const [profilePicture, setProfilePicture] = React.useState<null | string>(
+    null
+  );
+
+  React.useEffect(() => {
+    const picture = localStorage.getItem('profilePicture');
+    if (picture) {
+      setProfilePicture(picture);
+    }
+  }, []);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchor(anchor ? null : event.currentTarget);
+  };
+
+  const handlePictureChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setProfilePicture(URL.createObjectURL(file));
+      localStorage.setItem(
+        'profilePicture',
+        URL.createObjectURL(file).split(':').slice(1).join('')
+      );
+    }
   };
 
   const open = Boolean(anchor);
@@ -18,7 +39,20 @@ const AccountButton = () => {
   return (
     <>
       <div onClick={handleClick}>
-        <AccountCircleIcon fontSize={'large'} />
+        {profilePicture ? (
+          <img
+            src={profilePicture} 
+            alt="Profile Picture"
+            style={{
+              width: 40,
+              height: 40,
+              borderRadius: '50%',
+              objectFit: 'cover',
+            }}
+          />
+        ) : (
+          <AccountCircleIcon fontSize={'large'} />
+        )}
       </div>
       <BasePopup id={id} open={open} anchor={anchor}>
         <PopupBody>
@@ -33,7 +67,14 @@ const AccountButton = () => {
           >
             <ThemeToggle />
             <label style={{ cursor: 'pointer' }}>
-              Avatar <input type="file" accept="image/*" hidden />
+              Avatar
+              <input
+                key={profilePicture}
+                type="file"
+                accept="image/*"
+                onChange={handlePictureChange}
+                hidden
+              />
             </label>
             <Link
               href={'/dashboard/settings'}
