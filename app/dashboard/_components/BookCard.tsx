@@ -103,7 +103,7 @@ export default function BookCard({ book }: { book: Book }) {
           open={shareOpen}
           setOpen={setShareOpen}
           permissions={{
-            bookId: book.id,
+            id: book.id,
             isPublic: false,
           }}
           queryKey="permissions"
