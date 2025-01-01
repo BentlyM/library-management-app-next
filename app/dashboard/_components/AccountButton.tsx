@@ -5,6 +5,11 @@ import { styled } from '@mui/system';
 import ThemeToggle from '@/app/components/ThemeToggle';
 import Link from 'next/link';
 import { logout } from '@/app/components/logout/_actions/logout';
+import { useMutation } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
+import SkeletonWrapper from '@/app/components/SkeletonWrapper';
+import { AddAvatar } from '../_actions/addAvatar';
+import ImageAvatar from '../_helpers/ImageAvatar';
 
 const AccountButton = () => {
   const [anchor, setAnchor] = React.useState<null | HTMLElement>(null);
@@ -12,11 +17,26 @@ const AccountButton = () => {
     null
   );
 
+  const mutation = useMutation({
+    mutationFn: AddAvatar,
+    onSuccess: (data) => {
+      if (data.success) {
+        localStorage.setItem('profilePicture', data.avatarUrl as string);
+        toast.success('Profile Picture Updated');
+      } else {
+        toast.error(data.message as string);
+      }
+    },
+    onError: () => {
+      toast.error('An unexpected error occurred');
+    },
+  });
+
   React.useEffect(() => {
     const picture = localStorage.getItem('profilePicture');
-    if (picture) {
-      setProfilePicture(picture);
-    }
+    ImageAvatar({ profilePicture: picture }).then((picture) =>
+      setProfilePicture(picture as string)
+    );
   }, []);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -26,11 +46,10 @@ const AccountButton = () => {
   const handlePictureChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      const formData = new FormData();
       setProfilePicture(URL.createObjectURL(file));
-      localStorage.setItem(
-        'profilePicture',
-        URL.createObjectURL(file).split(':').slice(1).join('')
-      );
+      formData.append('profilePicture', file);
+      mutation.mutate(formData);
     }
   };
 
@@ -41,7 +60,7 @@ const AccountButton = () => {
       <div onClick={handleClick}>
         {profilePicture ? (
           <img
-            src={profilePicture} 
+            src={profilePicture}
             alt="Profile Picture"
             style={{
               width: 40,
@@ -51,7 +70,9 @@ const AccountButton = () => {
             }}
           />
         ) : (
-          <AccountCircleIcon fontSize={'large'} />
+          <SkeletonWrapper isLoading={mutation.isPending}>
+            <AccountCircleIcon fontSize={'large'} />
+          </SkeletonWrapper>
         )}
       </div>
       <BasePopup id={id} open={open} anchor={anchor}>
@@ -86,6 +107,7 @@ const AccountButton = () => {
               style={{ cursor: 'pointer' }}
               onClick={() => {
                 localStorage.removeItem('user');
+                localStorage.removeItem('profilePicture');
                 return logout();
               }}
             >

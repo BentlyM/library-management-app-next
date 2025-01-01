@@ -8,56 +8,57 @@ datasource db {
 }
 
 model User {
-  id        String        @id @default(uuid()) @unique
-  name      String?
-  email     String        @unique
-  books     Book[]        @relation("UserBooks")
-  plan      Plan          @default(FREE)
-  
-  customerId String? @unique
+  id      String  @id @unique @default(uuid())
+  name    String?
+  email   String  @unique
+  picture String?
+  books   Book[]  @relation("UserBooks")
+  plan    Plan    @default(FREE)
+
+  customerId   String?       @unique
   Subscription Subscription?
 
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 
   BookPermission BookPermission[]
 }
 
 model Book {
-  id               String              @id @default(uuid()) @unique
-  title            String
-  author           String
-  summary          String
-  genre            String
-  cover            String
-  rating           Int                 @default(2)
-  user             User[]              @relation("UserBooks")
-  createdAt        DateTime            @default(now())
-  updatedAt        DateTime            @default(now()) @updatedAt
-  readingProgress   ReadingProgress[]   @relation("BookReadingProgress")
+  id              String            @id @unique @default(uuid())
+  title           String
+  author          String
+  summary         String
+  genre           String
+  cover           String
+  rating          Int               @default(2)
+  user            User[]            @relation("UserBooks")
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @default(now()) @updatedAt
+  readingProgress ReadingProgress[] @relation("BookReadingProgress")
 
   BookPermission BookPermission[]
 }
 
 model ReadingProgress {
-  id                    String   @id @default(uuid()) @unique
-  bookId                String
-  month                 Int
-  completionPercentage  Int      @default(0) 
-  book                  Book     @relation("BookReadingProgress", fields: [bookId], references: [id])
+  id                   String @id @unique @default(uuid())
+  bookId               String
+  month                Int
+  completionPercentage Int    @default(0)
+  book                 Book   @relation("BookReadingProgress", fields: [bookId], references: [id])
 
-  @@unique([bookId, month]) 
+  @@unique([bookId, month])
 }
 
 // New model for sharing permissions
 model BookPermission {
-  id         String   @id @default(uuid()) @unique
-  userId     String
-  bookId     String
-  isPublic   Boolean  @default(false) 
+  id       String  @id @unique @default(uuid())
+  userId   String
+  bookId   String
+  isPublic Boolean @default(false)
 
-  user       User     @relation(fields: [userId], references: [id])
-  book       Book     @relation(fields: [bookId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+  book Book @relation(fields: [bookId], references: [id])
 
   @@unique([userId, bookId])
 }
@@ -72,16 +73,16 @@ enum SubscriptionPeriod {
 }
 
 model Subscription {
-  id          String   @id @default(uuid()) @unique
-  userId      String   @unique
-  plan        Plan
-  period      SubscriptionPeriod
+  id     String             @id @unique @default(uuid())
+  userId String             @unique
+  plan   Plan
+  period SubscriptionPeriod
 
-  startDate   DateTime @default(now())
-  endDate     DateTime
+  startDate DateTime @default(now())
+  endDate   DateTime
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  User        User     @relation(fields: [userId], references: [id])
+  User User @relation(fields: [userId], references: [id])
 }
