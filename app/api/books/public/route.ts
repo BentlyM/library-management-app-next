@@ -5,11 +5,7 @@ import prisma from '@/app/lib/prisma';
 export async function GET() {
   const publicBooks = await prisma.book.findMany({
     where: {
-      BookPermission: {
-        some: {
-          isPublic: true, // Ensure that the book has a public permission
-        },
-      },
+      isPublic: true,
     },
     select: {
       id: true,

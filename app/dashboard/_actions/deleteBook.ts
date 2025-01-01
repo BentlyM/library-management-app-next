@@ -18,10 +18,6 @@ export async function DeleteBook(id: string) {
       where: { bookId: id },
     });
 
-    await prisma.bookPermission.deleteMany({
-      where: {bookId: id}
-    })
-
     const deletedBook = await prisma.book.delete({
       where: { id },
     });

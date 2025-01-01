@@ -94,12 +94,11 @@ export async function updatePermissions(formData: FormData) {
   }
 
   if (isPublic && book.cover) {
-    const existingPublicCover = await prisma.bookPermission.findFirst({
+    const existingPublicCover = await prisma.book.findFirst({
       where: {
         isPublic: true,
-        book: {
-          cover: book.cover,
-        },
+        cover: book.cover, // check that the cover is not already in use by another public book
+        
       },
     });
 
@@ -112,17 +111,15 @@ export async function updatePermissions(formData: FormData) {
     }
   }
 
-  const existingPermission = await prisma.bookPermission.findUnique({
+  const existingPermission = await prisma.book.findUnique({
     where: {
-      userId_bookId: {
-        userId,
-        bookId,
-      },
+      id: bookId,
+      isPublic: true,
     },
   });
 
   if (existingPermission) {
-    await prisma.bookPermission.update({
+    await prisma.book.update({
       where: {
         id: existingPermission.id,
       },
@@ -135,10 +132,11 @@ export async function updatePermissions(formData: FormData) {
       message: 'Permissions updated successfully',
     };
   } else {
-    await prisma.bookPermission.create({
+    await prisma.book.update({
+      where: {
+        id: bookId,
+      },
       data: {
-        userId,
-        bookId,
         isPublic,
       },
     });

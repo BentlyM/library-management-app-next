@@ -12,12 +12,12 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import React from 'react';
 import toast from 'react-hot-toast';
 import { updatePermissions } from '../dashboard/_actions/updateBook';
-import { BookPermission } from '@prisma/client';
+import { Book } from '@prisma/client';
 
 interface Props {
   open: boolean;
   setOpen: (open: boolean) => void;
-  permissions: Partial<BookPermission>;
+  permissions: Partial<{ isPublic: Book['isPublic']; id: Book['id'] }>;
   queryKey: string;
 }
 
@@ -27,7 +27,7 @@ export default function ShareSettingsDialog({
   permissions,
   queryKey,
 }: Props) {
-  const [isPublic, setIsPublic] = React.useState(permissions.isPublic);
+  const [isPublic, setIsPublic] = React.useState(permissions.isPublic || false);
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
@@ -53,7 +53,7 @@ export default function ShareSettingsDialog({
           event.preventDefault();
           const formData = new FormData(event.currentTarget);
           formData.append('isPublic', String(isPublic));
-          formData.append('bookId', permissions.bookId as string);
+          formData.append('bookId', permissions.id as string);
 
           mutation.mutate(formData);
           setOpen(false);

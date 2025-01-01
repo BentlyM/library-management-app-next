@@ -20,8 +20,6 @@ model User {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
-
-  BookPermission BookPermission[]
 }
 
 model Book {
@@ -34,10 +32,9 @@ model Book {
   rating          Int               @default(2)
   user            User[]            @relation("UserBooks")
   createdAt       DateTime          @default(now())
+  isPublic        Boolean           @default(false)
   updatedAt       DateTime          @default(now()) @updatedAt
   readingProgress ReadingProgress[] @relation("BookReadingProgress")
-
-  BookPermission BookPermission[]
 }
 
 model ReadingProgress {
@@ -48,19 +45,6 @@ model ReadingProgress {
   book                 Book   @relation("BookReadingProgress", fields: [bookId], references: [id])
 
   @@unique([bookId, month])
-}
-
-// New model for sharing permissions
-model BookPermission {
-  id       String  @id @unique @default(uuid())
-  userId   String
-  bookId   String
-  isPublic Boolean @default(false)
-
-  user User @relation(fields: [userId], references: [id])
-  book Book @relation(fields: [bookId], references: [id])
-
-  @@unique([userId, bookId])
 }
 
 enum Plan {
