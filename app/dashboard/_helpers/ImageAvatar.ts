@@ -2,14 +2,9 @@
 import prisma from '@/app/lib/prisma';
 import { createClient } from '@/utils/supabase/server';
 
-export async function ImageAvatar({
-  profilePicture,
-}: {
-  profilePicture: string | null;
-}) {
+export async function ImageAvatar() {
   const supabase = createClient();
 
-  // Fetch the existing profile picture from the database
   const existingProfilePicture = await prisma.user.findUnique({
     where: {
       email: (await supabase.auth.getUser()).data.user?.email as string,
@@ -19,8 +14,7 @@ export async function ImageAvatar({
     },
   });
 
-  // Return the existing profile picture if available, otherwise fallback to profilePicture
-  return existingProfilePicture?.picture ?? profilePicture;
+  return existingProfilePicture?.picture;
 }
 
 export default ImageAvatar;

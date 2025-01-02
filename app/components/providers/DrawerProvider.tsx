@@ -19,7 +19,6 @@ export const DrawerProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-// Custom hook to use the DrawerContext
 export const useDrawer = (): DrawerContextType => {
   const context = useContext(DrawerContext);
   if (!context) {

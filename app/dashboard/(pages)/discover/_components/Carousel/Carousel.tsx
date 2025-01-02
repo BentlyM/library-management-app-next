@@ -77,7 +77,6 @@ const Carousel = ({
     };
   }, [children]);
 
-  // Function to handle scrolling with proper refs
   const handleScroll = (isForward: boolean) => {
     if (!containerRef.current) return;
 

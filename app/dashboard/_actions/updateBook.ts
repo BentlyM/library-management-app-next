@@ -97,7 +97,7 @@ export async function updatePermissions(formData: FormData) {
     const existingPublicCover = await prisma.book.findFirst({
       where: {
         isPublic: true,
-        cover: book.cover, // check that the cover is not already in use by another public book
+        cover: book.cover, 
         
       },
     });

@@ -37,7 +37,7 @@ export async function CreateBook(formData: FormData) {
       author: validatedData.data?.author,
       summary: validatedData.data?.summary || '',
       genre: validatedData.data?.genre,
-      cover: coverUrl || 'https://placehold.co/100x250', // idk just found some random placeholder image api lol
+      cover: coverUrl || 'https://placehold.co/100x250', 
       user: {
         connect: {
           email: data.user?.email,
@@ -62,7 +62,6 @@ async function uploadCover(cover: File): Promise<string> {
     throw new Error(`Uploading error: ${error.message}`);
   }
 
-  // thinking about putting this in a try cause i cant find on error destructing
   const { data: publicUrl } = supabase.storage
     .from('covers')
     .getPublicUrl(data.path);

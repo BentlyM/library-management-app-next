@@ -21,7 +21,6 @@ const AccountButton = () => {
     mutationFn: AddAvatar,
     onSuccess: (data) => {
       if (data.success) {
-        localStorage.setItem('profilePicture', data.avatarUrl as string);
         toast.success('Profile Picture Updated');
       } else {
         toast.error(data.message as string);
@@ -33,10 +32,7 @@ const AccountButton = () => {
   });
 
   React.useEffect(() => {
-    const picture = localStorage.getItem('profilePicture');
-    ImageAvatar({ profilePicture: picture }).then((picture) =>
-      setProfilePicture(picture as string)
-    );
+    ImageAvatar().then((picture) => setProfilePicture(picture as string));
   }, []);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -107,7 +103,6 @@ const AccountButton = () => {
               style={{ cursor: 'pointer' }}
               onClick={() => {
                 localStorage.removeItem('user');
-                localStorage.removeItem('profilePicture');
                 return logout();
               }}
             >
