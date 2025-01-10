@@ -125,6 +125,7 @@ const SignUp = () => {
                   type="text"
                   name="username"
                   required
+                  disabled={mutation.isPending}
                 />
               </Box>
               <Box sx={{ mb: 2 }}>
@@ -136,6 +137,7 @@ const SignUp = () => {
                   type="email"
                   name="email"
                   required
+                  disabled={mutation.isPending}
                 />
               </Box>
               <FormControl sx={{ mb: 2 }} variant="outlined">
@@ -159,6 +161,7 @@ const SignUp = () => {
                       </IconButton>
                     </InputAdornment>
                   }
+                  disabled={mutation.isPending}
                 />
               </FormControl>
 
@@ -184,6 +187,7 @@ const SignUp = () => {
                       </IconButton>
                     </InputAdornment>
                   }
+                  disabled={mutation.isPending}
                 />
               </FormControl>
 

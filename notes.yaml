@@ -1,8 +1,16 @@
 i am a software developer :D
 
-what data do you wish to implement in regards to data charts
--  most read genre
-- compared ratings (top book or similar)
-- total reading progress (possibly)
+future functionality:
+  - notification system
+  - add more features for book verification
+  - remember me functionality
 
-how will you display charts on a global scale?
+bugs: 
+  - bug with theme sticking to its system even after icon interaction
+  - account display not closing
+  - books added to discover don't display (learn socket perhaps?) // real-time
+
+what i want to refactor
+  - refactor dashboard UI
+  - refactor landing page
+  - refactor profile/settings

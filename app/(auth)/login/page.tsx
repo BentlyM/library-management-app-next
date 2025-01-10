@@ -150,6 +150,7 @@ const Login = () => {
                 variant="outlined"
                 name="email"
                 required
+                disabled={mutation.isPending}
               />
             </Box>
             <FormControl sx={{ m: 1 }} variant="outlined">
@@ -173,6 +174,7 @@ const Login = () => {
                     </IconButton>
                   </InputAdornment>
                 }
+                disabled={mutation.isPending}
               />
             </FormControl>
             <FormControlLabel
