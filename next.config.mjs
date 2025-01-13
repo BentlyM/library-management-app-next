@@ -8,16 +8,20 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'images-na.ssl-images-amazon.com'
+        hostname: 'images-na.ssl-images-amazon.com',
       },
       {
         protocol: 'https',
-        hostname: 'igtnbgdhxezmzgvxesbi.supabase.co'
+        hostname: 'igtnbgdhxezmzgvxesbi.supabase.co',
       },
       {
         protocol: 'https',
-        hostname: 'i.gr-assets.com'
-      }
+        hostname: 'i.gr-assets.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'placehold.co',
+      },
     ],
   },
 };

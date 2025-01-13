@@ -8,7 +8,8 @@ future functionality:
 bugs: 
   - bug with theme sticking to its system even after icon interaction
   - account display not closing
-  - books added to discover don't display (learn socket perhaps?) // real-time
+  - books added to discover don't display (learn socket perhaps?) // real-time // caching
+  - 
 
 what i want to refactor
   - refactor dashboard UI
