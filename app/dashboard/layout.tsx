@@ -191,7 +191,10 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
         <Box
           sx={{
             display: 'flex',
-            flexDirection: 'row',
+            flexDirection: {
+              xs: 'column',
+              sm: 'row'
+            },
             justifyContent: {
               sm: 'start',
               md: 'space-between',
@@ -200,7 +203,7 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
             alignItems: 'center',
           }}
         >
-          <h1>{title}</h1>
+          <h1 style={{marginBottom: '0'}}>{title}</h1>
           <ul
             style={{
               display: 'flex',
@@ -208,6 +211,7 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
               justifyContent: 'space-evenly',
               listStyle: 'none',
               gap: '10px',
+              paddingLeft: '20px'
             }}
           >
             <li>

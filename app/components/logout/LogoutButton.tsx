@@ -1,10 +1,8 @@
-import { IconButton, useTheme } from '@mui/material';
+import { IconButton } from '@mui/material';
 import { LogOut } from 'lucide-mui';
 import { logout } from './_actions/logout';
 
 const LogoutButton = () => {
-  const theme = useTheme(); 
-
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     localStorage.removeItem('user');
@@ -20,7 +18,7 @@ const LogoutButton = () => {
         <IconButton
           sx={{
             backgroundColor: 'transparent',
-            color: theme.palette.text.primary,
+            color: 'inherit'
           }}
           type="submit"
         >

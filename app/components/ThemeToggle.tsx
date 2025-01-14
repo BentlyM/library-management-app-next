@@ -6,7 +6,6 @@ import { useColorScheme } from '@mui/material/styles';
 
 const ThemeToggle: React.FC = () => {
   const { mode, systemMode, setMode } = useColorScheme();
-
   const toggleDarkTheme = React.useCallback(() => {
     if (mode) {
       const currMode =

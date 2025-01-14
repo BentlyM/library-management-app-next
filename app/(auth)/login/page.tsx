@@ -108,7 +108,7 @@ const Login = () => {
             <Image
               src={'/image/book-lover.svg'}
               alt="Sign In"
-              style={{ maxWidth: '300px', height: 'auto' }}
+              style={{ maxWidth: '300px', height: 'auto', width: 'auto' }}
               width={250}
               height={250}
             />
