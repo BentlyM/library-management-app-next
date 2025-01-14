@@ -59,9 +59,10 @@ const AccountButton = () => {
   return (
     <>
       <ClickAwayListener
-        onClickAway={(event) => {
+        onClickAway={() => {
           if (open) {
             setOpen(false);
+            setAnchor(null);
           }
         }}
       >
