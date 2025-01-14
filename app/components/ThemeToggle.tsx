@@ -9,7 +9,8 @@ const ThemeToggle: React.FC = () => {
 
   const toggleDarkTheme = React.useCallback(() => {
     if (mode) {
-      const currMode = mode === 'dark' ? 'light' : 'dark';
+      const currMode =
+        mode === 'dark' || systemMode === 'dark' ? 'light' : 'dark';
       setMode(currMode);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -24,7 +25,7 @@ const ThemeToggle: React.FC = () => {
         alignItems: 'center',
       }}
     >
-      {mode === 'dark' ? <Sun /> : <Moon />}
+      {mode === 'dark' || systemMode === 'dark' ? <Sun /> : <Moon />}{' '}
     </div>
   );
 };
