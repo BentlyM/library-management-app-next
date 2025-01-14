@@ -43,7 +43,6 @@ const ServicePage = async () => {
             'Monthly Reading Progress Tracking: progress for up to 5 books.',
             'Access to Reading Stats: Basic statistics',
             'Book Recommendations: A limited selection of book recommendations',
-            'User Community: Access to a forums',
             'Email Newsletter: Monthly updates with reading tips and highlights.',
           ]}
           paymentLink={process.env.STRIPE_MONTHLY_PLAN_LINK!}
@@ -72,7 +71,6 @@ const ServicePage = async () => {
             'All Features from Premium Access: Includes everything from the Premium tier.',
             'Goal Setting and Reminders: set reading goals and receive reminders',
             'Enhanced Community Features: Participation in book clubs, reading challenges, and events.',
-            'User Community: Access to a forums',
             'Email Newsletter: Monthly updates with reading tips and highlights.',
           ]}
           paymentLink={''}

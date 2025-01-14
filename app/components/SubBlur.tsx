@@ -30,7 +30,7 @@ export const SubBlur = ({
     >
       <Link
         href={link || ''}
-        style={{ textDecoration: 'none', color: 'black' }}
+        style={{ textDecoration: 'none', color: 'inherit' }}
       >
         {children}
       </Link>
