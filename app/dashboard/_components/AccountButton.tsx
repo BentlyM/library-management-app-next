@@ -10,12 +10,14 @@ import toast from 'react-hot-toast';
 import SkeletonWrapper from '@/app/components/SkeletonWrapper';
 import { AddAvatar } from '../_actions/addAvatar';
 import ImageAvatar from '../_helpers/ImageAvatar';
+import { ClickAwayListener } from '@mui/material';
 
 const AccountButton = () => {
   const [anchor, setAnchor] = React.useState<null | HTMLElement>(null);
   const [profilePicture, setProfilePicture] = React.useState<null | string>(
     null
   );
+  const [open, setOpen] = React.useState<boolean | undefined>(true);
 
   const mutation = useMutation({
     mutationFn: AddAvatar,
@@ -35,6 +37,10 @@ const AccountButton = () => {
     ImageAvatar().then((picture) => setProfilePicture(picture as string));
   }, []);
 
+  React.useEffect(() => {
+    setOpen(Boolean(anchor));
+  }, [anchor]);
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchor(anchor ? null : event.currentTarget);
   };
@@ -49,68 +55,77 @@ const AccountButton = () => {
     }
   };
 
-  const open = Boolean(anchor);
   const id = open ? 'simple-popper' : undefined;
   return (
     <>
-      <div onClick={handleClick}>
-        {profilePicture ? (
-          <img
-            src={profilePicture}
-            alt="Profile Picture"
-            style={{
-              width: 40,
-              height: 40,
-              borderRadius: '50%',
-              objectFit: 'cover',
-            }}
-          />
-        ) : (
-          <SkeletonWrapper isLoading={mutation.isPending}>
-            <AccountCircleIcon fontSize={'large'} />
-          </SkeletonWrapper>
-        )}
-      </div>
-      <BasePopup id={id} open={open} anchor={anchor}>
-        <PopupBody>
-          <div
-            style={{
-              width: '100%',
-              display: 'flex',
-              justifyContent: 'space-evenly',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
-            <ThemeToggle />
-            <label style={{ cursor: 'pointer' }}>
-              Avatar
-              <input
-                key={profilePicture}
-                type="file"
-                accept="image/*"
-                onChange={handlePictureChange}
-                hidden
+      <ClickAwayListener
+        onClickAway={(event) => {
+          if (open) {
+            setOpen(false);
+          }
+        }}
+      >
+        <div>
+          <div onClick={handleClick}>
+            {profilePicture ? (
+              <img
+                src={profilePicture}
+                alt="Profile Picture"
+                style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: '50%',
+                  objectFit: 'cover',
+                }}
               />
-            </label>
-            <Link
-              href={'/dashboard/settings'}
-              style={{ color: 'inherit', textDecoration: 'none' }}
-            >
-              Profile
-            </Link>
-            <div
-              style={{ cursor: 'pointer' }}
-              onClick={() => {
-                localStorage.removeItem('user');
-                return logout();
-              }}
-            >
-              Logout
-            </div>
+            ) : (
+              <SkeletonWrapper isLoading={mutation.isPending}>
+                <AccountCircleIcon fontSize={'large'} />
+              </SkeletonWrapper>
+            )}
           </div>
-        </PopupBody>
-      </BasePopup>
+          <BasePopup id={id} open={open} anchor={anchor}>
+            <PopupBody>
+              <div
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'space-evenly',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                }}
+              >
+                <ThemeToggle />
+                <label style={{ cursor: 'pointer' }}>
+                  Avatar
+                  <input
+                    key={profilePicture}
+                    type="file"
+                    accept="image/*"
+                    onChange={handlePictureChange}
+                    hidden
+                  />
+                </label>
+                <Link
+                  href={'/dashboard/settings'}
+                  style={{ color: 'inherit', textDecoration: 'none' }}
+                >
+                  Profile
+                </Link>
+                <div
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => {
+                    localStorage.removeItem('user');
+                    return logout();
+                  }}
+                >
+                  Logout
+                </div>
+              </div>
+            </PopupBody>
+          </BasePopup>
+        </div>
+      </ClickAwayListener>
     </>
   );
 };

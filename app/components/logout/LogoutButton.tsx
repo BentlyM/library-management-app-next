@@ -19,15 +19,12 @@ const LogoutButton = () => {
       >
         <IconButton
           sx={{
-            backgroundColor: theme.palette.background.paper,
+            backgroundColor: 'transparent',
             color: theme.palette.text.primary,
-            '&:hover': {
-              backgroundColor: theme.palette.background.default, 
-            },
           }}
           type="submit"
         >
-          <LogOut style={{ width: '30px', height: '30px', color: 'inherit' }} />
+          <LogOut style={{ width: '30px', height: '30px', color: 'inherit'}} />
         </IconButton>
       </form>
     </div>

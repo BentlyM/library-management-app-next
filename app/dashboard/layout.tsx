@@ -28,7 +28,6 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AccountButton from './_components/AccountButton';
 
-
 const Dashboard = ({ children }: { children: React.ReactNode }) => {
   const theme = useTheme();
   const pathname = usePathname()
@@ -195,7 +194,7 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
             flexDirection: 'row',
             justifyContent: {
               sm: 'start',
-              md: 'space-between'
+              md: 'space-between',
             },
             marginBottom: '10px',
             alignItems: 'center',
@@ -212,7 +211,7 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
             }}
           >
             <li>
-              <AccountButton />
+                  <AccountButton />
             </li>
             <li>
               <NotificationsIcon fontSize={'large'} />
