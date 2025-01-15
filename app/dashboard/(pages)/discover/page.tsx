@@ -18,7 +18,10 @@ const DiscoverPage = () => {
 
   const fetchPublicBookQuery = useQuery<Books>({
     queryKey: ['public-books'],
-    queryFn: () => fetch(`/api/books/public`).then((res) => res.json()),
+    queryFn: () =>
+      fetch(`/api/books/public`, { cache: 'no-cache' }).then((res) =>
+        res.json()
+      ),
   });
 
   const books = fetchPublicBookQuery.data?.books || [];

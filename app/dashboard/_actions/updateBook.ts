@@ -1,6 +1,7 @@
 'use server';
 import prisma from '@/app/lib/prisma';
 import { createClient } from '@/utils/supabase/server';
+import { revalidatePath } from 'next/cache';
 
 export async function updateBook(formData: FormData) {
   if (!formData) return { success: false, message: 'Unable to Config Data...' };
@@ -127,6 +128,7 @@ export async function updatePermissions(formData: FormData) {
         isPublic,
       },
     });
+      revalidatePath('/dashboard/discover', 'layout');
     return {
       success: true,
       message: 'Permissions updated successfully',
@@ -140,9 +142,11 @@ export async function updatePermissions(formData: FormData) {
         isPublic,
       },
     });
+      revalidatePath('/dashboard/discover', 'layout');
     return {
       success: true,
       message: 'Permissions created successfully',
     };
   }
+  
 }
