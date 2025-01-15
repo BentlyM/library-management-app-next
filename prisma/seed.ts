@@ -45,8 +45,8 @@ async function main() {
       author: 'Jane Doe',
       summary:
         'An insightful guide to mastering Prisma for backend development.',
-      genre: 'Programming',
-      cover: 'https://placehold.co/300x400',
+      genre: 'Non-Fiction',
+      cover: 'https://placehold.co/300x400/png',
       rating: 4,
       user: { connect: { id: user2.id } },
       isPublic: true,
@@ -58,7 +58,7 @@ async function main() {
       title: 'The hobbit',
       author: 'j.r.r. tolkien',
       summary: 'a hobbit goes on an adventure',
-      genre: 'adventure',
+      genre: 'Adventure',
       cover:
         'https://igtnbgdhxezmzgvxesbi.supabase.co/storage/v1/object/public/covers/1729685675170_cover.jpg',
       rating: 5,
@@ -72,7 +72,7 @@ async function main() {
       title: 'SOUL',
       author: 'Olivia wilson',
       summary: 'an emotional rollercoaster of a story',
-      genre: 'romance',
+      genre: 'Romance',
       cover:
         'https://igtnbgdhxezmzgvxesbi.supabase.co/storage/v1/object/public/covers/1729714142699_cover.jpg',
       rating: 4,
@@ -87,9 +87,83 @@ async function main() {
       author: 'peter benchley',
       summary:
         'A giant great white shark arrives on the shores of a New England beach resort and wreak',
-      genre: 'Art',
+      genre: 'Non-Fiction',
       cover:
         'https://igtnbgdhxezmzgvxesbi.supabase.co/storage/v1/object/public/covers/1733415539379_cover.jpg',
+      rating: 5,
+      user: { connect: { id: user1.id } },
+      isPublic: true,
+    },
+  });
+
+  const book6 = await prisma.book.create({
+    data: {
+      title: 'The Death Cure',
+      author: 'James Dashner',
+      summary:
+        'Thomas knows that WICKED can not be trusted, but they say the time for lies is over, but WICKED is good? ',
+      genre: 'Fiction',
+      cover:
+        'https://igtnbgdhxezmzgvxesbi.supabase.co/storage/v1/object/public/covers/1736863252705_cover.jpg',
+      rating: 5,
+      user: { connect: { id: user1.id } },
+      isPublic: true,
+    },
+  });
+
+  const book7 = await prisma.book.create({
+    data: {
+      title: 'how to be a women',
+      author: 'caitlin moran',
+      summary:
+        'Caitlin Moran interweaves provocative observations on women’s lives with laugh-out-loud funny scenes from her own, from the riot of adolescence to her development as a writer, wife, and mother.',
+      genre: 'Non-Fiction',
+      cover:
+        'https://igtnbgdhxezmzgvxesbi.supabase.co/storage/v1/object/public/covers/1735692570944_cover.jpg',
+      rating: 5,
+      user: { connect: { id: user1.id } },
+      isPublic: true,
+    },
+  });
+
+  const book8 = await prisma.book.create({
+    data: {
+      title: 'floreskand king',
+      author: 'moeton faulkner',
+      summary:
+        'The story of the Compson family, featuring some of the most memorable characters in literature: beautiful, rebellious Caddy; the manchild Benjy; haunted, neurotic Quentin; Jason, the brutal cynic; and Dilsey, their black servant. Their lives fragmented and harrowed by history and legacy, the character’s voices and actions mesh to create what is arguably Faulkner’s masterpiece and one of the greatest novels of the twentieth century.',
+      genre: 'Fiction',
+      cover:
+        'https://igtnbgdhxezmzgvxesbi.supabase.co/storage/v1/object/public/covers/1729474543563_cover.jpg',
+      rating: 5,
+      user: { connect: { id: user1.id } },
+      isPublic: true,
+    },
+  });
+
+  const book9 = await prisma.book.create({
+    data: {
+      title: 'Out of the box',
+      author: 'suzanne dudley',
+      summary:
+        'A collection of short stories that will take you out of your comfort zone.',
+      genre: 'Fiction',
+      cover:
+        'https://igtnbgdhxezmzgvxesbi.supabase.co/storage/v1/object/public/covers/1738959485959_cover.jpg',
+      rating: 5,
+      user: { connect: { id: user1.id } },
+      isPublic: true,
+    },
+  });
+
+  const book10 = await prisma.book.create({
+    data: {
+      title: 'Abandoned Kingdom',
+      author: 'glaudia wilson',
+      summary: 'A young princess must save her kingdom from an evil sorcerer.',
+      genre: 'Fantasy',
+      cover:
+        'https://igtnbgdhxezmzgvxesbi.supabase.co/storage/v1/object/public/covers/173094993895_cover.jpg',
       rating: 5,
       user: { connect: { id: user1.id } },
       isPublic: true,
@@ -113,29 +187,45 @@ async function main() {
     },
   });
 
-    await prisma.readingProgress.create({
-        data: {
-        bookId: book3.id,
-        month: 1,
-        completionPercentage: 100,
-        },
-    });
+  await prisma.readingProgress.create({
+    data: {
+      bookId: book3.id,
+      month: 1,
+      completionPercentage: 60,
+    },
+  });
 
-    await prisma.readingProgress.create({
-        data: {
-        bookId: book4.id,
-        month: 1,
-        completionPercentage: 100,
-        },
-    });
+  await prisma.readingProgress.create({
+    data: {
+      bookId: book4.id,
+      month: 1,
+      completionPercentage: 45,
+    },
+  });
 
-    await prisma.readingProgress.create({
-        data: {
-        bookId: book5.id,
-        month: 1,
-        completionPercentage: 100,
-        },
-    });
+  await prisma.readingProgress.create({
+    data: {
+      bookId: book5.id,
+      month: 1,
+      completionPercentage: 32,
+    },
+  });
+
+  await prisma.readingProgress.create({
+    data: {
+      bookId: book6.id,
+      month: 1,
+      completionPercentage: 10,
+    },
+  });
+
+  await prisma.readingProgress.create({
+    data: {
+      bookId: book7.id,
+      month: 1,
+      completionPercentage: 77,
+    },
+  });
 
   // Create subscriptions
   await prisma.subscription.create({

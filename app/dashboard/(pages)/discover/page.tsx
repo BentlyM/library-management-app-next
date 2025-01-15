@@ -34,7 +34,6 @@ const DiscoverPage = () => {
             xs: '98vw',
             md: `calc(98vw - ${open ? drawerWidth : 0}px)`,
           },
-          border: '1px dotted red',
           padding: '10px',
         }}
       >
@@ -43,7 +42,6 @@ const DiscoverPage = () => {
           style={{
             padding: '15px 0',
             margin: '10px 0',
-            border: '1px dotted red',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -67,7 +65,6 @@ const DiscoverPage = () => {
             xs: '98vw',
             md: `calc(98vw - ${open ? drawerWidth : 0}px)`,
           },
-          border: '1px dotted red',
           padding: '10px',
         }}
       >
@@ -79,7 +76,6 @@ const DiscoverPage = () => {
             xs: '98vw',
             md: `calc(98vw - ${open ? drawerWidth : 0}px)`,
           },
-          border: '1px dotted red',
           padding: '10px',
         }}
       >

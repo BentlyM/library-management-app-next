@@ -37,7 +37,7 @@ export async function CreateBook(formData: FormData) {
       author: validatedData.data?.author,
       summary: validatedData.data?.summary || '',
       genre: validatedData.data?.genre,
-      cover: coverUrl || 'https://placehold.co/100x250', 
+      cover: coverUrl || 'https://placehold.co/300x400/png', 
       user: {
         connect: {
           email: data.user?.email,
