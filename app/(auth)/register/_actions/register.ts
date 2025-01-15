@@ -28,13 +28,26 @@ export async function register(formData: FormData) {
 
   const { username, email, password } = parsedData.data;
 
-  const { error } = await supabase.auth.signUp({ email, password });
-
-  if (error) {
-    return { success: false, message: error.message };
-  }
-
   try {
+    const existingUser = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    if (existingUser) {
+      return {
+        success: false,
+        message: 'User with this email already exists',
+      };
+    }
+
+    const { error } = await supabase.auth.signUp({ email, password });
+
+    if (error) {
+      return { success: false, message: error.message };
+    }
+
     await prisma.user.create({
       data: {
         id: (await supabase.auth.getUser()).data.user?.id,
