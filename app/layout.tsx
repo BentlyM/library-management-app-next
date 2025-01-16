@@ -10,8 +10,6 @@ export const metadata: Metadata = {
   description: 'Library',
 };
 
-export const fetchCache = "force-no-store";
-
 export default function RootLayout({
   children,
 }: Readonly<{

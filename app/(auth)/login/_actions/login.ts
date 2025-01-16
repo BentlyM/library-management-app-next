@@ -2,7 +2,6 @@
 
 import { revalidatePath } from 'next/cache';
 import { loginSchema } from '@/schema/auth';
-
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 
