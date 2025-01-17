@@ -11,7 +11,7 @@ import {
   Box,
   Typography,
 } from '@mui/material';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import SkeletonWrapper from '@/app/components/SkeletonWrapper';
 import { useDebounce } from 'use-debounce';
 import { CreateBook } from './_actions/addBook';
@@ -29,6 +29,8 @@ const BookForm = () => {
   const [debounceTitle] = useDebounce(title, 500);
   const [debounceAuthor] = useDebounce(author, 500);
 
+  const queryclient = useQueryClient();
+
   const fetchCoverQuery = useQuery({
     queryKey: ['cover', debounceTitle, debounceAuthor, manualCover],
     queryFn: () =>
@@ -43,6 +45,7 @@ const BookForm = () => {
     onSuccess: (data) => {
       if (data.success) {
         toast.success('Book Created Successfully');
+        queryclient.invalidateQueries({ queryKey: 'books' });
       } else {
         toast.error(data.message!);
       }
@@ -145,7 +148,7 @@ const BookForm = () => {
                   objectFit: 'contain',
                   height: 'fit-content',
                   width: '100%',
-                  flex: '0'
+                  flex: '0',
                 }}
               />
             ) : (

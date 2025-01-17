@@ -106,7 +106,7 @@ export default function BookCard({ book }: { book: Book }) {
             id: book.id,
             isPublic: false,
           }}
-          queryKey="permissions"
+          queryKey="public-books"
         />
       </CardActions>
     </Card>
