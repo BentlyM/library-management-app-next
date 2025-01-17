@@ -68,6 +68,7 @@ export async function updateBook(formData: FormData) {
     return { success: false, message: 'Unable to update book.' };
   }
 
+  revalidatePath('/dashboard/discover');
   return { success: true, data: updatedBook };
 }
 
@@ -98,8 +99,7 @@ export async function updatePermissions(formData: FormData) {
     const existingPublicCover = await prisma.book.findFirst({
       where: {
         isPublic: true,
-        cover: book.cover, 
-        
+        cover: book.cover,
       },
     });
 
@@ -128,7 +128,7 @@ export async function updatePermissions(formData: FormData) {
         isPublic,
       },
     });
-      revalidatePath('/dashboard/discover', 'layout');
+    revalidatePath('/dashboard/discover');
     return {
       success: true,
       message: 'Permissions updated successfully',
@@ -142,11 +142,10 @@ export async function updatePermissions(formData: FormData) {
         isPublic,
       },
     });
-      revalidatePath('/dashboard/discover', 'layout');
+    revalidatePath('/dashboard/discover');
     return {
       success: true,
       message: 'Permissions created successfully',
     };
   }
-  
 }

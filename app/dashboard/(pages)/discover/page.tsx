@@ -21,6 +21,7 @@ const DiscoverPage = () => {
       fetch(`/api/books/public`, { cache: 'no-cache' }).then((res) =>
         res.json()
       ),
+    refetchInterval: 60 * 1000, // Revalidate every 60 seconds
   });
 
   const books = fetchPublicBookQuery.data?.books || [];

@@ -61,6 +61,6 @@ export async function register(formData: FormData) {
     }
   }
 
-  revalidatePath('/dashboard', 'layout');
+  revalidatePath('/dashboard');
   redirect('/dashboard');
 }
