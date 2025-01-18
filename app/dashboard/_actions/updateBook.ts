@@ -88,14 +88,43 @@ export async function updatePermissions(formData: FormData) {
 
   const book = await prisma.book.findUnique({
     where: { id: bookId },
-    select: { cover: true },
+    select: { cover: true, author: true, title: true },
   });
 
   if (!book) {
     return { success: false, message: 'Book not found' };
   }
 
-  if (isPublic && book.cover) {
+  if (isPublic) {
+    if (book.cover && book.cover.split('/').includes('placehold.co')) {
+      return {
+        success: false,
+        message:
+          'Cannot upload book publicly: Cover image cannot be placeholder',
+      };
+    }
+
+    const normalizedTitle = book.title.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const normalizedAuthor = book.author
+      .toLowerCase()
+      .replace(/[^a-z0-9]/g, '');
+
+    const existingPublicBook = await prisma.book.findFirst({
+      where: {
+        isPublic: true,
+        title: { contains: normalizedTitle, mode: 'insensitive' },
+        author: { contains: normalizedAuthor, mode: 'insensitive' },
+      },
+    });
+
+    if (existingPublicBook) {
+      return {
+        success: false,
+        message:
+          'Cannot upload book publicly: A book with the same title and author already exists.',
+      };
+    }
+
     const existingPublicCover = await prisma.book.findFirst({
       where: {
         isPublic: true,
@@ -107,7 +136,7 @@ export async function updatePermissions(formData: FormData) {
       return {
         success: false,
         message:
-          'Cannot make book public: Cover image is already in use by another public book',
+          'Cannot upload book publicly: Cover image is already in use by another public book',
       };
     }
   }

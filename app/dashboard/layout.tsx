@@ -193,7 +193,7 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
             display: 'flex',
             flexDirection: {
               xs: 'column',
-              sm: 'row'
+              md: 'row'
             },
             justifyContent: {
               sm: 'start',

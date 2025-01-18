@@ -8,12 +8,14 @@ future functionality:
   - 
 
 bugs: 
-  - bug with theme sticking to its system even after icon interaction
-  - account display not closing
-  - books added to discover don't display (learn socket perhaps?) // real-time // caching
-  - 
+  - bug with theme sticking to its system even after icon interaction (fixed)
+  - account display not closing (fixed)
+  - books added to discover don't display (learn caching perhaps?) // real-time // caching (fixed)
+  - images with same cover can still be uploaded if urls are different (stack overflow - Compare two Images in JavaScript) 
 
 what i want to refactor
   - refactor dashboard UI
   - refactor landing page
   - refactor profile/settings
+  - refactor the carousel card to be hover overlay 
+    : showing publisher, viewed/read, rating avg (https://youtu.be/o1iSyZ5QjDg)

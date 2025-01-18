@@ -170,6 +170,63 @@ async function main() {
     },
   });
 
+  const book11 = await prisma.book.create({
+    data: {
+      title: 'journey to the inner self',
+      author: 'preeti singla',
+      summary: 'inspirational poems to quiet the mind and sooth the soul',
+      genre: 'Non-Fiction',
+      cover:
+        'https://igtnbgdhxezmzgvxesbi.supabase.co/storage/v1/object/public/covers/1739540594053_cover.jpg',
+      rating: 5,
+      user: { connect: { id: user2.id } },
+      isPublic: true,
+    },
+  });
+
+  const book12 = await prisma.book.create({
+    data: {
+      title: 'really, good, actually',
+      author: 'monica heisey',
+      summary: 'a voices the VOICES',
+      genre: 'Fiction',
+      cover:
+        'https://igtnbgdhxezmzgvxesbi.supabase.co/storage/v1/object/public/covers/1739849894391_cover.jpg',
+      rating: 4,
+      user: { connect: { id: user1.id } },
+      isPublic: true,
+    },
+  });
+
+  const book13 = await prisma.book.create({
+    data: {
+      title: 'something nasty in the woodsheed',
+      author: 'kyri bonfigiai',
+      summary:
+        'splendidly enjoyable. the jokes are excellent, but the most horrible things keep happening',
+      genre: 'Fiction',
+      cover:
+        'https://igtnbgdhxezmzgvxesbi.supabase.co/storage/v1/object/public/covers/172948396599_cover.jpg',
+      rating: 4,
+      user: { connect: { id: user2.id } },
+      isPublic: true,
+    },
+  });
+
+  const book14 = await prisma.book.create({
+    data: {
+      title: 'i want my hat back',
+      author: 'jon klassen',
+      summary: 'something about a bear losing his hat or something',
+      genre: 'Fiction',
+      cover:
+        'https://igtnbgdhxezmzgvxesbi.supabase.co/storage/v1/object/public/covers/172065094053_cover.jpg',
+      rating: 4,
+      user: { connect: { id: user1.id } },
+      isPublic: true,
+    },
+  });
+
   // Create reading progress
   await prisma.readingProgress.create({
     data: {
@@ -224,6 +281,62 @@ async function main() {
       bookId: book7.id,
       month: 1,
       completionPercentage: 77,
+    },
+  });
+
+  await prisma.readingProgress.create({
+    data: {
+      bookId: book8.id,
+      month: 2,
+      completionPercentage: 42,
+    },
+  });
+
+  await prisma.readingProgress.create({
+    data: {
+      bookId: book9.id,
+      month: 5,
+      completionPercentage: 47,
+    },
+  });
+
+  await prisma.readingProgress.create({
+    data: {
+      bookId: book10.id,
+      month: 9,
+      completionPercentage: 30,
+    },
+  });
+
+  await prisma.readingProgress.create({
+    data: {
+      bookId: book11.id,
+      month: 3,
+      completionPercentage: 63,
+    },
+  });
+
+  await prisma.readingProgress.create({
+    data: {
+      bookId: book12.id,
+      month: 11,
+      completionPercentage: 90,
+    },
+  });
+
+  await prisma.readingProgress.create({
+    data: {
+      bookId: book13.id,
+      month: 10,
+      completionPercentage: 58,
+    },
+  });
+
+  await prisma.readingProgress.create({
+    data: {
+      bookId: book14.id,
+      month: 7,
+      completionPercentage: 43,
     },
   });
 

@@ -233,7 +233,7 @@ const ArrowNavigator = ({
     top: '50%',
     margin: '-12px',
     zIndex: 3,
-    border: '1px solid black',
+    fontSize: '30px'
   };
 
   const leftArrowStyle = {
