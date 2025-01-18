@@ -1,6 +1,7 @@
-'use server';
-
 import prisma from '@/app/lib/prisma';
+import { revalidatePath } from 'next/cache';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
   const publicBooks = await prisma.book.findMany({
@@ -20,6 +21,8 @@ export async function GET() {
     },
   });
 
+  revalidatePath('/dashboard/discover');
+  
   return new Response(
     JSON.stringify(
       publicBooks

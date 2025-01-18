@@ -46,6 +46,7 @@ const DefaultDashPage = () => {
   const fetchBookQuery = useQuery<Books>({
     queryKey: ['books'],
     queryFn: () => fetch(`/api/books/private`).then((res) => res.json()),
+    refetchOnWindowFocus: false,
   });
 
   const books = fetchBookQuery.data?.books || [];
