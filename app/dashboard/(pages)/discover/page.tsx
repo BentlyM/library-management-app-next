@@ -21,7 +21,7 @@ const DiscoverPage = () => {
       fetch(`/api/books/public`, {next: {revalidate: 60 * 1000}}).then((res) =>
         res.json()
       ),
-    refetchInterval: 60 * 1000, // Revalidate every 60 seconds
+    refetchInterval: 5* 60 * 1000, // Revalidate every 5 mins
     refetchOnWindowFocus: false,
     refetchOnReconnect: true,
   });
