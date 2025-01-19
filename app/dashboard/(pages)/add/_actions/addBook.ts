@@ -3,6 +3,9 @@
 import prisma from '@/app/lib/prisma';
 import { CreateBookSchema } from '@/schema/book';
 import { createClient } from '@/utils/supabase/server';
+import { Knock } from '@knocklabs/node';
+
+const knock = new Knock(process.env.KNOCK_API_KEY);
 
 export async function CreateBook(formData: FormData) {
   const parsedData = Object.fromEntries(formData);
@@ -37,7 +40,7 @@ export async function CreateBook(formData: FormData) {
       author: validatedData.data?.author,
       summary: validatedData.data?.summary || '',
       genre: validatedData.data?.genre,
-      cover: coverUrl || 'https://placehold.co/300x400/png', 
+      cover: coverUrl || 'https://placehold.co/300x400/png',
       user: {
         connect: {
           email: data.user?.email,
@@ -46,7 +49,19 @@ export async function CreateBook(formData: FormData) {
     },
   });
 
-  return {success: true, data: book};
+  if (book && data.user) {
+    await knock.workflows.trigger('book-created', {
+      recipients: [
+        {
+          id: data.user?.id,
+          name: data.user?.email?.substring(0, data.user?.email.indexOf('@')),
+          email: data.user?.email,
+        },
+      ],
+    });
+  }
+
+  return { success: true, data: book };
 }
 
 async function uploadCover(cover: File): Promise<string> {

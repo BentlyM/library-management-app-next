@@ -193,7 +193,7 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
             display: 'flex',
             flexDirection: {
               xs: 'column',
-              md: 'row'
+              md: 'row',
             },
             justifyContent: {
               sm: 'start',
@@ -203,7 +203,7 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
             alignItems: 'center',
           }}
         >
-          <h1 style={{marginBottom: '0'}}>{title}</h1>
+          <h1 style={{ marginBottom: '0' }}>{title}</h1>
           <ul
             style={{
               display: 'flex',
@@ -211,11 +211,11 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
               justifyContent: 'space-evenly',
               listStyle: 'none',
               gap: '10px',
-              paddingLeft: '20px'
+              paddingLeft: '20px',
             }}
           >
             <li>
-                  <AccountButton />
+              <AccountButton />
             </li>
             <li>
               <NotificationsIcon fontSize={'large'} />

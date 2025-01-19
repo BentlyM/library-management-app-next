@@ -16,6 +16,8 @@
     "@emotion/cache": "^11.13.1",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
+    "@knocklabs/node": "^0.6.16",
+    "@knocklabs/react": "^0.3.0-rc-4.0",
     "@mui/base": "^5.0.0-beta.59",
     "@mui/icons-material": "^6.1.5",
     "@mui/material": "^6.1.5",
