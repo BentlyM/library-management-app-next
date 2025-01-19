@@ -24,9 +24,16 @@ import { useQuery } from '@tanstack/react-query';
 import LogoutButton from '../components/logout/LogoutButton';
 import { useDrawer } from '../components/providers/DrawerProvider';
 import { ClickAwayListener } from '@mui/material';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AccountButton from './_components/AccountButton';
+import {
+  KnockProvider,
+  KnockFeedProvider,
+  NotificationIconButton,
+  NotificationFeedPopover,
+} from '@knocklabs/react';
+
+import '@knocklabs/react/dist/index.css';
 
 const Dashboard = ({ children }: { children: React.ReactNode }) => {
   const theme = useTheme();
@@ -35,6 +42,9 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
     .filter((index) => index !== '');
   const [title, setTitle] = React.useState('');
   const [isSmallViewport, setIsSmallViewport] = React.useState(false);
+  const [isVisible, setIsVisible] = React.useState(false);
+
+  const notifButtonRef = React.useRef(null);
 
   const { open, setOpen, drawerWidth } = useDrawer();
 
@@ -218,7 +228,27 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
               <AccountButton />
             </li>
             <li>
-              <NotificationsIcon fontSize={'large'} />
+              <KnockProvider
+                apiKey={process.env.NEXT_PUBLIC_KNOCK_API_KEY as string}
+                userId={user.data?.id}
+              >
+                <KnockFeedProvider
+                  feedId={process.env.NEXT_PUBLIC_KNOCK_FEED_CHANNEL_ID as string}
+                >
+                  <>
+                    <NotificationIconButton
+                      ref={notifButtonRef}
+                      onClick={() => setIsVisible(!isVisible)}
+                    />
+
+                    <NotificationFeedPopover
+                      buttonRef={notifButtonRef}
+                      isVisible={isVisible}
+                      onClose={() => setIsVisible(false)}
+                    />
+                  </>
+                </KnockFeedProvider>
+              </KnockProvider>
             </li>
           </ul>
         </Box>
