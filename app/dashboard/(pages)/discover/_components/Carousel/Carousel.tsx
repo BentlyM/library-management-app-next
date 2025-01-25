@@ -133,6 +133,9 @@ const Carousel = ({
           zIndex: children.length - index,
           minHeight: !isVisible ? 'fit-content' : undefined,
           minWidth: !isVisible ? cardWidthRef.current : undefined,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center'
         }}
         className="card"
       >

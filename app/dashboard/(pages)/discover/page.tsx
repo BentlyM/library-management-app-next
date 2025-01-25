@@ -8,6 +8,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Books } from '../../page';
 import SkeletonWrapper from '@/app/components/SkeletonWrapper';
 import dynamic from 'next/dynamic';
+import LayoutCard from './_components/TestCards/LayoutCard';
 
 const SampleCard = dynamic(() => import('./_components/TestCards/SampleCard'), {
   loading: () => <div>loading...</div>,
@@ -18,10 +19,10 @@ const DiscoverPage = () => {
   const fetchPublicBookQuery = useQuery<Books>({
     queryKey: ['public-books'],
     queryFn: () =>
-      fetch(`/api/books/public`, {next: {revalidate: 60 * 1000}}).then((res) =>
-        res.json()
+      fetch(`/api/books/public`, { next: { revalidate: 60 * 1000 } }).then(
+        (res) => res.json()
       ),
-    refetchInterval: 5* 60 * 1000, // Revalidate every 5 mins
+    refetchInterval: 5 * 60 * 1000, // Revalidate every 5 mins
     refetchOnWindowFocus: false,
     refetchOnReconnect: true,
   });
@@ -55,7 +56,8 @@ const DiscoverPage = () => {
                 isLoading={fetchPublicBookQuery.isFetching}
                 key={index}
               >
-                <SampleCard book={data} />
+                <LayoutCard book={data}/>
+                {/* <SampleCard book={data} /> */}
               </SkeletonWrapper>
             ))}
           </Carousel>
