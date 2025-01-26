@@ -65,7 +65,6 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
     { text: 'Home', icon: <ImportContactsIcon />, to: '/dashboard' },
     { text: 'Add Book', icon: <AddBoxIcon />, to: '/dashboard/add' },
     { text: 'Discover Books', icon: <BookIcon />, to: '/dashboard/discover' },
-    { text: 'Send Books [WIP]', icon: <SendIcon />, to: '/dashboard/send' },
     { text: 'Profile', icon: <AccountCircleIcon />, to: '/dashboard/settings' },
   ];
 
@@ -75,7 +74,7 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
   React.useEffect(() => {
     const currentPath = pathname[1];
     const navItem = navigation.find((item) => item.to.includes(currentPath));
-    setTitle(navItem ? navItem.text : 'Home Content');
+    setTitle(navItem ? navItem.text : 'Home Library');
   }, [pathname]);
 
   React.useEffect(() => {

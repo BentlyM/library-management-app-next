@@ -14,6 +14,8 @@ import scrollTo, {
   handleDragEnd,
   handleDragStart,
 } from './scrollHelper';
+import { fontSize } from '@mui/system';
+import { useColorScheme } from '@mui/material';
 
 const Carousel = ({
   children,
@@ -208,11 +210,11 @@ const Carousel = ({
             onMouseDown={(e) =>
               handleDragStart(e, containerRef, mouseCoords, setIsMouseDown)
             }
-            onMouseUp={() => handleDragEnd(setIsMouseDown, containerRef)}
+            onMouseUp={() => handleDragEnd(setIsMouseDown)}
             onMouseMove={(e) =>
               handleDrag(e, isMouseDown, containerRef, mouseCoords)
             }
-            onMouseLeave={() => handleDragEnd(setIsMouseDown, containerRef)} 
+            onMouseLeave={() => handleDragEnd(setIsMouseDown)}
             style={{
               display: 'flex',
               overflowX: 'auto',
@@ -245,33 +247,43 @@ const ArrowNavigator = ({
   atLeftEdge: boolean;
   atRightEdge: boolean;
 }) => {
+  const { mode, systemMode } = useColorScheme();
+
   const baseArrowStyle = {
     cursor: 'pointer',
-    padding: 0,
+    padding: '8px',
     outline: 'none',
-    transition: 'opacity .2s ease-in-out',
+    transition: 'all .2s ease-in-out',
     position: 'absolute',
-    top: '50%',
     margin: '-12px',
     zIndex: 3,
-    fontSize: '30px',
+    fontSize: '35px',
+    bottom: '55%',
+    borderRadius: '50%',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+    border: `1px solid ${
+      mode === 'dark' || systemMode === 'dark' ? '#ffffff' : '#121212'
+    }`,
+    '&:hover': {
+      backgroundColor: `${
+        mode === 'dark' || systemMode === 'dark' ? '#121212' : '#ffffff'
+      }`,
+      boxShadow: '0 6px 8px rgba(0, 0, 0, 0.15)',
+      transform: 'scale(1.1)',
+    },
+    '&:active': {
+      transform: 'scale(0.95)',
+    },
   };
 
   const leftArrowStyle = {
     ...baseArrowStyle,
-    left: 0,
+    left: '15px',
   };
 
   const rightArrowStyle = {
     ...baseArrowStyle,
-    right: 0,
-  };
-
-  const buttonStyle = {
-    backgroundColor: 'white',
-    boxShadow: '0 2px 4px 0 #cdced9',
-    border: 'solid 1px #ececec',
-    padding: '2px',
+    right: '15px',
   };
 
   return (
@@ -282,23 +294,24 @@ const ArrowNavigator = ({
         position: 'absolute',
         zIndex: 2,
         width: '100%',
+        bottom: '55%',
       }}
     >
       <ArrowBack
         sx={{
           ...leftArrowStyle,
-          '& .MuiSvgIcon-root': buttonStyle,
+          opacity: atLeftEdge ? 0 : 1,
+          pointerEvents: atLeftEdge ? 'none' : 'auto',
         }}
         onClick={onLeftClick}
-        className={`arrow left ${atLeftEdge ? 'hide' : ''}`}
       />
       <ArrowForward
         sx={{
           ...rightArrowStyle,
-          '& .MuiSvgIcon-root': buttonStyle,
+          opacity: atRightEdge ? 0 : 1,
+          pointerEvents: atRightEdge ? 'none' : 'auto',
         }}
         onClick={onRightClick}
-        className={`arrow right ${atRightEdge ? 'hide' : ''}`}
       />
     </div>
   );

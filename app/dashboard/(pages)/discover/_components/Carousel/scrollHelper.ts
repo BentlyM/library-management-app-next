@@ -75,7 +75,6 @@ export function handleDragStart(
 
 export function handleDragEnd(
   setIsMouseDown: React.Dispatch<React.SetStateAction<boolean>>,
-  ourRef: React.RefObject<HTMLDivElement>
 ) {
   setIsMouseDown(false);
   document.body.style.cursor = 'default';

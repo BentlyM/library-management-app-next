@@ -9,10 +9,6 @@ import { Books } from '../../page';
 import SkeletonWrapper from '@/app/components/SkeletonWrapper';
 import dynamic from 'next/dynamic';
 
-const SampleCard = dynamic(() => import('./_components/TestCards/SampleCard'), {
-  loading: () => <div>loading...</div>,
-});
-
 const LayoutCard = dynamic(() => import('./_components/TestCards/LayoutCard'), {
   loading: () => <div>loading...</div>,
 });
