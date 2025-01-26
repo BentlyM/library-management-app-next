@@ -9,7 +9,11 @@ import {
   useRef,
   useState,
 } from 'react';
-import scrollTo from './scrollHelper';
+import scrollTo, {
+  handleDrag,
+  handleDragEnd,
+  handleDragStart,
+} from './scrollHelper';
 
 const Carousel = ({
   children,
@@ -26,11 +30,18 @@ const Carousel = ({
   const [visibleChildren, setVisibleChildren] = useState<Set<number>>(
     new Set()
   );
+  const [isMouseDown, setIsMouseDown] = useState(false);
   const [atLeftEdge, setAtLeftEdge] = useState(true);
   const [atRightEdge, setAtRightEdge] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const cardWidthRef = useRef<number>(0);
+  const mouseCoords = useRef({
+    startX: 0,
+    startY: 0,
+    scrollLeft: 0,
+    scrollTop: 0,
+  });
 
   useEffect(() => {
     const updateCardWidth = () => {
@@ -79,21 +90,22 @@ const Carousel = ({
 
   const handleScroll = (isForward: boolean) => {
     if (!containerRef.current) return;
+    if (!isMouseDown && containerRef.current) {
+      const scrollWidth = stepSize * cardWidthRef.current;
+      const scrollTime = Math.min(stepSize * 300, 600);
+      const currentScroll = containerRef.current.scrollLeft;
+      const newPosition =
+        currentScroll + (isForward ? scrollWidth : -scrollWidth);
 
-    const scrollWidth = stepSize * cardWidthRef.current;
-    const scrollTime = Math.min(stepSize * 300, 600);
-    const currentScroll = containerRef.current.scrollLeft;
-    const newPosition =
-      currentScroll + (isForward ? scrollWidth : -scrollWidth);
-
-    scrollTo({
-      element: containerRef.current,
-      to: newPosition,
-      duration: scrollTime,
-      scrollDirection: 'scrollLeft',
-      callback: checkIfAtEdge,
-      context: this,
-    });
+      scrollTo({
+        element: containerRef.current,
+        to: newPosition,
+        duration: scrollTime,
+        scrollDirection: 'scrollLeft',
+        callback: checkIfAtEdge,
+        context: this,
+      });
+    }
   };
 
   const checkIfAtEdge = () => {
@@ -135,7 +147,7 @@ const Carousel = ({
           minWidth: !isVisible ? cardWidthRef.current : undefined,
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center'
+          alignItems: 'center',
         }}
         className="card"
       >
@@ -177,7 +189,7 @@ const Carousel = ({
           alignItems: 'center',
         }}
       >
-        {navOnTop && (
+        {navOnTop && !isMouseDown && (
           <ArrowNavigator
             onLeftClick={handleGoBack}
             onRightClick={handleGoForward}
@@ -187,19 +199,25 @@ const Carousel = ({
         )}
         <div
           style={{
-            overflow: 'hidden',
             zIndex: 0,
             width: '100%',
           }}
         >
           <div
             ref={containerRef}
+            onMouseDown={(e) =>
+              handleDragStart(e, containerRef, mouseCoords, setIsMouseDown)
+            }
+            onMouseUp={() => handleDragEnd(setIsMouseDown, containerRef)}
+            onMouseMove={(e) =>
+              handleDrag(e, isMouseDown, containerRef, mouseCoords)
+            }
+            onMouseLeave={() => handleDragEnd(setIsMouseDown, containerRef)} 
             style={{
               display: 'flex',
               overflowX: 'auto',
               overflowY: 'hidden',
-              scrollBehavior: 'smooth',
-              flexGrow: 1,
+              scrollBehavior: isMouseDown ? 'auto' : 'smooth',
               position: 'relative',
               height: '100%',
               marginBottom: '-20px',
@@ -236,7 +254,7 @@ const ArrowNavigator = ({
     top: '50%',
     margin: '-12px',
     zIndex: 3,
-    fontSize: '30px'
+    fontSize: '30px',
   };
 
   const leftArrowStyle = {
