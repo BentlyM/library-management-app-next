@@ -8,9 +8,12 @@ import { useQuery } from '@tanstack/react-query';
 import { Books } from '../../page';
 import SkeletonWrapper from '@/app/components/SkeletonWrapper';
 import dynamic from 'next/dynamic';
-import LayoutCard from './_components/TestCards/LayoutCard';
 
 const SampleCard = dynamic(() => import('./_components/TestCards/SampleCard'), {
+  loading: () => <div>loading...</div>,
+});
+
+const LayoutCard = dynamic(() => import('./_components/TestCards/LayoutCard'), {
   loading: () => <div>loading...</div>,
 });
 
@@ -56,7 +59,7 @@ const DiscoverPage = () => {
                 isLoading={fetchPublicBookQuery.isFetching}
                 key={index}
               >
-                <LayoutCard book={data}/>
+                <LayoutCard book={data} />
                 {/* <SampleCard book={data} /> */}
               </SkeletonWrapper>
             ))}
