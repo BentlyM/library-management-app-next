@@ -12,6 +12,7 @@ bugs:
   - account display not closing (fixed)
   - books added to discover don't display (learn caching perhaps?) // real-time // caching (fixed)
   - images with same cover can still be uploaded if urls are different (stack overflow - Compare two Images in JavaScript) 
+  - bug where book details component results in carousel dragging (huge bug)
 
 what i want to refactor
   - refactor dashboard UI

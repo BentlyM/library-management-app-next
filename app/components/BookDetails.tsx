@@ -273,6 +273,7 @@ export default function FormDialog({
         <Button onClick={() => setOpen(false)}>
           {readOnly ? 'Close' : 'Cancel'}
         </Button>
+        {readOnly && <Button>More</Button>}
         {!readOnly && <Button type="submit">Update</Button>}
       </DialogActions>
     </Dialog>

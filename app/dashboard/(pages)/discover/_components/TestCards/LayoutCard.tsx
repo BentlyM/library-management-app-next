@@ -11,6 +11,7 @@ const LayoutCard = ({ book }: { book: Book }) => {
   const handleOpen = () => {
     setOpen(true);
   };
+
   return (
     <>
       <Box
@@ -36,6 +37,9 @@ const LayoutCard = ({ book }: { book: Book }) => {
             '& .text': {
               opacity: 1,
             },
+            '& .buttons': {
+              opacity: 1,
+            },
           },
         }}
         onClick={() => handleOpen()}
@@ -48,21 +52,72 @@ const LayoutCard = ({ book }: { book: Book }) => {
           style={{ zIndex: 0 }}
         />
 
-        <Typography
+        <Box
           className="text"
           sx={{
+            display: 'flex',
+            flexDirection: 'column',
             position: 'absolute',
             zIndex: 2,
             color: 'white',
             opacity: 0,
             transition: 'opacity 0.1s ease-in-out',
-            display: { xs: 'none', sm: 'block' },
-            bottom: '10px',
+            top: '10px',
+            height: '80%',
+            width: '90%',
             overflowY: 'auto',
+            paddingRight: '10px',
           }}
         >
           {book.summary || 'rendering...'}
-        </Typography>
+        </Box>
+
+        <Box
+          className="buttons"
+          sx={{
+            display: {
+              xs: 'none',
+              md: 'flex'
+            },
+            justifyContent: 'end',
+            position: 'absolute',
+            zIndex: 2,
+            gap: '2px',
+            bottom: '10px',
+            width: '90%',
+            opacity: 0,
+            transition: 'opacity 0.1s ease-in-out',
+          }}
+        >
+          <button
+            style={{
+              border: 'none',
+              padding: '5px 10px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleOpen();
+            }}
+          >
+            Details
+          </button>
+          <button
+            style={{
+              border: 'none',
+              padding: '5px 10px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              console.log('test');
+            }}
+          >
+            More →
+          </button>
+        </Box>
       </Box>
 
       <FormDialog
