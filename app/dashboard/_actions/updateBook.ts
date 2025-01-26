@@ -1,7 +1,10 @@
 'use server';
 import prisma from '@/app/lib/prisma';
 import { createClient } from '@/utils/supabase/server';
+import { Knock } from '@knocklabs/node';
 import { revalidatePath } from 'next/cache';
+
+const knock = new Knock(process.env.KNOCK_API_KEY);
 
 export async function updateBook(formData: FormData) {
   if (!formData) return { success: false, message: 'Unable to Config Data...' };
@@ -12,6 +15,9 @@ export async function updateBook(formData: FormData) {
   const newSummary = String(formData.get('summary'));
   const newRating = Number(formData.get('rating'));
   const newProgress = Number(formData.get('progress'));
+
+  const supabase = createClient();
+  const { data } = await supabase.auth.getUser();
 
   if (!bookId) return { success: false, message: 'Book can not be identified' };
 
@@ -68,6 +74,18 @@ export async function updateBook(formData: FormData) {
     return { success: false, message: 'Unable to update book.' };
   }
 
+  if (updatedBook && data.user) {
+    await knock.workflows.trigger('book-updated', {
+      recipients: [
+        {
+          id: data.user?.id,
+          name: data.user?.email?.substring(0, data.user?.email.indexOf('@')),
+          email: data.user?.email,
+        },
+      ],
+    });
+  }
+
   revalidatePath('/dashboard/discover');
   return { success: true, data: updatedBook };
 }
@@ -76,10 +94,10 @@ export async function updatePermissions(formData: FormData) {
   const bookId = formData.get('bookId') as string;
   const isPublic = formData.get('isPublic') === 'true';
   const supabase = createClient();
-  const userId = (await supabase.auth.getUser()).data.user?.id;
+  const { data } = await supabase.auth.getUser();
 
-  if (!bookId || !userId) {
-    if (!userId) {
+  if (!bookId || !data.user?.id) {
+    if (!data.user?.id) {
       return { success: false, message: 'userID is required' };
     } else {
       return { success: false, message: 'bookID is required' };
@@ -157,6 +175,19 @@ export async function updatePermissions(formData: FormData) {
         isPublic,
       },
     });
+
+    if (existingPermission && data.user) {
+      await knock.workflows.trigger('book-updated', {
+        recipients: [
+          {
+            id: data.user?.id,
+            name: data.user?.email?.substring(0, data.user?.email.indexOf('@')),
+            email: data.user?.email,
+          },
+        ],
+      });
+    }
+
     revalidatePath('/dashboard/discover');
     return {
       success: true,
@@ -171,6 +202,18 @@ export async function updatePermissions(formData: FormData) {
         isPublic,
       },
     });
+    if (existingPermission && data.user) {
+      await knock.workflows.trigger('book-updated', {
+        recipients: [
+          {
+            id: data.user?.id,
+            name: data.user?.email?.substring(0, data.user?.email.indexOf('@')),
+            email: data.user?.email,
+          },
+        ],
+      });
+    }
+
     revalidatePath('/dashboard/discover');
     return {
       success: true,

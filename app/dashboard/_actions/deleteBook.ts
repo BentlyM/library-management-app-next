@@ -1,9 +1,16 @@
 'use server';
 
 import prisma from '@/app/lib/prisma';
+import { createClient } from '@/utils/supabase/server';
+import { Knock } from '@knocklabs/node';
+
+const knock = new Knock(process.env.KNOCK_API_KEY);
 
 export async function DeleteBook(id: string) {
   if (!id) return { success: false, message: 'Book cannot be identified' };
+
+  const supabase = createClient();
+  const { data } = await supabase.auth.getUser();
 
   try {
     const existingBook = await prisma.book.findUnique({
@@ -21,6 +28,18 @@ export async function DeleteBook(id: string) {
     const deletedBook = await prisma.book.delete({
       where: { id },
     });
+
+    if (deletedBook && data.user) {
+      await knock.workflows.trigger('book-deleted', {
+        recipients: [
+          {
+            id: data.user?.id,
+            name: data.user?.email?.substring(0, data.user?.email.indexOf('@')),
+            email: data.user?.email,
+          },
+        ],
+      });
+    }
 
     return { success: true, data: deletedBook };
   } catch (error) {
