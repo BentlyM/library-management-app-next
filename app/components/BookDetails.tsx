@@ -78,10 +78,25 @@ export default function FormDialog({
     onError: () => toast.error('An unexpected error occurred'),
   });
 
+  const handleMouseDown = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
+
+  const handleMouseUp = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
+
   return (
     <Dialog
       open={open}
       onClose={() => setOpen(false)}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
       PaperProps={{
         component: 'form',
         onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
@@ -244,7 +259,7 @@ export default function FormDialog({
             <div
               style={{ width: '100%', height: '100%', position: 'relative' }}
             >
-              {readOnly && <SubBlur link={''} >Coming Soon</SubBlur>}
+              {readOnly && <SubBlur link={''}>Coming Soon</SubBlur>}
               {/*WHAT DATA ARE YOU GOING TO PUT HERE????*/}
             </div>
           )}
