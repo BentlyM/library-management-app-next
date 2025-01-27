@@ -221,3 +221,15 @@ export async function updatePermissions(formData: FormData) {
     };
   }
 }
+
+export async function requestVerification({ bookId }: { bookId: string }) {
+  await prisma.book.update({
+    where: { id: bookId },
+    data: { isVerificationRequested: true },
+  });
+
+  return {
+    success: true,
+    message: 'Request sent successfully',
+  };
+}

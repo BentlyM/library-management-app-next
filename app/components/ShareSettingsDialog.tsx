@@ -7,17 +7,27 @@ import {
   DialogContent,
   DialogTitle,
   FormControlLabel,
+  TextField,
+  Chip,
 } from '@mui/material';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import React from 'react';
 import toast from 'react-hot-toast';
-import { updatePermissions } from '../dashboard/_actions/updateBook';
+import {
+  updatePermissions,
+  requestVerification,
+} from '../dashboard/_actions/updateBook';
 import { Book } from '@prisma/client';
 
 interface Props {
   open: boolean;
   setOpen: (open: boolean) => void;
-  permissions: Partial<{ isPublic: Book['isPublic']; id: Book['id'] }>;
+  permissions: Partial<{
+    isPublic: Book['isPublic'];
+    id: Book['id'];
+    isVerified: Book['isVerified'];
+    isVerificationRequested: any,
+  }>;
   queryKey: string;
 }
 
@@ -28,9 +38,14 @@ export default function ShareSettingsDialog({
   queryKey,
 }: Props) {
   const [isPublic, setIsPublic] = React.useState(permissions.isPublic || false);
+  const [isVerified, setIsVerified] = React.useState(
+    permissions.isVerified || false
+  );
+  const [isVerificationRequested, setIsVerifiedRequested] = React.useState(permissions.isVerificationRequested || false);
+  const [searchQuery, setSearchQuery] = React.useState('');
   const queryClient = useQueryClient();
 
-  const mutation = useMutation({
+  const updatePermissionsMutation = useMutation({
     mutationFn: updatePermissions,
     onSuccess: (data) => {
       if (data.success) {
@@ -42,6 +57,25 @@ export default function ShareSettingsDialog({
     },
     onError: () => toast.error('An unexpected error occurred'),
   });
+
+  const requestVerificationMutation = useMutation({
+    mutationFn: requestVerification,
+    onSuccess: (data) => {
+      if (data.success) {
+        toast.success(`Verification Requested Successfully ${data.message}`);
+        queryClient.invalidateQueries({ queryKey: [queryKey] });
+        setIsVerifiedRequested(true);
+      } else {
+        toast.error(data.message!);
+      }
+    },
+    onError: () => toast.error('An unexpected error occurred'),
+  });
+
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
+    // Implement search logic here
+  };
 
   return (
     <Dialog
@@ -55,12 +89,12 @@ export default function ShareSettingsDialog({
           formData.append('isPublic', String(isPublic));
           formData.append('bookId', permissions.id as string);
 
-          mutation.mutate(formData);
+          updatePermissionsMutation.mutate(formData);
           setOpen(false);
         },
       }}
     >
-      <DialogTitle>Share Settings</DialogTitle>
+      <DialogTitle style={{ textAlign: 'center' }}>Share Settings</DialogTitle>
       <DialogContent sx={{ padding: 1 }}>
         <Box
           sx={{
@@ -78,6 +112,47 @@ export default function ShareSettingsDialog({
               />
             }
             label="Make Public"
+          />
+          <Box sx={{ display: 'flex', gap: 1 }}>
+            <Chip
+              label={isPublic ? 'Public' : 'Private'}
+              color={isPublic ? 'success' : 'default'}
+            />
+            <Chip
+              label={
+                isVerified
+                  ? 'Verified' // If verified, show "Verified"
+                  : isVerificationRequested
+                  ? 'Pending Verification' // If verification is requested but not yet approved, show "Pending Verification"
+                  : 'Not Verified' // Otherwise, show "Not Verified"
+              }
+              color={
+                isVerified
+                  ? 'success' // Verified: green
+                  : isVerificationRequested
+                  ? 'warning' // Pending: yellow/orange
+                  : 'default' // Not Verified: default
+              }
+            />
+          </Box>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() =>
+              requestVerificationMutation.mutate({
+                bookId: permissions.id as string,
+              })
+            }
+            disabled={isVerified}
+          >
+            Request Verification
+          </Button>
+          <TextField
+            fullWidth
+            label="Search Users"
+            variant="outlined"
+            value={searchQuery}
+            onChange={handleSearch}
           />
         </Box>
       </DialogContent>

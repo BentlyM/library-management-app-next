@@ -8,18 +8,19 @@ datasource db {
 }
 
 model User {
-  id      String  @id @unique @default(uuid())
-  name    String?
-  email   String  @unique
-  picture String?
-  books   Book[]  @relation("UserBooks")
-  plan    Plan    @default(FREE)
-
-  customerId   String?       @unique
-  Subscription Subscription?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  id            String         @id @unique @default(uuid())
+  name          String?
+  email         String         @unique
+  picture       String?
+  books         Book[]         @relation("UserBooks")
+  plan          Plan           @default(FREE)
+  role          Role           @default(USER)
+  customerId    String?        @unique
+  Subscription  Subscription?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @default(now())
+  sentBooks     BookShare[]    @relation("SentBooks")
+  receivedBooks BookShare[]    @relation("ReceivedBooks")
 }
 
 model Book {
@@ -33,8 +34,11 @@ model Book {
   user            User[]            @relation("UserBooks")
   createdAt       DateTime          @default(now())
   isPublic        Boolean           @default(false)
+  isVerified      Boolean           @default(false) // Tracks if the book is verified
+  isVerificationRequested Boolean   @default(false) // Tracks if a verification request is pending
   updatedAt       DateTime          @default(now()) @updatedAt
   readingProgress ReadingProgress[] @relation("BookReadingProgress")
+  sharedWith      BookShare[]       @relation("SharedBooks")
 }
 
 model ReadingProgress {
@@ -45,6 +49,19 @@ model ReadingProgress {
   book                 Book   @relation("BookReadingProgress", fields: [bookId], references: [id])
 
   @@unique([bookId, month])
+}
+
+model BookShare {
+  id          String   @id @unique @default(uuid())
+  bookId      String
+  senderId    String
+  receiverId  String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+
+  book        Book     @relation("SharedBooks", fields: [bookId], references: [id])
+  sender      User     @relation("SentBooks", fields: [senderId], references: [id])
+  receiver    User     @relation("ReceivedBooks", fields: [receiverId], references: [id])
 }
 
 enum Plan {
@@ -69,4 +86,9 @@ model Subscription {
   updatedAt DateTime @updatedAt
 
   User User @relation(fields: [userId], references: [id])
+}
+
+enum Role {
+  USER
+  ADMIN
 }

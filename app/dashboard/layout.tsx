@@ -16,7 +16,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import BookIcon from '@mui/icons-material/Book';
-import SendIcon from '@mui/icons-material/Send';
 import ImportContactsIcon from '@mui/icons-material/ImportContacts';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -232,7 +231,9 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
                 userId={user.data?.id}
               >
                 <KnockFeedProvider
-                  feedId={process.env.NEXT_PUBLIC_KNOCK_FEED_CHANNEL_ID as string}
+                  feedId={
+                    process.env.NEXT_PUBLIC_KNOCK_FEED_CHANNEL_ID as string
+                  }
                 >
                   <>
                     <NotificationIconButton

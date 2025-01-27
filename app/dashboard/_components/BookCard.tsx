@@ -20,13 +20,16 @@ export type Book = {
   rating: number;
   createdAt: Date;
   updatedAt: Date;
+  isPublic: boolean;
+  isVerified: boolean;
+  isVerificationRequested: boolean;
 } & {
   readingProgress: ReadingProgress[];
 };
 
 export default function BookCard({ book }: { book: Book }) {
   const [open, setOpen] = React.useState(false);
-  const [shareOpen, setShareOpen] = React.useState(false); 
+  const [shareOpen, setShareOpen] = React.useState(false);
 
   const handleOpen = () => {
     setOpen(true);
@@ -104,7 +107,9 @@ export default function BookCard({ book }: { book: Book }) {
           setOpen={setShareOpen}
           permissions={{
             id: book.id,
-            isPublic: false,
+            isPublic: book.isPublic,
+            isVerified: book.isVerified,
+            isVerificationRequested: book.isVerificationRequested,
           }}
           queryKey="public-books"
         />
