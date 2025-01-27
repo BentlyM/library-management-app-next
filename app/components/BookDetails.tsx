@@ -6,7 +6,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Box, TextareaAutosize, Typography } from '@mui/material';
+import { Box, TextareaAutosize, Typography, Chip, Stack } from '@mui/material';
 import { DeleteBook } from '../dashboard/_actions/deleteBook';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
@@ -202,13 +202,28 @@ export default function FormDialog({
                 marginTop: 2,
               }}
             >
-              <Box>
-                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                  Created: {new Date(book.createdAt).toLocaleDateString()}
-                </Typography>
-                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                  Updated: {new Date(book.updatedAt).toLocaleDateString()}
-                </Typography>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  width: '100%',
+                }}
+              >
+                <div>
+                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                    Created: {new Date(book.createdAt).toLocaleDateString()}
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                    Updated: {new Date(book.updatedAt).toLocaleDateString()}
+                  </Typography>
+                </div>
+
+                <Stack direction="row" spacing={1}>
+                  {book.genre.split(',').map((genre, index) => (
+                    <Chip key={index} label={genre.trim()} color="primary" />
+                  ))}
+                </Stack>
               </Box>
               {!readOnly && (
                 <Button

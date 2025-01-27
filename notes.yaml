@@ -5,6 +5,7 @@ future functionality:
   - add more features for book verification
   - remember me functionality
   - add comment section for individual public books
+  - add a start prompt that ask for user preference
 
 bugs: 
   - bug with theme sticking to its system even after icon interaction (fixed)
