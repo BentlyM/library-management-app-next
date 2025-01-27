@@ -50,15 +50,17 @@ const DiscoverPage = () => {
           }}
         >
           <Carousel>
-            {books.map((data, index) => (
-              <SkeletonWrapper
-                isLoading={fetchPublicBookQuery.isFetching}
-                key={index}
-              >
-                <LayoutCard book={data} />
-                {/* <SampleCard book={data} /> */}
-              </SkeletonWrapper>
-            ))}
+            {books
+              .filter((book) => !book.isRecommended && !book.isVerified)
+              .map((data, index) => (
+                <SkeletonWrapper
+                  isLoading={fetchPublicBookQuery.isFetching}
+                  key={index}
+                >
+                  <LayoutCard book={data} />
+                  {/* <SampleCard book={data} /> */}
+                </SkeletonWrapper>
+              ))}
           </Carousel>
         </Box>
       </Box>
@@ -72,6 +74,28 @@ const DiscoverPage = () => {
         }}
       >
         <span style={{ fontSize: 'larger' }}>Editor Picks</span>
+        <Box
+          style={{
+            padding: '15px 0',
+            margin: '10px 0',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Carousel>
+            {books
+              .filter((book) => book.isRecommended)
+              .map((data, index) => (
+                <SkeletonWrapper
+                  isLoading={fetchPublicBookQuery.isFetching}
+                  key={index}
+                >
+                  <LayoutCard book={data} />
+                </SkeletonWrapper>
+              ))}
+          </Carousel>
+        </Box>
       </Box>
       <Box
         sx={{
@@ -83,6 +107,28 @@ const DiscoverPage = () => {
         }}
       >
         <span style={{ fontSize: 'larger' }}>Verified Literature</span>
+        <Box
+          style={{
+            padding: '15px 0',
+            margin: '10px 0',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Carousel>
+            {books
+              .filter((book) => book.isVerified)
+              .map((data, index) => (
+                <SkeletonWrapper
+                  isLoading={fetchPublicBookQuery.isFetching}
+                  key={index}
+                >
+                  <LayoutCard book={data} />
+                </SkeletonWrapper>
+              ))}
+          </Carousel>
+        </Box>
       </Box>
     </>
   );

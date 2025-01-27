@@ -34,8 +34,9 @@ model Book {
   user            User[]            @relation("UserBooks")
   createdAt       DateTime          @default(now())
   isPublic        Boolean           @default(false)
-  isVerified      Boolean           @default(false) // Tracks if the book is verified
-  isVerificationRequested Boolean   @default(false) // Tracks if a verification request is pending
+  isVerified      Boolean           @default(false)
+  isVerificationRequested Boolean   @default(false)
+  isRecommended   Boolean           @default(false)
   updatedAt       DateTime          @default(now()) @updatedAt
   readingProgress ReadingProgress[] @relation("BookReadingProgress")
   sharedWith      BookShare[]       @relation("SharedBooks")

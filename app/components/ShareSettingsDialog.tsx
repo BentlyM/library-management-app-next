@@ -143,7 +143,7 @@ export default function ShareSettingsDialog({
                 bookId: permissions.id as string,
               })
             }
-            disabled={isVerified}
+            disabled={isVerified || isVerificationRequested}
           >
             Request Verification
           </Button>

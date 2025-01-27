@@ -13,9 +13,10 @@ import {
 import { Box, Skeleton, MenuItem, Select, FormControl } from '@mui/material';
 import { GenreCountBarChart } from './_components/GenreCountBarChart';
 import CompletionPercentageChart from './_components/CompletionChartProps';
-import { redirect } from 'next/navigation';
 import { RatingRadarChart } from './_components/RatingChart';
 import { RatingDistributionChart } from './_components/RatingDistributionChart';
+import { useRouter } from 'next/navigation';
+
 
 export type Books = {
   books: (PrismaBook & {
@@ -31,12 +32,13 @@ const DefaultDashPage = () => {
   const dataContainerRef = useRef<HTMLDivElement>(null);
   const [count, setCount] = useState(0);
   const [user, setUser] = useState<User | undefined>(undefined);
+  const router = useRouter();
 
   useEffect(() => {
     const stripePaymentLink = localStorage.getItem('stripePaymentLink');
     localStorage.removeItem('stripePaymentLink');
     if (stripePaymentLink && user?.plan === 'FREE') {
-      redirect(stripePaymentLink);
+      router.push(stripePaymentLink);
     }
     fetch('/api/user')
       .then((res) => res.json())

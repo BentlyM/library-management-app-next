@@ -16,13 +16,15 @@ export async function GET() {
       genre: true,
       cover: true,
       rating: true,
+      isRecommended: true,
+      isVerified: true,
       createdAt: true,
       updatedAt: true,
     },
   });
 
   revalidatePath('/dashboard/discover');
-  
+
   return new Response(
     JSON.stringify(
       publicBooks

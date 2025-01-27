@@ -10,14 +10,21 @@ import toast from 'react-hot-toast';
 import SkeletonWrapper from '@/app/components/SkeletonWrapper';
 import { AddAvatar } from '../_actions/addAvatar';
 import ImageAvatar from '../_helpers/ImageAvatar';
-import { ClickAwayListener } from '@mui/material';
+import { ClickAwayListener, Chip, Typography } from '@mui/material';
+import { useRouter } from 'next/navigation';
 
-const AccountButton = () => {
+interface AccountButtonProps {
+  role: 'USER' | 'ADMIN'; // User role
+  plan: 'FREE' | 'SUBSCRIPTION'; // User plan
+}
+
+const AccountButton = ({ role, plan }: AccountButtonProps) => {
   const [anchor, setAnchor] = React.useState<null | HTMLElement>(null);
   const [profilePicture, setProfilePicture] = React.useState<null | string>(
     null
   );
   const [open, setOpen] = React.useState<boolean | undefined>(true);
+  const router = useRouter();
 
   const mutation = useMutation({
     mutationFn: AddAvatar,
@@ -56,6 +63,14 @@ const AccountButton = () => {
   };
 
   const id = open ? 'simple-popper' : undefined;
+
+  // Determine the background color based on the user's role and plan
+  const getPopupColor = () => {
+    if (role === 'ADMIN') return '#ff4444'; // Red for Admin
+    if (plan === 'SUBSCRIPTION') return '#89CFF0'; // Baby blue for Pro Member
+    return '';
+  };
+
   return (
     <>
       <ClickAwayListener
@@ -85,7 +100,12 @@ const AccountButton = () => {
               </SkeletonWrapper>
             )}
           </div>
-          <BasePopup id={id} open={open} anchor={anchor}>
+          <BasePopup
+            id={id}
+            open={open}
+            anchor={anchor}
+            style={{ zIndex: '2' }}
+          >
             <PopupBody>
               <div
                 style={{
@@ -94,8 +114,65 @@ const AccountButton = () => {
                   justifyContent: 'space-evenly',
                   flexDirection: 'column',
                   alignItems: 'center',
+                  gap: '8px',
                 }}
               >
+                {/* Display User Role and Plan */}
+                <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                  {role === 'ADMIN' ? 'Admin' : 'User'}
+                </Typography>
+                <Chip
+                  label={plan === 'SUBSCRIPTION' ? 'Pro Member' : 'Free Plan'}
+                  color={plan === 'SUBSCRIPTION' ? 'primary' : 'default'}
+                  sx={{
+                    backgroundColor: `${getPopupColor()}`,
+                  }}
+                  size="small"
+                />
+
+                {/* Upgrade to Pro Button (only for non-Pro users) */}
+                {plan !== 'SUBSCRIPTION' && (
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      position: 'relative',
+                      padding: '8px 16px', // Reduced padding for a smaller button
+                      borderRadius: '30px', // Keep rounded corners
+                      color: 'inherit', // Use inherit to adapt to the current theme
+                      fontWeight: 600, // Font weight
+                      fontSize: '0.875rem', // Smaller font size
+                      boxShadow:
+                        'inset 0 1px 0px rgba(white, .1), 0 2px 8px rgba(black, .1)', // Box shadow
+                      overflow: 'hidden',
+                      cursor: 'pointer',
+                      transition: 'background-color 0.3s, color 0.3s', // Smooth transition for hover effects
+                      '&:hover': {
+                        background: '#2A2A2E', // Darker background on hover
+                        color: '#FFFFFF', // Change text color to white on hover for visibility
+                      },
+                      '&:after': {
+                        content: '""',
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '200%',
+                        height: '100%',
+                        background:
+                          'linear-gradient(115deg, rgba(white, 0), rgba(white, .1) 40%, rgba(white, .1) 60%, rgba(white, 0))',
+                        transform: 'translateX(-201%)',
+                        filter: 'blur(5px)',
+                        animation: 'shine 6s linear infinite .5s',
+                      },
+                    }}
+                    onClick={() => {
+                      toast.success('Redirecting to upgrade plan...');
+                      router.push('/services');
+                    }}
+                  >
+                    Upgrade
+                  </Typography>
+                )}
+
                 <ThemeToggle />
                 <label style={{ cursor: 'pointer' }}>
                   Avatar
