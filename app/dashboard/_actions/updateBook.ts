@@ -223,13 +223,22 @@ export async function updatePermissions(formData: FormData) {
 }
 
 export async function requestVerification({ bookId }: { bookId: string }) {
-  await prisma.book.update({
+  const updatedBook = await prisma.book.update({
     where: { id: bookId },
     data: { isVerificationRequested: true },
   });
 
+  const status = {
+    isVerificationRequested: updatedBook.isVerificationRequested,
+    isVerified: updatedBook.isVerified,
+    verificationStatus: updatedBook.isVerificationRequested
+      ? 'Pending'
+      : 'Not Requested',
+  };
+
   return {
     success: true,
+    status: status,
     message: 'Request sent successfully',
   };
 }

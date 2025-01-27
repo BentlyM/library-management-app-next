@@ -14,7 +14,6 @@ import scrollTo, {
   handleDragEnd,
   handleDragStart,
 } from './scrollHelper';
-import { fontSize } from '@mui/system';
 import { useColorScheme } from '@mui/material';
 
 const Carousel = ({

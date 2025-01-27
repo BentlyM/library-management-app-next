@@ -26,7 +26,7 @@ interface Props {
     isPublic: Book['isPublic'];
     id: Book['id'];
     isVerified: Book['isVerified'];
-    isVerificationRequested: any,
+    isVerificationRequested: Book['isVerificationRequested'];
   }>;
   queryKey: string;
 }
@@ -41,7 +41,9 @@ export default function ShareSettingsDialog({
   const [isVerified, setIsVerified] = React.useState(
     permissions.isVerified || false
   );
-  const [isVerificationRequested, setIsVerifiedRequested] = React.useState(permissions.isVerificationRequested || false);
+  const [isVerificationRequested, setIsVerifiedRequested] = React.useState(
+    permissions.isVerificationRequested || false
+  );
   const [searchQuery, setSearchQuery] = React.useState('');
   const queryClient = useQueryClient();
 
@@ -52,6 +54,7 @@ export default function ShareSettingsDialog({
         toast.success(`Permissions Updated Successfully ${data.message}`);
         queryClient.invalidateQueries({ queryKey: [queryKey] });
       } else {
+        setIsPublic(false);
         toast.error(data.message!);
       }
     },
@@ -62,14 +65,20 @@ export default function ShareSettingsDialog({
     mutationFn: requestVerification,
     onSuccess: (data) => {
       if (data.success) {
-        toast.success(`Verification Requested Successfully ${data.message}`);
-        queryClient.invalidateQueries({ queryKey: [queryKey] });
+        toast.success(`Verification Requested Successfully: ${data.message}`);
+        queryClient.invalidateQueries({ queryKey });
         setIsVerifiedRequested(true);
+        if (data.status.isVerified) {
+          setIsVerified(true);
+        }
       } else {
-        toast.error(data.message!);
+        toast.error(data.message || 'Verification request failed');
       }
     },
-    onError: () => toast.error('An unexpected error occurred'),
+    onError: (error) => {
+      toast.error('An unexpected error occurred');
+      console.error('Verification request error:', error);
+    },
   });
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -121,17 +130,17 @@ export default function ShareSettingsDialog({
             <Chip
               label={
                 isVerified
-                  ? 'Verified' // If verified, show "Verified"
+                  ? 'Verified'
                   : isVerificationRequested
-                  ? 'Pending Verification' // If verification is requested but not yet approved, show "Pending Verification"
-                  : 'Not Verified' // Otherwise, show "Not Verified"
+                  ? 'Pending Verification'
+                  : 'Not Verified'
               }
               color={
                 isVerified
-                  ? 'success' // Verified: green
+                  ? 'success'
                   : isVerificationRequested
-                  ? 'warning' // Pending: yellow/orange
-                  : 'default' // Not Verified: default
+                  ? 'warning'
+                  : 'default'
               }
             />
           </Box>

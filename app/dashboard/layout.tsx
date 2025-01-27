@@ -33,7 +33,7 @@ import {
 } from '@knocklabs/react';
 
 import '@knocklabs/react/dist/index.css';
-import { User } from '@prisma/client';
+import { Plan, Role, User } from '@prisma/client';
 
 const Dashboard = ({ children }: { children: React.ReactNode }) => {
   const theme = useTheme();
@@ -221,7 +221,7 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
             }}
           >
             <li>
-              <AccountButton role={user.data?.role} plan={user.data?.plan}  />
+              <AccountButton role={user.data?.role as Role} plan={user.data?.plan as Plan}  />
             </li>
             <li>
               <KnockProvider
