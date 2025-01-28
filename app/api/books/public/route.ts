@@ -18,6 +18,7 @@ export async function GET() {
       rating: true,
       isRecommended: true,
       isVerified: true,
+      isPublic: true,
       createdAt: true,
       updatedAt: true,
     },

@@ -17,6 +17,7 @@ import GroupedButtons from './GroupedButtons';
 import HoverRating from './HoverRating';
 import { Book } from '../dashboard/_components/BookCard';
 import SubBlur from './SubBlur';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   open: boolean;
@@ -47,6 +48,7 @@ export default function FormDialog({
     currentProgress?.completionPercentage || 0
   );
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   const mutation = useMutation({
     mutationFn: DeleteBook,
@@ -303,7 +305,11 @@ export default function FormDialog({
         <Button onClick={() => setOpen(false)}>
           {readOnly ? 'Close' : 'Cancel'}
         </Button>
-        {readOnly && <Button>More</Button>}
+        {readOnly || book.isPublic ? (
+          <Button onClick={() => router.push(`/dashboard/discover/${book.id}`)}>
+            More
+          </Button>
+        ): undefined}
         {!readOnly && <Button type="submit">Update</Button>}
       </DialogActions>
     </Dialog>

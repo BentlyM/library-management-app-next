@@ -4,9 +4,11 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { Book } from '@/app/dashboard/_components/BookCard';
 import FormDialog from '@/app/components/BookDetails';
+import { useRouter } from 'next/navigation';
 
 const LayoutCard = ({ book }: { book: Book }) => {
   const [open, setOpen] = useState(false);
+  const router = useRouter();
 
   const handleOpen = () => {
     setOpen(true);
@@ -77,7 +79,7 @@ const LayoutCard = ({ book }: { book: Book }) => {
           sx={{
             display: {
               xs: 'none',
-              md: 'flex'
+              md: 'flex',
             },
             justifyContent: 'end',
             position: 'absolute',
@@ -112,7 +114,7 @@ const LayoutCard = ({ book }: { book: Book }) => {
             }}
             onClick={(e) => {
               e.stopPropagation();
-              console.log('test');
+              router.push(`/dashboard/discover/${book.id}`);
             }}
           >
             More →

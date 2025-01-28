@@ -45,13 +45,13 @@ const DefaultDashPage = () => {
       .then((data: User) => setUser(data));
   }, []);
 
-  const fetchBookQuery = useQuery<Books>({
+  const fetchBooksQuery = useQuery<Books>({
     queryKey: ['books'],
     queryFn: () => fetch(`/api/books/private`).then((res) => res.json()),
     refetchOnWindowFocus: false,
   });
 
-  const books = fetchBookQuery.data?.books || [];
+  const books = fetchBooksQuery.data?.books || [];
 
   const filteredBooks = books.filter((book) => {
     const matchesSearchTerm = book.title
@@ -76,11 +76,11 @@ const DefaultDashPage = () => {
     }
   }, [filteredBooks]);
 
-  if (fetchBookQuery.isLoading) {
+  if (fetchBooksQuery.isLoading) {
     return <div>Loading...</div>;
   }
 
-  if (fetchBookQuery.isError) {
+  if (fetchBooksQuery.isError) {
     return <div>Error loading books</div>;
   }
 
@@ -96,7 +96,7 @@ const DefaultDashPage = () => {
         overflow: 'hidden',
       }}
     >
-      {noBooks && !fetchBookQuery.isFetching && (
+      {noBooks && !fetchBooksQuery.isFetching && (
         <Box sx={{ width: '100%', gridColumn: '1 / -1' }}>
           <DashCard />
         </Box>
@@ -186,7 +186,7 @@ const DefaultDashPage = () => {
               {filteredBooks.map((book) => (
                 <SkeletonWrapper
                   isLoading={
-                    fetchBookQuery.isLoading || fetchBookQuery.isFetching
+                    fetchBooksQuery.isLoading || fetchBooksQuery.isFetching
                   }
                   key={book.id}
                 >
@@ -214,7 +214,7 @@ const DefaultDashPage = () => {
           }}
           ref={dataContainerRef}
         >
-          {fetchBookQuery.isLoading || fetchBookQuery.isFetching ? (
+          {fetchBooksQuery.isLoading || fetchBooksQuery.isFetching ? (
             <>
               <Skeleton />
               <Skeleton />
