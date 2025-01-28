@@ -4,33 +4,41 @@ import React from 'react';
 import { Box, Chip, Rating, Stack, Typography } from '@mui/material';
 import { useDrawer } from '@/app/components/providers/DrawerProvider';
 import { useQuery } from '@tanstack/react-query';
-import { Book } from '@prisma/client';
+import SkeletonWrapper from '@/app/components/SkeletonWrapper';
 
-const Page = () => {
+interface Book {
+  id: string;
+  title: string;
+  author: string;
+  genre: string;
+  cover: string;
+  rating: number;
+  provider: string;
+  user: [
+    {
+      name: string;
+      picture: string;
+      role: string;
+    }
+  ];
+}
+
+const Page = ({ params }: { params: { id: string } }) => {
   const { open, drawerWidth } = useDrawer();
-  const book = {
-    title: 'The Great Novel',
-    author: 'Jane Author',
-    rating: 4.5,
-    genre: 'Fiction, Classic, Drama',
-    pages: 328,
-    language: 'English',
-    description: 'A captivating story about...',
-    provider: 'SomeUser',
-    purchaseLinks: {
-      amazon: '#',
-      barnesNoble: '#',
-    },
-  };
 
   const fetchBookQuery = useQuery<Book>({
-    queryKey: ['unique-book'],
-    queryFn: () => fetch(`/api/books/unique?book-id`).then((res) => res.json()),
+    queryKey: ['unique-book', params.id],
+    queryFn: () =>
+      fetch(`/api/books/unique?book-id=${params.id}`).then((res) => res.json()),
     refetchOnWindowFocus: false,
   });
 
+  const isLoading = fetchBookQuery.isLoading || fetchBookQuery.isFetching;
+  const book = fetchBookQuery.data;
+
   return (
     <Box>
+      {/* Banner */}
       <Box
         sx={{
           position: 'relative',
@@ -38,19 +46,20 @@ const Page = () => {
           height: '200px',
         }}
       >
-        <Image
-          src={
-            'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fgetcovers.com%2Fwp-content%2Fuploads%2F2020%2F12%2Fimage20-820x1024.jpg&f=1&nofb=1&ipt=df1579712cd48e2687d415cddcfb371d5fa46c5635fea3a2ae4878f6d3d24812&ipo=images'
-          }
-          fill={true}
-          style={{
-            opacity: 0.5,
-            objectFit: 'cover',
-          }}
-          alt={''}
-        />
+        <SkeletonWrapper isLoading={isLoading} width="100%" height="200px">
+          <Image
+            src={book?.cover || ''}
+            fill={true}
+            style={{
+              opacity: 0.5,
+              objectFit: 'cover',
+            }}
+            alt={book?.title || ''}
+          />
+        </SkeletonWrapper>
       </Box>
 
+      {/* Book details */}
       <Box
         sx={{
           position: 'absolute',
@@ -64,18 +73,22 @@ const Page = () => {
           gap: '10px',
         }}
       >
-        <Image
-          height={260}
-          width={200}
-          alt=""
-          src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fgetcovers.com%2Fwp-content%2Fuploads%2F2020%2F12%2Fimage20-820x1024.jpg&f=1&nofb=1&ipt=df1579712cd48e2687d415cddcfb371d5fa46c5635fea3a2ae4878f6d3d24812&ipo=images"
-          style={{
-            boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
-            borderRadius: '4px',
-            zIndex: 2,
-          }}
-        />
+        {/* Book cover */}
+        <SkeletonWrapper isLoading={isLoading} width={200} height={260}>
+          <Image
+            height={260}
+            width={200}
+            alt={book?.title || ''}
+            src={book?.cover || ''}
+            style={{
+              boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
+              borderRadius: '4px',
+              zIndex: 2,
+            }}
+          />
+        </SkeletonWrapper>
 
+        {/* Book metadata */}
         <Box
           sx={{
             position: 'relative',
@@ -85,12 +98,17 @@ const Page = () => {
           }}
         >
           <div>
-            <Typography variant="h3" component="h1" sx={{ mt: 2 }}>
-              {book.title}
-            </Typography>
-            <Typography variant="h5" sx={{ mb: 2, color: 'text.secondary' }}>
-              by {book.author}
-            </Typography>
+            <SkeletonWrapper isLoading={isLoading} width={300} height={40}>
+              <Typography variant="h3" component="h1" sx={{ mt: 2 }}>
+                {book?.title || 'Book Title'}
+              </Typography>
+            </SkeletonWrapper>
+
+            <SkeletonWrapper isLoading={isLoading} width={200} height={30}>
+              <Typography variant="h5" sx={{ mb: 2, color: 'text.secondary' }}>
+                by {book?.author || 'Author Name'}
+              </Typography>
+            </SkeletonWrapper>
           </div>
 
           <div
@@ -102,23 +120,30 @@ const Page = () => {
             }}
           >
             <div>
-              <Typography>Provider: {book.provider}</Typography>
+              <SkeletonWrapper isLoading={isLoading} width={150} height={24}>
+                <Typography>
+                  Provider: {book?.user[0].name || 'Unknown'}
+                </Typography>
+              </SkeletonWrapper>
 
-              <Stack direction="row" spacing={1} sx={{ mb: 1 }}>
-                <Rating value={book.rating} precision={0.5} readOnly />
-                <Typography variant="body1">({book.rating}/5)</Typography>
-              </Stack>
+              <SkeletonWrapper isLoading={isLoading} width={200} height={32}>
+                <Stack direction="row" spacing={1} sx={{ mb: 1 }}>
+                  <Rating value={book?.rating || 0} precision={0.5} readOnly />
+                  <Typography variant="body1">
+                    ({book?.rating || 0}/5)
+                  </Typography>
+                </Stack>
+              </SkeletonWrapper>
 
-              <Stack direction="row" spacing={1} sx={{ mb: 3 }}>
-                {book.genre.split(',').map((genre, index) => (
+              <SkeletonWrapper isLoading={isLoading} width={300} height={40}>
+                <Stack direction="row" spacing={1} sx={{ mb: 3 }}>
                   <Chip
-                    key={index}
-                    label={genre.trim()}
+                    label={book?.genre}
                     color="primary"
                     variant="outlined"
                   />
-                ))}
-              </Stack>
+                </Stack>
+              </SkeletonWrapper>
             </div>
           </div>
         </Box>

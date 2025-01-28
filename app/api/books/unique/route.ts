@@ -24,22 +24,27 @@ export async function GET(request: Request) {
             role: true,
           },
         },
-        readingProgress: true,
       },
     });
 
-    if (!book) {
-      return NextResponse.json(
-        { success: false, message: 'Book not found' },
-        { status: 404 }
-      );
-    }    
-
-    return NextResponse.json({ success: true, data: book });
+    return new Response(
+      JSON.stringify(
+        book ? book : { success: false, message: 'Book not found' }
+      ),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
   } catch (error) {
     console.error('Error fetching book:', error);
-    return NextResponse.json(
-      { success: false, message: 'An unexpected error occurred' },
+    return new Response(
+      JSON.stringify({
+        success: false,
+        message: 'An unexpected error occurred',
+      }),
       { status: 500 }
     );
   }

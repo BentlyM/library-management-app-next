@@ -176,6 +176,7 @@ const DefaultDashPage = () => {
           >
             <div
               style={{
+                position: 'relative',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -189,6 +190,8 @@ const DefaultDashPage = () => {
                     fetchBooksQuery.isLoading || fetchBooksQuery.isFetching
                   }
                   key={book.id}
+                  width={260}
+                  height={420}
                 >
                   <BookCard book={book} />
                 </SkeletonWrapper>

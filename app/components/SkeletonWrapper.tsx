@@ -1,19 +1,33 @@
 import React from 'react';
-import { Skeleton } from '@mui/material'; 
+import { Skeleton, SkeletonProps } from '@mui/material';
+
+interface SkeletonWrapperProps {
+  children: React.ReactNode;
+  isLoading: boolean;
+  width?: number | string;
+  height?: number | string;
+  variant?: SkeletonProps['variant'];
+  animation?: SkeletonProps['animation'];
+}
 
 const SkeletonWrapper = ({
   children,
   isLoading,
-}: {
-  children: React.ReactNode;
-  isLoading: boolean;
-  fullWidth?: boolean;
-}) => {
-  if (!isLoading) return children;
+  width = '100%',
+  height = 'fit-content',
+  variant = 'rectangular',
+  animation = 'wave',
+}: SkeletonWrapperProps) => {
+  if (!isLoading) return <>{children}</>;
 
   return (
-    <Skeleton style={{width: '100%', height: 'fit-content'}} animation="wave">
-      <div className="opacity-0">{children}</div>
+    <Skeleton
+      width={width}
+      height={height}
+      variant={variant}
+      animation={animation}
+    >
+      <div style={{ opacity: 0 }}>{children}</div>
     </Skeleton>
   );
 };
