@@ -25,7 +25,7 @@ export async function updateBook(formData: FormData) {
     ...(newTitle ? { title: newTitle } : {}),
     ...(newAuthor ? { author: newAuthor } : {}),
     ...(newSummary ? { summary: newSummary } : {}),
-    ...(newRating ? { rating: newRating } : {}),
+    ...(newRating ? { defaultRating: newRating } : {}),
   };
 
   const currentMonth = new Date().getMonth() + 1;

@@ -12,7 +12,7 @@ model User {
   name          String?
   email         String         @unique
   picture       String?
-  books         Book[]         @relation("UserBooks")
+  books         Book[]         @relation("User Books")
   plan          Plan           @default(FREE)
   role          Role           @default(USER)
   customerId    String?        @unique
@@ -20,7 +20,8 @@ model User {
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @default(now())
   sentBooks     BookShare[]    @relation("SentBooks")
-  receivedBooks BookShare[]    @relation("ReceivedBooks")
+  receivedBooks BookShare[]     @relation("ReceivedBooks")
+  ratings       Rating[]       @relation("User Ratings")
 }
 
 model Book {
@@ -30,8 +31,9 @@ model Book {
   summary         String
   genre           String
   cover           String
-  rating          Int               @default(2)
-  user            User[]            @relation("UserBooks")
+  defaultRating   Int               @default(2)
+  user            User[]            @relation("User Books")
+  ratings         Rating[]          @relation("BookRatings")
   createdAt       DateTime          @default(now())
   isPublic        Boolean           @default(false)
   isVerified      Boolean           @default(false)
@@ -40,6 +42,21 @@ model Book {
   updatedAt       DateTime          @default(now()) @updatedAt
   readingProgress ReadingProgress[] @relation("BookReadingProgress")
   sharedWith      BookShare[]       @relation("SharedBooks")
+
+  averageRating   Float?            @default(0)
+}
+
+model Rating {
+  id        String @id @unique @default(uuid())
+  bookId    String
+  userId    String
+  value     Int    
+  createdAt DateTime @default(now())
+
+  book      Book   @relation("BookRatings", fields: [bookId], references: [id])
+  user      User   @relation("User Ratings", fields: [userId], references: [id])
+
+  @@unique([bookId, userId])
 }
 
 model ReadingProgress {

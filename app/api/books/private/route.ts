@@ -29,7 +29,7 @@ export async function GET() {
           title: true,
           author: true,
           summary: true,
-          rating: true,
+          defaultRating: true,
           genre: true,
           cover: true,
           readingProgress: {

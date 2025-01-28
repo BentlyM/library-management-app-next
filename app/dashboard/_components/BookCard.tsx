@@ -17,7 +17,8 @@ export type Book = {
   cover: string;
   author: string;
   genre: string;
-  rating: number;
+  defaultRating: number;
+  averageRating: number | null;
   createdAt: Date;
   updatedAt: Date;
   isPublic: boolean;

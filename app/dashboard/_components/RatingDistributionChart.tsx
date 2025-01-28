@@ -33,7 +33,7 @@ export function RatingDistributionChart({
     const ratingMap: Record<number, number> = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
 
     books.forEach((book) => {
-      const rating = book.rating; // 1-5
+      const rating = book.defaultRating; // 1-5
       if (ratingMap[rating] !== undefined) {
         ratingMap[rating] += 1;
       }

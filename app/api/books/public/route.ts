@@ -15,7 +15,7 @@ export async function GET() {
       summary: true,
       genre: true,
       cover: true,
-      rating: true,
+      averageRating: true,
       isRecommended: true,
       isVerified: true,
       isPublic: true,

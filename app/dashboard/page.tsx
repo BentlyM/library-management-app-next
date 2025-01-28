@@ -17,7 +17,6 @@ import { RatingRadarChart } from './_components/RatingChart';
 import { RatingDistributionChart } from './_components/RatingDistributionChart';
 import { useRouter } from 'next/navigation';
 
-
 export type Books = {
   books: (PrismaBook & {
     readingProgress: PrismaReadingProgress[];
@@ -53,13 +52,14 @@ const DefaultDashPage = () => {
 
   const books = fetchBooksQuery.data?.books || [];
 
+  // Updated filtering logic
   const filteredBooks = books.filter((book) => {
     const matchesSearchTerm = book.title
       .toLowerCase()
       .includes(debouncedSearchTerm.toLowerCase());
     const matchesGenre = selectedGenre ? book.genre === selectedGenre : true;
     const matchesRating = selectedRating
-      ? book.rating === selectedRating
+      ? book.averageRating === selectedRating // Use averageRating for filtering
       : true;
 
     return matchesSearchTerm && matchesGenre && matchesRating;

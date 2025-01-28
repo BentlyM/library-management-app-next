@@ -12,7 +12,7 @@ interface Book {
   author: string;
   genre: string;
   cover: string;
-  rating: number;
+  averageRating: number | null;
   provider: string;
   user: [
     {
@@ -128,9 +128,9 @@ const Page = ({ params }: { params: { id: string } }) => {
 
               <SkeletonWrapper isLoading={isLoading} width={200} height={32}>
                 <Stack direction="row" spacing={1} sx={{ mb: 1 }}>
-                  <Rating value={book?.rating || 0} precision={0.5} readOnly />
+                  <Rating value={book?.averageRating || 0} precision={0.5} readOnly />
                   <Typography variant="body1">
-                    ({book?.rating || 0}/5)
+                    ({book?.averageRating || 0}/5)
                   </Typography>
                 </Stack>
               </SkeletonWrapper>

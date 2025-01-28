@@ -138,7 +138,7 @@ const BookForm = () => {
             }}
           />
         ) : (
-          <SkeletonWrapper isLoading={fetchCoverQuery.isLoading}>
+          <SkeletonWrapper isLoading={fetchCoverQuery.isLoading} height={24} width={130}>
             {fetchedCoverUrl ? (
               <img
                 src={fetchedCoverUrl}

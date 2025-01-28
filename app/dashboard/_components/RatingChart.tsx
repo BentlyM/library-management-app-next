@@ -32,12 +32,12 @@ export function RatingRadarChart({
     const genreRatings: Record<string, { total: number; count: number }> = {};
 
     books.forEach((book) => {
-      const { genre, rating } = book;
+      const { genre, defaultRating } = book;
 
       if (!genreRatings[genre]) {
         genreRatings[genre] = { total: 0, count: 0 };
       }
-      genreRatings[genre].total += rating;
+      genreRatings[genre].total += defaultRating;
       genreRatings[genre].count += 1;
     });
 

@@ -33,7 +33,7 @@ async function main() {
       genre: 'Adventure',
       cover:
         'https://igtnbgdhxezmzgvxesbi.supabase.co/storage/v1/object/public/covers/1729474516084_cover.jpg',
-      rating: 5,
+      defaultRating: 5,
       user: { connect: { id: user1.id } },
       isPublic: true,
     },
@@ -47,7 +47,7 @@ async function main() {
         'An insightful guide to mastering Prisma for backend development.',
       genre: 'Non-Fiction',
       cover: 'https://placehold.co/300x400/png',
-      rating: 4,
+      defaultRating: 4,
       user: { connect: { id: user2.id } },
       isPublic: true,
     },
@@ -61,7 +61,7 @@ async function main() {
       genre: 'Adventure',
       cover:
         'https://igtnbgdhxezmzgvxesbi.supabase.co/storage/v1/object/public/covers/1729685675170_cover.jpg',
-      rating: 5,
+      defaultRating: 5,
       user: { connect: { id: user1.id } },
       isPublic: true,
     },
@@ -75,7 +75,7 @@ async function main() {
       genre: 'Romance',
       cover:
         'https://igtnbgdhxezmzgvxesbi.supabase.co/storage/v1/object/public/covers/1729714142699_cover.jpg',
-      rating: 4,
+      defaultRating: 4,
       user: { connect: { id: user2.id } },
       isPublic: true,
     },
@@ -90,7 +90,7 @@ async function main() {
       genre: 'Non-Fiction',
       cover:
         'https://igtnbgdhxezmzgvxesbi.supabase.co/storage/v1/object/public/covers/1733415539379_cover.jpg',
-      rating: 5,
+      defaultRating: 5,
       user: { connect: { id: user1.id } },
       isPublic: true,
     },
@@ -105,7 +105,7 @@ async function main() {
       genre: 'Fiction',
       cover:
         'https://igtnbgdhxezmzgvxesbi.supabase.co/storage/v1/object/public/covers/1736863252705_cover.jpg',
-      rating: 5,
+      defaultRating: 5,
       user: { connect: { id: user1.id } },
       isPublic: true,
     },
@@ -120,7 +120,7 @@ async function main() {
       genre: 'Non-Fiction',
       cover:
         'https://igtnbgdhxezmzgvxesbi.supabase.co/storage/v1/object/public/covers/1735692570944_cover.jpg',
-      rating: 5,
+      defaultRating: 5,
       user: { connect: { id: user1.id } },
       isPublic: true,
     },
@@ -135,7 +135,7 @@ async function main() {
       genre: 'Fiction',
       cover:
         'https://igtnbgdhxezmzgvxesbi.supabase.co/storage/v1/object/public/covers/1729474543563_cover.jpg',
-      rating: 5,
+      defaultRating: 5,
       user: { connect: { id: user1.id } },
       isPublic: true,
     },
@@ -150,7 +150,7 @@ async function main() {
       genre: 'Fiction',
       cover:
         'https://igtnbgdhxezmzgvxesbi.supabase.co/storage/v1/object/public/covers/1738959485959_cover.jpg',
-      rating: 5,
+      defaultRating: 5,
       user: { connect: { id: user1.id } },
       isPublic: true,
     },
@@ -164,7 +164,7 @@ async function main() {
       genre: 'Fantasy',
       cover:
         'https://igtnbgdhxezmzgvxesbi.supabase.co/storage/v1/object/public/covers/173094993895_cover.jpg',
-      rating: 5,
+      defaultRating: 5,
       user: { connect: { id: user1.id } },
       isPublic: true,
     },
@@ -178,7 +178,7 @@ async function main() {
       genre: 'Non-Fiction',
       cover:
         'https://igtnbgdhxezmzgvxesbi.supabase.co/storage/v1/object/public/covers/1739540594053_cover.jpg',
-      rating: 5,
+      defaultRating: 5,
       user: { connect: { id: user2.id } },
       isPublic: true,
     },
@@ -192,7 +192,7 @@ async function main() {
       genre: 'Fiction',
       cover:
         'https://igtnbgdhxezmzgvxesbi.supabase.co/storage/v1/object/public/covers/1739849894391_cover.jpg',
-      rating: 4,
+      defaultRating: 4,
       user: { connect: { id: user1.id } },
       isPublic: true,
     },
@@ -207,7 +207,7 @@ async function main() {
       genre: 'Fiction',
       cover:
         'https://igtnbgdhxezmzgvxesbi.supabase.co/storage/v1/object/public/covers/172948396599_cover.jpg',
-      rating: 4,
+      defaultRating: 4,
       user: { connect: { id: user2.id } },
       isPublic: true,
     },
@@ -221,7 +221,7 @@ async function main() {
       genre: 'Fiction',
       cover:
         'https://igtnbgdhxezmzgvxesbi.supabase.co/storage/v1/object/public/covers/172065094053_cover.jpg',
-      rating: 4,
+      defaultRating: 4,
       user: { connect: { id: user1.id } },
       isPublic: true,
     },

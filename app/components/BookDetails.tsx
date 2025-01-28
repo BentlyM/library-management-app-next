@@ -42,7 +42,7 @@ export default function FormDialog({
     (progress) => progress.month === currentMonth
   );
 
-  const [value, setValue] = React.useState<number | null>(book.rating);
+  const [value, setValue] = React.useState<number | null>(book.averageRating || book.defaultRating);
   const [hover, setHover] = React.useState(-1);
   const [counter, setCounter] = React.useState(
     currentProgress?.completionPercentage || 0
