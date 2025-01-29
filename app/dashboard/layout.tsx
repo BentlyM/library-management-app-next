@@ -225,7 +225,7 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
             </li>
             <li>
               <KnockProvider
-                apiKey={process.env.NEXT_PUBLIC_KNOCK_API_KEY as string}
+                apiKey={process.env.NEXT_PUBLIC_KNOCK_API as string}
                 userId={user.data?.id}
               >
                 <KnockFeedProvider
